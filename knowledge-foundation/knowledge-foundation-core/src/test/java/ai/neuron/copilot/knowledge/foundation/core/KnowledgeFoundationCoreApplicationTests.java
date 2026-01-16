@@ -1,14 +1,12 @@
-package ai.neuron.copilot.knowledgefoundationweb;
+package ai.neuron.copilot.knowledge.foundation.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KnowledgeFoundationWebApplicationTests {
+class KnowledgeFoundationCoreApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(123);
     }
-
 }

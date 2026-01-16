@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledgefoundationweb;
+package ai.neuron.copilot.knowledge.foundation.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

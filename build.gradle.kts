@@ -1,8 +1,8 @@
 plugins {
 	`java-library`
 	`maven-publish`
-	alias(libs.plugins.spring.boot) apply false
-	alias(libs.plugins.dependency.management)
+	id("org.springframework.boot") version "3.5.9" apply false
+	id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "ai.neuron.copilot"
@@ -26,6 +26,12 @@ subprojects {
 
 	group = rootProject.group
 	version = rootProject.version
+
+	configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+		imports {
+			mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.9")
+		}
+	}
 
 	repositories {
 		mavenCentral()

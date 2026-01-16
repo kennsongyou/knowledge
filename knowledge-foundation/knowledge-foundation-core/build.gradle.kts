@@ -12,7 +12,6 @@ dependencies {
 	implementation(project(":knowledge-common"))
 	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation(libs.bundles.testing)
 }
 
 tasks.withType<Test> {

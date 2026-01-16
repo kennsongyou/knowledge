@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledgefoundationcore;
+package ai.neuron.copilot.knowledge.foundation.core;
 
 import ai.neuron.copilot.knowledge.common.CommonUtils;
 import org.springframework.stereotype.Service;

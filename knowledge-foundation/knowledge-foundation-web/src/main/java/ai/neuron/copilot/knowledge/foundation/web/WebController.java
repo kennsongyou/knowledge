@@ -1,6 +1,6 @@
-package ai.neuron.copilot.knowledgefoundationweb;
+package ai.neuron.copilot.knowledge.foundation.web;
 
-import ai.neuron.copilot.knowledgefoundationcore.CoreService;
+import ai.neuron.copilot.knowledge.foundation.core.CoreService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

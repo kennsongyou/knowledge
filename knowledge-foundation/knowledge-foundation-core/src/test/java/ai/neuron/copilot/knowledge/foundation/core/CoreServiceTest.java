@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledgefoundationcore;
+package ai.neuron.copilot.knowledge.foundation.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

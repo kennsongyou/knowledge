@@ -1,6 +1,6 @@
-package ai.neuron.copilot.knowledgefoundationweb;
+package ai.neuron.copilot.knowledge.foundation.web;
 
-import ai.neuron.copilot.knowledgefoundationcore.CoreService;
+import ai.neuron.copilot.knowledge.foundation.core.CoreService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
