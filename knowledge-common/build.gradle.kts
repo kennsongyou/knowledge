@@ -10,6 +10,7 @@ description = "knowledge-common"
 dependencies {
 	implementation(libs.commons.lang3)
 	implementation(libs.mapstruct.core)
+	implementation("com.fasterxml.uuid:java-uuid-generator:5.2.0")
 	annotationProcessor(libs.mapstruct.processor)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)

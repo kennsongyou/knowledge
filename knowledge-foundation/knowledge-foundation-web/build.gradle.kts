@@ -16,8 +16,6 @@ dependencies {
 	implementation(libs.spring.boot.starter.web)
 	testImplementation(libs.spring.boot.starter.test)
 	implementation(libs.commons.lang3)
-	implementation(libs.mapstruct.core)
-	annotationProcessor(libs.mapstruct.processor)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }
