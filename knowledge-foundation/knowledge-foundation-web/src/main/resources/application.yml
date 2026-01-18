@@ -1,1 +1,3 @@
-spring.application.name=knowledge-foundation-web
+spring:
+  application:
+    name: knowledge-foundation-web

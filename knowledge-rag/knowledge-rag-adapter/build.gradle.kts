@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":knowledge-common"))
     implementation(project(":knowledge-foundation:knowledge-foundation-core"))
     implementation(project(":knowledge-foundation:knowledge-foundation-web"))
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(libs.spring.boot.starter.web)
 }
 
 tasks.withType<Test> {

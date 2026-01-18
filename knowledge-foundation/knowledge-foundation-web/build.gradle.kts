@@ -11,9 +11,15 @@ version = "0.0.1"
 description = "knowledge-foundation-web"
 
 dependencies {
+	implementation(project(":knowledge-common"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation(libs.spring.boot.starter.web)
+	testImplementation(libs.spring.boot.starter.test)
+	implementation(libs.commons.lang3)
+	implementation(libs.mapstruct.core)
+	annotationProcessor(libs.mapstruct.processor)
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {

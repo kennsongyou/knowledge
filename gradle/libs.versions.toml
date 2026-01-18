@@ -11,6 +11,9 @@ junit-jupiter = "5.11.3"
 testing = ["junit-jupiter-api", "junit-jupiter-engine", "junit-platform-launcher"]
 
 [libraries]
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter"}
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web"}
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test"}
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 mapstruct-core = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }

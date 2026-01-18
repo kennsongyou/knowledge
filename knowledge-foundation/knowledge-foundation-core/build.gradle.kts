@@ -10,8 +10,10 @@ description = "knowledge-foundation-core"
 
 dependencies {
 	implementation(project(":knowledge-common"))
-	implementation("org.springframework.boot:spring-boot-starter")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation(libs.spring.boot.starter)
+	testImplementation(libs.spring.boot.starter.test)
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {
