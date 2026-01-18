@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.foundation.web.interceptor;
 
+import ai.neuron.copilot.knowledge.common.util.IdUtils;
 import ai.neuron.copilot.knowledge.foundation.core.context.ContextContainer;
 import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
 import ai.neuron.copilot.knowledge.foundation.core.context.RequestContext;
@@ -11,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.util.UUID;
 
 @Component
 public class ContextInterceptor implements HandlerInterceptor {
@@ -51,13 +50,13 @@ public class ContextInterceptor implements HandlerInterceptor {
 
 	private RequestContext parseRequestContext(HttpServletRequest request) {
 		String requestId = request.getHeader(REQUEST_ID_HEADER);
-		if (requestId == null || requestId.isEmpty()) {
-			requestId = UUID.randomUUID().toString();
+		if (StringUtils.isBlank(requestId)) {
+			requestId = IdUtils.uuidString();
 		}
 		
 		String traceId = request.getHeader(TRACE_ID_HEADER);
-		if (traceId == null || traceId.isEmpty()) {
-			traceId = UUID.randomUUID().toString();
+		if (StringUtils.isBlank(traceId)) {
+			traceId = IdUtils.uuidString();
 		}
 		
 		String clientIp = getClientIp(request);
@@ -68,13 +67,13 @@ public class ContextInterceptor implements HandlerInterceptor {
 
 	private String getClientIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("X-Real-IP");
 		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
-		if (ip != null && ip.contains(",")) {
+		if (StringUtils.isNotBlank(ip) && ip.contains(",")) {
 			ip = ip.split(",")[0].trim();
 		}
 		return ip;
