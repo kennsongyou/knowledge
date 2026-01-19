@@ -1,7 +1,10 @@
 package ai.neuron.copilot.knowledge.rag.contract.dataset;
 
-import org.springframework.web.service.annotation.HttpExchange;
+import ai.neuron.copilot.knowledge.rag.contract.dataset.dto.CreateDatasetCmd;
+import ai.neuron.copilot.knowledge.rag.contract.dataset.dto.DatasetDTO;
 
-@HttpExchange
 public interface DatasetContract {
+
+    DatasetDTO create(CreateDatasetCmd cmd);
+
 }

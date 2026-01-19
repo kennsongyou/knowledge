@@ -1,31 +1,21 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
-    `java-library`
-    `maven-publish`
-    alias(libs.plugins.spring.boot)
+	`java-library`
+	`maven-publish`
 }
 
-group = "ai.neuron.copilot"
-version = "0.0.1"
 description = "knowledge-rag-adapter"
 
 dependencies {
-    implementation(project(":knowledge-common"))
-    implementation(project(":knowledge-foundation:knowledge-foundation-core"))
-    implementation(project(":knowledge-foundation:knowledge-foundation-web"))
-    implementation(libs.spring.boot.starter.web)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
+	implementation(project(":knowledge-common"))
+	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
+	implementation(project(":knowledge-foundation:knowledge-foundation-web"))
+	implementation(project(":knowledge-rag:knowledge-rag-contract"))
+	implementation(libs.spring.boot.starter.web)
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Jar> {
-    archiveBaseName.set(project.name)
-    archiveVersion.set(project.version.toString())
-}
-
-tasks.named<BootJar>("bootJar") {
-    archiveFileName.set("${project.name}-${project.version}.jar")
+	archiveBaseName.set(project.name)
+	archiveVersion.set(project.version.toString())
 }
