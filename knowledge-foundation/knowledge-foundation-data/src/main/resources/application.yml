@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: knowledge-foundation-data
+  profiles:
+    active: local

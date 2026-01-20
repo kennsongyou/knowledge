@@ -12,7 +12,7 @@ include(
     ":knowledge-foundation:knowledge-foundation-core",
     ":knowledge-foundation:knowledge-foundation-web",
     ":knowledge-foundation:knowledge-foundation-webflux",
-    ":knowledge-foundation:knowledge-foundation-persistence",
+    ":knowledge-foundation:knowledge-foundation-data",
     ":knowledge-rag",
     ":knowledge-rag:knowledge-rag-adapter",
     ":knowledge-rag:knowledge-rag-app",
