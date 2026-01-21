@@ -22,6 +22,8 @@ dependencies {
 	implementation(project(":knowledge-rag:knowledge-rag-infra"))
 	implementation(libs.spring.boot.starter)
 	testImplementation(libs.spring.boot.starter.test)
+	testImplementation("com.h2database:h2")
+	testImplementation("com.mysql:mysql-connector-j")
 }
 
 tasks.withType<Test> {

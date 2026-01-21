@@ -1,6 +1,5 @@
 spring:
   application:
-    name: knowledge-rag-infra
+    name: knowledge-rag-bootstrap
   profiles:
     active: local
-

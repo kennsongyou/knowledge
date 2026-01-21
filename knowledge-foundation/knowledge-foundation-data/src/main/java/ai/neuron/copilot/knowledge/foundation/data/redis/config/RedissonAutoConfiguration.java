@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.foundation.data.config;
+package ai.neuron.copilot.knowledge.foundation.data.redis.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
