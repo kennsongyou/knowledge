@@ -1,0 +1,8 @@
+server:
+  port: 30001
+
+logging:
+  level:
+    root: info
+    ai.neuron.copilot: debug
+    org.springframework: warn

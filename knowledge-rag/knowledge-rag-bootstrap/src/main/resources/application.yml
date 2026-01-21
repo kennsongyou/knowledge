@@ -1,17 +1,6 @@
-server:
-  port: 30001
-
 spring:
   application:
     name: knowledge-rag
   profiles:
     active: local
 
-logging:
-  level:
-    root: info
-    ai.neuron.copilot: debug
-    org.springframework: warn
-    org.hibernate: warn
-    org.apache: warn
-    com.zaxxer: warn
