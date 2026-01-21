@@ -1,43 +1,5 @@
-server:
-  port: 8081
-
 spring:
   application:
     name: knowledge-foundation-webflux
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      write-dates-as-timestamps: false
-      indent-output: false
-    deserialization:
-      fail-on-unknown-properties: false
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
-  reactor:
-    context-propagation: auto
-  http:
-    codecs:
-      max-in-memory-size: 10MB
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: when-authorized
-  metrics:
-    export:
-      simple:
-        enabled: true
-
-logging:
-  level:
-    root: INFO
-    ai.neuron.copilot: DEBUG
-    org.springframework.web: INFO
-    org.springframework.web.reactive: INFO
-    reactor.netty: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  profiles:
+    active: local
