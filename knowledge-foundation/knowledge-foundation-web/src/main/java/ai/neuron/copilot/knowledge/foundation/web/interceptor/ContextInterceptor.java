@@ -1,10 +1,7 @@
 package ai.neuron.copilot.knowledge.foundation.web.interceptor;
 
 import ai.neuron.copilot.knowledge.common.util.IdUtils;
-import ai.neuron.copilot.knowledge.foundation.core.context.ContextContainer;
-import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
-import ai.neuron.copilot.knowledge.foundation.core.context.RequestContext;
-import ai.neuron.copilot.knowledge.foundation.core.context.UserContext;
+import ai.neuron.copilot.knowledge.foundation.core.context.*;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,12 +10,16 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Optional;
+
 @Component
 public class ContextInterceptor implements HandlerInterceptor {
 
 	private static final String USER_ID_HEADER = "Neuron-User-Id";
 	private static final String USER_NAME_HEADER = "Neuron-User-Name";
+	private static final String TENANT_ID_HEADER = "Neuron-Tenant-Id";
 	private static final String TENANT_CODE_HEADER = "Neuron-Tenant-Code";
+	private static final String TENANT_NAME_HEADER = "Neuron-Tenant-Name";
 	private static final String REQUEST_ID_HEADER = "Neuron-Request-Id";
 	private static final String TRACE_ID_HEADER = "Neuron-Trace-Id";
 
@@ -26,7 +27,8 @@ public class ContextInterceptor implements HandlerInterceptor {
 	public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
 		UserContext userContext = parseUserContext(request);
 		RequestContext requestContext = parseRequestContext(request);
-		ContextContainer container = new ContextContainer(userContext, requestContext);
+		TenantContext tenantContext = parseTenantContext(request);
+		ContextContainer container = new ContextContainer(requestContext, userContext, tenantContext);
 		ContextHolder.setContextContainer(container);
 		return true;
 	}
@@ -38,14 +40,18 @@ public class ContextInterceptor implements HandlerInterceptor {
 	}
 
 	private UserContext parseUserContext(HttpServletRequest request) {
-		String userIdStr = request.getHeader(USER_ID_HEADER);
-		String userName = request.getHeader(USER_NAME_HEADER);
-		String tenantCode = request.getHeader(TENANT_CODE_HEADER);
-		if (!StringUtils.isNumeric(userIdStr)) {
-			return null;
-		}
-		Long userId = NumberUtils.toLong(userIdStr);
-		return new UserContext(userId, userName, tenantCode);
+		String idStr = request.getHeader(USER_ID_HEADER);
+		String name = request.getHeader(USER_NAME_HEADER);
+		Long id = Optional.of(idStr).map(NumberUtils::toLong).get();
+		return new UserContext(id, name);
+	}
+
+	private TenantContext parseTenantContext(HttpServletRequest request) {
+		String idStr = request.getHeader(TENANT_ID_HEADER);
+		String code = request.getHeader(TENANT_CODE_HEADER);
+		String name = request.getHeader(TENANT_NAME_HEADER);
+		Long id = Optional.of(idStr).map(NumberUtils::toLong).get();
+		return new TenantContext(id, code, name);
 	}
 
 	private RequestContext parseRequestContext(HttpServletRequest request) {
