@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.adapter.inbound.dataset;
+package ai.neuron.copilot.knowledge.rag.adapter.inbound.web.dataset;
 
 import ai.neuron.copilot.knowledge.rag.contract.dataset.DatasetContract;
 import ai.neuron.copilot.knowledge.rag.contract.dataset.dto.CreateDatasetCmd;

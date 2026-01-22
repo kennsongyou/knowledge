@@ -11,14 +11,11 @@ description = "knowledge-foundation-core"
 dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(libs.spring.boot.starter)
-	testImplementation(libs.spring.boot.starter.test)
+	implementation(libs.commons.lang3)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
 
 tasks.withType<Jar> {
 	archiveBaseName.set(project.name)
