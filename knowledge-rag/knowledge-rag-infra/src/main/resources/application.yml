@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: knowledge-rag-infra
-  profiles:
-    active: local
-

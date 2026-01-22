@@ -1,8 +1,10 @@
 package ai.neuron.copilot.knowledge.foundation.data.rdb;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.SoftDelete;
 import org.hibernate.annotations.SoftDeleteType;
 import org.springframework.data.annotation.CreatedBy;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
 @SoftDelete(
 		strategy = SoftDeleteType.ACTIVE,
@@ -23,23 +26,20 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AuditingEntity extends BaseEntity {
 
-	@Column(name = "deleted_at")
-	private LocalDateTime deleted_at;
-
 	@CreatedBy
 	@Column(name = "created_by", updatable = false)
-	private Long createdBy;
+	Long createdBy;
 
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
-	private LocalDateTime createdAt;
+	LocalDateTime createdAt;
 
 	@LastModifiedBy
 	@Column(name = "updated_by")
-	private Long updatedBy;
+	Long updatedBy;
 
 	@LastModifiedDate
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	LocalDateTime updatedAt;
 
 }

@@ -15,10 +15,10 @@ include(
     ":knowledge-foundation:knowledge-foundation-data",
     ":knowledge-rag",
     ":knowledge-rag:knowledge-rag-adapter",
+    ":knowledge-rag:knowledge-rag-adapter:knowledge-rag-adapter-inbound",
+    ":knowledge-rag:knowledge-rag-adapter:knowledge-rag-adapter-outbound",
     ":knowledge-rag:knowledge-rag-app",
     ":knowledge-rag:knowledge-rag-bootstrap",
     ":knowledge-rag:knowledge-rag-contract",
-    ":knowledge-rag:knowledge-rag-domain",
-    ":knowledge-rag:knowledge-rag-infra",
-    ":knowledge-rag:knowledge-rag-client",
+    ":knowledge-rag:knowledge-rag-domain"
 )
