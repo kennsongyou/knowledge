@@ -17,12 +17,12 @@ dependencies {
 	implementation(project(":knowledge-foundation:knowledge-foundation-data"))
 	implementation(project(":knowledge-rag:knowledge-rag-adapter"))
 	implementation(project(":knowledge-rag:knowledge-rag-app"))
-	implementation(project(":knowledge-rag:knowledge-rag-contract"))
 	implementation(project(":knowledge-rag:knowledge-rag-domain"))
 	implementation(libs.spring.boot.starter)
+	implementation(libs.spring.boot.starter.web)
+	implementation(libs.spring.boot.starter.data.jpa)
+	implementation(libs.mysql.connector.j)
 	testImplementation(libs.spring.boot.starter.test)
-	testImplementation("com.h2database:h2")
-	testImplementation("com.mysql:mysql-connector-j")
 }
 
 tasks.withType<Test> {

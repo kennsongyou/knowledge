@@ -12,8 +12,12 @@ public final class IdUtils {
 		return UUID_GENERATOR.generate();
 	}
 
-	public static String uuidString() {
+	public static String uuidStr() {
 		return uuid().toString();
+	}
+
+	public static String trimmedUuid() {
+		return uuidStr().replaceAll("-", "");
 	}
 
 }

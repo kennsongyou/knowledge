@@ -7,9 +7,9 @@ version = "0.0.1"
 description = "knowledge-foundation-data"
 
 dependencies {
-	api(project(":knowledge-foundation:knowledge-foundation-core"))
-	
-	compileOnly(libs.spring.boot.starter.data.jpa)
+	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
+
+	api(libs.spring.boot.starter.data.jpa)
 	compileOnly(libs.mysql.connector.j)
 	compileOnly(libs.redisson.spring.boot.starter)
 	

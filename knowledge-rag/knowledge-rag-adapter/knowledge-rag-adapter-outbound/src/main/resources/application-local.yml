@@ -1,4 +1,0 @@
-spring:
-  http:
-    client:
-      factory: http_components

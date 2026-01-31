@@ -19,7 +19,6 @@ public class RedissonAutoConfiguration {
 		Config config = new Config();
 		SingleServerConfig serverConfig = config.useSingleServer()
 				.setAddress("redis://127.0.0.1:6379")
-				.setPassword("")
 				.setDatabase(0);
 		return Redisson.create(config);
 	}

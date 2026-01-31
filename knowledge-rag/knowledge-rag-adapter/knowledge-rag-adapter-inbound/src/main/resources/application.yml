@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: knowledge-rag-adapter-inbound
-  profiles:
-    active: local

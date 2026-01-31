@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
-@SoftDelete(
-		strategy = SoftDeleteType.ACTIVE,
-		columnName = "deleted_at"
-)
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AuditingEntity extends BaseEntity {
+
+	@SoftDelete(strategy = SoftDeleteType.DELETED)
+	@Column(name = "deleted_at")
+	LocalDateTime deletedAt;
 
 	@CreatedBy
 	@Column(name = "created_by", updatable = false)

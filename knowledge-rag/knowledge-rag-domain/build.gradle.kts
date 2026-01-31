@@ -10,8 +10,9 @@ description = "knowledge-rag-domain"
 dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
-	implementation(project(":knowledge-foundation:knowledge-foundation-web"))
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation(libs.apache.commons.lang3)
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Jar> {

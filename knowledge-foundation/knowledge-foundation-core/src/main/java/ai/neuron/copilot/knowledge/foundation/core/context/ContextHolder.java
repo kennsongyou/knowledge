@@ -18,24 +18,19 @@ public final class ContextHolder {
 		CONTEXT_CONTAINER.remove();
 	}
 
-
 	public static RequestContext request() {
 		return Optional.ofNullable(CONTEXT_CONTAINER.get())
-				.map(ContextContainer::requestContext)
-				.orElseThrow(() -> new RuntimeException("Can not find request context"));
+				.map(ContextContainer::requestContext).orElse(null);
 	}
 
 	public static UserContext user() {
 		return Optional.ofNullable(CONTEXT_CONTAINER.get())
-				.map(ContextContainer::userContext)
-				.orElseThrow(() -> new RuntimeException("Can not find user context"));
+				.map(ContextContainer::userContext).orElse(null);
 	}
-
 
 	public static TenantContext tenant() {
 		return Optional.ofNullable(CONTEXT_CONTAINER.get())
-				.map(ContextContainer::tenantContext)
-				.orElseThrow(() -> new RuntimeException("Can not find tenant context"));
+				.map(ContextContainer::tenantContext).orElse(null);
 	}
 
 

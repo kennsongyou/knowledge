@@ -1,8 +1,9 @@
 [versions]
 spring-boot = "3.5.9"
 spring-dependency-management = "1.1.7"
-commons-lang3 = "3.20.0"
-http-client5 = "5.6"
+apache-commons-lang3 = "3.20.0"
+apache-http-client5 = "5.6"
+fasterxml-uuid = "5.2.0"
 redisson = "4.1.0"
 mapstruct = "1.6.3"
 lombok = "1.18.42"
@@ -13,11 +14,13 @@ testing = ["junit-jupiter-api", "junit-jupiter-engine", "junit-platform-launcher
 
 [libraries]
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter"}
+spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop"}
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web"}
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux"}
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test"}
-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
-http-client5 = {module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "http-client5"}
+apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang3" }
+apache-http-client5 = {module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apache-http-client5"}
+fasterxml-uuid = {module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "fasterxml-uuid"}
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 mapstruct-core = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
