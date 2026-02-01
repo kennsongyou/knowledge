@@ -1,0 +1,24 @@
+package ai.neuron.copilot.knowledge.rag.app.service.dataset;
+
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Service
+public class DeleteKnowledgeBaseService implements DeleteKnowledgeBaseUseCase {
+
+    private final KnowledgeBaseRepository knowledgeBaseRepository;
+
+    @Transactional
+    @Override
+    public void execute(DeleteKnowledgeBaseCommand command) {
+        KnowledgeBaseId knowledgeBaseId = KnowledgeBaseId.reconstitute(command.knowledgeBaseId());
+        knowledgeBaseRepository.delete(knowledgeBaseId);
+    }
+
+}

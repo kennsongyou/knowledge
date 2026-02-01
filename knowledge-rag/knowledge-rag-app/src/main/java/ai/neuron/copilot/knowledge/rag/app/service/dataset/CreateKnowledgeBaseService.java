@@ -24,7 +24,7 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 	public CreateKnowledgeBaseResponse execute(CreateKnowledgeBaseCommand command) {
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(command.name(), command.description(),
 				DifyDatasetId.reconstitute(IdUtils.trimmedUuid()));
-		knowledgeBaseRepository.save(knowledgeBase);
+		knowledgeBaseRepository.create(knowledgeBase);
 		return new CreateKnowledgeBaseResponse(knowledgeBase.getKnowledgeBaseId().value());
 	}
 

@@ -5,6 +5,6 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.response.C
 
 public interface CreateKnowledgeBaseUseCase {
 
-    CreateKnowledgeBaseResponse execute(CreateKnowledgeBaseCommand dataset);
+    CreateKnowledgeBaseResponse execute(CreateKnowledgeBaseCommand command);
 
 }
