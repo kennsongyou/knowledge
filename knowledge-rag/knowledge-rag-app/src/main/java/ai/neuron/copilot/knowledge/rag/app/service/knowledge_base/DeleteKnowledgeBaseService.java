@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.dataset;
+package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
 
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;

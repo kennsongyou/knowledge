@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po;
 
-import ai.neuron.copilot.knowledge.foundation.data.rdb.AuditingEntity;
+import ai.neuron.copilot.knowledge.foundation.data.rdb.AuditingPO;
 import ai.neuron.copilot.knowledge.foundation.data.rdb.TenantAware;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +20,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "knowledge_base", uniqueConstraints = {
 		@UniqueConstraint(name = "knowledge_base_id_UNIQUE", columnNames = "knowledge_base_id")
 })
-public final class KnowledgeBasePO extends AuditingEntity implements TenantAware {
+public final class KnowledgeBasePO extends AuditingPO implements TenantAware {
 
 	@Column(name = "knowledge_base_id", nullable = false)
 	String knowledgeBaseId;

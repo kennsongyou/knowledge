@@ -11,9 +11,10 @@ dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-web"))
-	api(project(":knowledge-foundation:knowledge-foundation-data"))
+	implementation(project(":knowledge-foundation:knowledge-foundation-data"))
 	implementation(project(":knowledge-rag:knowledge-rag-domain"))
 	implementation(libs.spring.boot.starter.web)
+	implementation(libs.spring.tx)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }

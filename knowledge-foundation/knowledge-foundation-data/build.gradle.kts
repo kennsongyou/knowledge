@@ -8,11 +8,9 @@ description = "knowledge-foundation-data"
 
 dependencies {
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
-
-	api(libs.spring.boot.starter.data.jpa)
+	implementation(libs.spring.boot.starter.data.jpa)
 	compileOnly(libs.mysql.connector.j)
 	compileOnly(libs.redisson.spring.boot.starter)
-	
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }

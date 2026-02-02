@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
 @EntityListeners(TenantFillListener.class)
-public abstract class BaseEntity {
+public abstract class BasePO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

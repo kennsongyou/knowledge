@@ -1,12 +1,12 @@
-package ai.neuron.copilot.knowledge.rag.app.service.dataset;
+package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
 
 import ai.neuron.copilot.knowledge.common.util.IdUtils;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.CreateKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.CreateKnowledgeBaseCommand;
-import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,11 +21,11 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 
 	@Transactional
 	@Override
-	public CreateKnowledgeBaseResponse execute(CreateKnowledgeBaseCommand command) {
+	public KnowledgeBaseId execute(CreateKnowledgeBaseCommand command) {
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(command.name(), command.description(),
 				DifyDatasetId.reconstitute(IdUtils.trimmedUuid()));
 		knowledgeBaseRepository.create(knowledgeBase);
-		return new CreateKnowledgeBaseResponse(knowledgeBase.getKnowledgeBaseId().value());
+		return knowledgeBase.getId();
 	}
 
 }

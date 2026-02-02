@@ -11,7 +11,7 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class KnowledgeBase {
 
-    final KnowledgeBaseId knowledgeBaseId;
+    final KnowledgeBaseId id;
 
     String name;
 
@@ -19,8 +19,8 @@ public final class KnowledgeBase {
 
     final DifyDatasetId difyDatasetId;
 
-    private KnowledgeBase(KnowledgeBaseId knowledgeBaseId, String name, String description, DifyDatasetId difyDatasetId) {
-        this.knowledgeBaseId = Objects.requireNonNull(knowledgeBaseId);
+    private KnowledgeBase(KnowledgeBaseId id, String name, String description, DifyDatasetId difyDatasetId) {
+        this.id = Objects.requireNonNull(id);
         this.name = requireValidName(name);
         this.description = requireValidDescription(description);
         this.difyDatasetId = Objects.requireNonNull(difyDatasetId);
