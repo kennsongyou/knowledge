@@ -34,8 +34,9 @@ public final class KnowledgeBase {
         this.description = requireValidDescription(description);
     }
 
-    public static KnowledgeBase reconstitute(KnowledgeBaseId knowledgeBaseId, String name, String description, DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(knowledgeBaseId, name, description, difyDatasetId);
+    public static KnowledgeBase reconstitute(KnowledgeBaseId id, String name, String description,
+                                             DifyDatasetId difyDatasetId) {
+        return new KnowledgeBase(id, name, description, difyDatasetId);
     }
 
     public static KnowledgeBase create(String name, String description, DifyDatasetId difyDatasetId) {
