@@ -46,7 +46,8 @@ public class KnowledgeBaseController {
         List<KnowledgeBaseDTO> records = pageResult.records().stream().map(kb -> new KnowledgeBaseDTO(
                 kb.getId().value(),
                 kb.getName(),
-                kb.getDescription()
+                kb.getDescription(),
+                kb.getDifyDatasetId().value()
         )).toList();
         return new PageResult<>(
                 records,
