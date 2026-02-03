@@ -1,8 +1,8 @@
 //package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 //
 //import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
-//import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
-//import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentCommand;
+//import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentByFileUseCase;
+//import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
 //import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 //import lombok.AllArgsConstructor;
 //import org.springframework.web.bind.annotation.*;
@@ -12,11 +12,11 @@
 //@RequestMapping("/documents")
 //public class DocumentController {
 //
-//    private final CreateDocumentUseCase createDocumentUseCase;
+//    private final CreateDocumentByFileUseCase createDocumentByFileUseCase;
 //
 //    @PostMapping
-//    public CreateKnowledgeBaseResponse create(@RequestBody CreateDocumentCommand command) {
-//        KnowledgeBaseId knowledgeBaseId = createDocumentUseCase.execute(command);
+//    public CreateKnowledgeBaseResponse create(@RequestBody CreateDocumentByFileCommand command) {
+//        KnowledgeBaseId knowledgeBaseId = createDocumentByFileUseCase.execute(command);
 //        return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());
 //    }
 //
