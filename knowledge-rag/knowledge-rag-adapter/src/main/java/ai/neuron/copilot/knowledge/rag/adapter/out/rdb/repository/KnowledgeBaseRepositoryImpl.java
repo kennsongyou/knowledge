@@ -38,6 +38,7 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public PageResult<KnowledgeBase> pageByKeyword(TenantId tenantId, String keyword, PageQuery pageQuery) {
         Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
+
         Page<KnowledgeBasePO> poPage;
         if (StringUtils.isBlank(keyword)) {
             poPage = jpaKnowledgeBaseRepository.findByTenantIdOrderByCreatedAtDesc(pageable, tenantId.value());
