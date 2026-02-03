@@ -23,7 +23,7 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 	@Override
 	public KnowledgeBaseId execute(CreateKnowledgeBaseCommand command) {
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(command.name(), command.description(),
-				DifyDatasetId.reconstitute(IdUtils.trimmedUuid()));
+				DifyDatasetId.create());
 		knowledgeBaseRepository.create(knowledgeBase);
 		return knowledgeBase.getId();
 	}

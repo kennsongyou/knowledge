@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":knowledge-rag:knowledge-rag-domain"))
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.apache.commons.lang3)
     implementation(libs.mysql.connector.j)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)

@@ -10,6 +10,7 @@ import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,8 +38,13 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public PageResult<KnowledgeBase> pageByKeyword(TenantId tenantId, String keyword, PageQuery pageQuery) {
         Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
-        Page<KnowledgeBasePO> poPage = jpaKnowledgeBaseRepository
-                .findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(tenantId.value(), keyword, pageable);
+        Page<KnowledgeBasePO> poPage;
+        if (StringUtils.isBlank(keyword)) {
+            poPage = jpaKnowledgeBaseRepository.findByTenantIdOrderByCreatedAtDesc(pageable, tenantId.value());
+        } else {
+            poPage = jpaKnowledgeBaseRepository
+                    .findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, tenantId.value(), keyword);
+        }
         List<KnowledgeBase> domainPage = poPage.getContent().stream()
                 .map(e -> KnowledgeBase.reconstitute(
                         KnowledgeBaseId.reconstitute(e.getKnowledgeBaseId()),
