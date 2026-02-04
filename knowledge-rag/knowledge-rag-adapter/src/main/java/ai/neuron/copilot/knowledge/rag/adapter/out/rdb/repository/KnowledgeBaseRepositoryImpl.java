@@ -58,11 +58,10 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
 
     @Override
     public void delete(KnowledgeBaseId knowledgeBaseId) {
-        jpaKnowledgeBaseRepository.findByKnowledgeBaseId(knowledgeBaseId.value())
-                .ifPresent(e -> {
-                    e.setDeletedAt(LocalDateTime.now());
-                    jpaKnowledgeBaseRepository.save(e);
-                });
+        KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseId(knowledgeBaseId.value())
+                .orElseThrow(RuntimeException::new);
+        knowledgeBasePO.setDeletedAt(LocalDateTime.now());
+        jpaKnowledgeBaseRepository.save(knowledgeBasePO);
     }
 
 }

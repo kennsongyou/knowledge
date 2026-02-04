@@ -9,7 +9,7 @@
     
     <!-- 文件输出 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE:-${LOG_PATH:-./logs}/${project.name}}.log</file>
+        <file>${LOG_FILE:-${LOG_PATH:-./logs}/${spring.application.name}}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH:-./logs}/${project.name}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>

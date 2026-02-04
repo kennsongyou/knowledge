@@ -33,6 +33,7 @@ public class KnowledgeBaseController {
     private final DeleteKnowledgeBaseUseCase deleteKnowledgeBaseUseCase;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CreateKnowledgeBaseResponse create(@RequestBody CreateKnowledgeBaseCommand command) {
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
         return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());

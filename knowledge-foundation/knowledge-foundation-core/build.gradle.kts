@@ -7,7 +7,7 @@ description = "knowledge-foundation-core"
 
 dependencies {
 	implementation(project(":knowledge-common"))
-	implementation(libs.spring.boot.starter)
+	implementation(libs.spring.context)
 	implementation(libs.spring.boot.starter.aop)
 	implementation(libs.apache.commons.lang3)
 	compileOnly(libs.lombok)
