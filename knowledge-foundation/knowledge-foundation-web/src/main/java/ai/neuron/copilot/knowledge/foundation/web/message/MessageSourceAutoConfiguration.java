@@ -13,7 +13,7 @@ public class MessageSourceAutoConfiguration {
     @ConditionalOnMissingBean(MessageSource.class)
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-        ms.setBasename("classpath:messages");
+        ms.setBasename("classpath:i18n/messages");
         ms.setDefaultEncoding("UTF-8");
         ms.setFallbackToSystemLocale(false);
         return ms;

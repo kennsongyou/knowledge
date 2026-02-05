@@ -44,6 +44,10 @@ subprojects {
 		withSourcesJar()
 	}
 
+//	tasks.withType<ProcessResources>().configureEach {
+//		filteringCharset = "UTF-8"
+//	}
+
 	configure<PublishingExtension> {
 		publications {
 			create("maven", MavenPublication::class.java) {

@@ -30,5 +30,5 @@ tasks.withType<Jar> {
 }
 
 tasks.named<BootJar>("bootJar") {
-	archiveFileName.set("${project.name}-${project.version}.jar")
+	enabled = false
 }
