@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.foundation.core.message;
+package ai.neuron.copilot.knowledge.foundation.web.message;
 
 import java.util.Locale;
 

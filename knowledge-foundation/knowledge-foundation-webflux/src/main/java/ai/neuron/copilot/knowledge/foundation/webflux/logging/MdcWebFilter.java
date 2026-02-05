@@ -17,7 +17,6 @@ public class MdcWebFilter implements WebFilter {
     public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
         try {
             ContextMdcIntegrator.integrate();
-            
             return chain.filter(exchange)
                     .doFinally(signalType -> ContextMdcIntegrator.clear());
         } catch (Exception e) {

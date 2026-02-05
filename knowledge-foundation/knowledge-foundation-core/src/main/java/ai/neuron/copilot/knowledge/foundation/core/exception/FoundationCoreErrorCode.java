@@ -2,20 +2,20 @@ package ai.neuron.copilot.knowledge.foundation.core.exception;
 
 import lombok.AllArgsConstructor;
 
-import java.util.Locale;
-
 @AllArgsConstructor
 public enum FoundationCoreErrorCode implements ErrorCode {
 
-    INVALID_ARGUMENT("foundation.core.invalid_argument"),
+    INVALID_ARGUMENT("foundation_core_invalid_argument", "error.foundation.core.invalid_argument"),
 
-    INTERNAL_ERROR("foundation.core.internal_error");
+    INTERNAL_ERROR("foundation_core_invalid_argument", "error.foundation.core.internal_error");
+
+    private final String code;
 
     private final String messageKey;
 
     @Override
     public String code() {
-        return name().toLowerCase(Locale.ROOT);
+        return code;
     }
 
     @Override

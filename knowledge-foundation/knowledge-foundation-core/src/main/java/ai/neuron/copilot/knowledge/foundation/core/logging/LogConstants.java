@@ -1,12 +1,15 @@
 package ai.neuron.copilot.knowledge.foundation.core.logging;
 
-public interface LogConstants {
+public final class LogConstants {
 
-    String REQUEST_ID = "requestId";
-    String TRACE_ID = "traceId";
-    String USER_ID  = "userId";
-    String TENANT_ID = "tenantId";
+    public static final String REQUEST_ID = "requestId";
 
-    String UNKNOWN = "-";
+    public static final String TRACE_ID = "traceId";
+
+    public static final String USER_ID  = "userId";
+
+    public static final String TENANT_ID = "tenantId";
+
+    public static final String UNKNOWN = "-";
 
 }

@@ -1,1 +1,2 @@
 ai.neuron.copilot.knowledge.foundation.web.config.WebAutoConfiguration
+ai.neuron.copilot.knowledge.foundation.web.message.MessageSourceAutoConfiguration

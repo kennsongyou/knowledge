@@ -1,5 +1,6 @@
-package ai.neuron.copilot.knowledge.foundation.core.message;
+package ai.neuron.copilot.knowledge.foundation.web.message;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,7 @@ public class SpringMessageResolver implements MessageResolver {
     }
 
     @Override
-    public String resolve(String messageKey, Locale locale, Object... args) {
-        if (messageKey == null) {
-            return null;
-        }
+    public String resolve(@Nonnull String messageKey, Locale locale, Object... args) {
         if (locale == null) {
             locale = Locale.ROOT;
         }
