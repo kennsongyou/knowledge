@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.OptionalLong;
 
 @AllArgsConstructor
@@ -31,10 +32,12 @@ public class DocumentController {
     public CreateKnowledgeBaseResponse createByFile(@RequestPart("file") MultipartFile file,
                                                     @RequestPart(value = "payload", required = false) String payload)
             throws IOException {
-        InputStreamDTO inputStreamDTO = new InputStreamDTO(file.getInputStream(), OptionalLong.of(file.getSize()));
-        CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(payload, inputStreamDTO);
-        DocumentId documentId = createDocumentUseCase.byFile(command);
-        return new CreateKnowledgeBaseResponse(documentId.value());
+        try (InputStream in = file.getInputStream()) {
+            InputStreamDTO inputStreamDTO = new InputStreamDTO(in, OptionalLong.of(file.getSize()));
+            CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(payload, inputStreamDTO);
+            DocumentId documentId = createDocumentUseCase.byFile(command);
+            return new CreateKnowledgeBaseResponse(documentId.value());
+        }
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
