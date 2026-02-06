@@ -5,9 +5,10 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.FoundationCoreError
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentByFileUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @RestController
@@ -17,14 +18,21 @@ public class DocumentController {
     private final CreateDocumentByFileUseCase createDocumentByFileUseCase;
 
     @GetMapping
-    public void create() {
+    public void page() {
         throw new BusinessException(FoundationCoreErrorCode.INTERNAL_ERROR, "ass");
     }
 
-//    @PostMapping
-//    public CreateKnowledgeBaseResponse create(@RequestBody CreateDocumentByFileCommand command) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CreateKnowledgeBaseResponse createByFile(@RequestPart("file") MultipartFile file,
+                                              @RequestPart(value = "payload", required = false) String payload) {
 //        KnowledgeBaseId knowledgeBaseId = createDocumentByFileUseCase.execute(command);
 //        return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());
-//    }
+        return null;
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CreateKnowledgeBaseResponse createByText(@RequestBody CreateDocumentByFileCommand command) {
+        return null;
+    }
 
 }
