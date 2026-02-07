@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -60,7 +60,7 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     public void delete(KnowledgeBaseId knowledgeBaseId) {
         KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseId(knowledgeBaseId.value())
                 .orElseThrow(RuntimeException::new);
-        knowledgeBasePO.setDeletedAt(LocalDateTime.now());
+        knowledgeBasePO.setDeletedAt(Instant.now());
         jpaKnowledgeBaseRepository.save(knowledgeBasePO);
     }
 

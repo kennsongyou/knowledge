@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +50,7 @@ public class KnowledgeBaseService {
 	@Transactional
 	public KnowledgeBasePO updateKnowledgeBase(KnowledgeBasePO knowledgeBaseEntity) {
 		// 更新审计字段
-		knowledgeBaseEntity.setUpdatedAt(LocalDateTime.now());
+		knowledgeBaseEntity.setUpdatedAt(Instant.now());
 		// 这里可以从 Spring Security 或 ThreadLocal 中获取当前用户ID
 		return jpaKnowledgeBaseRepository.save(knowledgeBaseEntity);
 	}

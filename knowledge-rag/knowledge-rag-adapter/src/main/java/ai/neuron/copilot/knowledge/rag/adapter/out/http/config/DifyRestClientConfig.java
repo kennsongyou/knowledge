@@ -1,11 +1,13 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.http.config;
 
 import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.DifyDatasetsClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
@@ -26,10 +28,15 @@ public class DifyRestClientConfig {
     }
 
     @Bean
-    public RestClient difyDatasetClient(RestClient.Builder builder) {
+    public RestClient difyDatasetClient(RestClient.Builder builder,
+                                        @Qualifier("snakeObjectMapper") ObjectMapper objectMapper) {
         return builder
                 .baseUrl(difyConfig.getDomain())
                 .requestInterceptor(difyDatasetHeaderInterceptor())
+                .messageConverters(converters -> {
+                    converters.removeIf(c -> c instanceof MappingJackson2HttpMessageConverter);
+                    converters.addFirst(new MappingJackson2HttpMessageConverter(objectMapper));
+                })
                 .build();
     }
 

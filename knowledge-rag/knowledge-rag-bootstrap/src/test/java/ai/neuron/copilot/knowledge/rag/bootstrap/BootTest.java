@@ -5,6 +5,7 @@ import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.dto.response.PageDa
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,6 +21,7 @@ public class BootTest {
     private DifyDatasetsClient difyDatasetsClient;
 
     @Autowired
+    @Qualifier("snakeObjectMapper")
     private ObjectMapper objectMapper;
 
     @Test

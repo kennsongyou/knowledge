@@ -18,11 +18,11 @@ public class JsonAutoConfig {
     @Bean
     @Primary
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
-        return builder.createXmlMapper(false).build();
+        return builder.build();
     }
 
-    @Bean("webObjectMapper")
-    public ObjectMapper webObjectMapper() {
+    @Bean("snakeObjectMapper")
+    public ObjectMapper snakeObjectMapper() {
         return Jackson2ObjectMapperBuilder
                 .json()
                 .propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
