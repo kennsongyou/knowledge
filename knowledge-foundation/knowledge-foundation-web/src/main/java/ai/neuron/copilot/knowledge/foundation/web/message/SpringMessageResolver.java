@@ -15,9 +15,7 @@ public class SpringMessageResolver implements MessageResolver {
 
     @Override
     public String resolve(@Nonnull String messageKey, Locale locale, Object... args) {
-        if (locale == null) {
-            locale = Locale.ROOT;
-        }
+        locale = locale == null ? Locale.ROOT : locale;
         return messageSource.getMessage(messageKey, args, messageKey, locale);
     }
 
