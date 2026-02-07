@@ -17,14 +17,11 @@ public class DifyRestClientConfig {
     private final DifyConfig difyConfig;
 
     @Bean
-    public DifyDatasetsClient difyKnowledgeClient(
+    public DifyDatasetsClient difyDatasetsClient(
             @Qualifier("difyDatasetClient") RestClient difyRestClient) {
-
-        HttpServiceProxyFactory factory =
-                HttpServiceProxyFactory
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory
                         .builderFor(RestClientAdapter.create(difyRestClient))
                         .build();
-
         return factory.createClient(DifyDatasetsClient.class);
     }
 

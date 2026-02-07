@@ -9,6 +9,7 @@ dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(libs.spring.context)
 	implementation(libs.spring.boot.starter.aop)
+	implementation(libs.spring.boot.starter.json)
 	implementation(libs.apache.commons.lang3)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)

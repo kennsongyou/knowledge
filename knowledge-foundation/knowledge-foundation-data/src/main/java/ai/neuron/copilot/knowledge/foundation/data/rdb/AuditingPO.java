@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Setter
 @Getter
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public abstract class AuditingPO extends BasePO {
 
 	@Column(name = "deleted_at")
-	LocalDateTime deletedAt;
+	Instant deletedAt;
 
 	@CreatedBy
 	@Column(name = "created_by", updatable = false)
@@ -29,7 +29,7 @@ public abstract class AuditingPO extends BasePO {
 
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
-	LocalDateTime createdAt;
+	Instant createdAt;
 
 	@LastModifiedBy
 	@Column(name = "updated_by")
@@ -37,6 +37,6 @@ public abstract class AuditingPO extends BasePO {
 
 	@LastModifiedDate
 	@Column(name = "updated_at")
-	LocalDateTime updatedAt;
+	Instant updatedAt;
 
 }
