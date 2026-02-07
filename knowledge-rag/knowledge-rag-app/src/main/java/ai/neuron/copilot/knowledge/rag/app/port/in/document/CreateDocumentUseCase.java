@@ -5,7 +5,6 @@ import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DocumentId;
 
 public interface CreateDocumentUseCase {
 
-
     DocumentId byFile(CreateDocumentByFileCommand command);
 
 }

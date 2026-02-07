@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.foundation.core.exception;
 
-public class SystemException extends BusinessException {
+public class SystemException extends BaseException {
 
     public SystemException() {
         super(FoundationCoreErrorCode.INTERNAL_ERROR);

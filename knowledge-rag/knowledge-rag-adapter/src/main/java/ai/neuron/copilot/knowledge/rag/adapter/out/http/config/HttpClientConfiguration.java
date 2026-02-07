@@ -15,12 +15,12 @@ public class HttpClientConfiguration {
 
 	@Bean
 	public RestClient restClient() {
-		return RestClient.builder()
-				.build();
+		return RestClient.builder().build();
 	}
 
 	@Bean
 	public RestClientManager restClientManager() {
 		return new RestClientManager(config);
 	}
+
 }

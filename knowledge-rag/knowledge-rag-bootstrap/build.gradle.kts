@@ -20,7 +20,6 @@ dependencies {
 	implementation(project(":knowledge-rag:knowledge-rag-domain"))
 	implementation(libs.spring.boot.starter)
 	implementation(libs.spring.boot.starter.web)
-//	implementation(libs.mysql.connector.j)
 	testImplementation(libs.spring.boot.starter.test)
 }
 

@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.foundation.web.exception;
 
-import ai.neuron.copilot.knowledge.foundation.core.exception.BusinessException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,10 +23,9 @@ public class FoundationGlobalExceptionHandler {
 
     private final MessageSource messageSource;
 
-    @ExceptionHandler(BusinessException.class)
+    @ExceptionHandler(BaseException.class)
     public ResponseEntity<ProblemDetail> handleBusinessException(
-            BusinessException ex) {
-
+            BaseException ex) {
         Locale locale = LocaleContextHolder.getLocale();
         String detail = messageSource.getMessage(ex.getErrorCode().messageKey(), ex.getMessageArgs(), locale);
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);

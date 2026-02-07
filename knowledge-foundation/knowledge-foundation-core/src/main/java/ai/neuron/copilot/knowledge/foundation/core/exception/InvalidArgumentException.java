@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.foundation.core.exception;
 
-public class InvalidArgumentException extends BusinessException {
+public class InvalidArgumentException extends BaseException {
 
     public InvalidArgumentException() {
         super(FoundationCoreErrorCode.INVALID_ARGUMENT);

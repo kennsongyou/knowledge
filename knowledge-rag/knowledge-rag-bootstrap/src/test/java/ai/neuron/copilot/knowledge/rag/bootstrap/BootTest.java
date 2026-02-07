@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.bootstrap;
 
-import ai.neuron.copilot.knowledge.foundation.core.exception.BusinessException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.BaseException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class BootTest {
 
     @Test
     void testMessageZhCN() {
-        BusinessException aa = new SystemException();
+        BaseException aa = new SystemException();
         String message = aa.getMessage();
         System.out.println(message);
 
