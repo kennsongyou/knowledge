@@ -1,14 +1,13 @@
 package ai.neuron.copilot.knowledge.rag.bootstrap;
 
-import ai.neuron.copilot.knowledge.foundation.core.exception.BaseException;
-import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
+import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.DifyDatasetsClient;
+import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.dto.response.PageDatasetsResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Locale;
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -17,19 +16,20 @@ public class BootTest {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private DifyDatasetsClient difyDatasetsClient;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     void testMessageZhCN() {
-        BaseException aa = new SystemException();
-        String message = aa.getMessage();
-        System.out.println(message);
-
-        String msg = messageSource.getMessage(
-                "error.foundation.core.internal_error",
-                null,
-                Locale.CHINA
-        );
-        System.out.println(messageSource);
-        System.out.println(msg);
+        try {
+            PageDatasetsResponse dataset = difyDatasetsClient.pageDatasets("金山", null, null, null, null);
+            objectMapper.writeValue(System.out, dataset);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
