@@ -3,7 +3,7 @@ package ai.neuron.copilot.knowledge.foundation.core.exception;
 import lombok.Getter;
 
 @Getter
-public class BusinessException extends RuntimeException {
+public abstract class BusinessException extends RuntimeException {
 
     private final ErrorCode errorCode;
 

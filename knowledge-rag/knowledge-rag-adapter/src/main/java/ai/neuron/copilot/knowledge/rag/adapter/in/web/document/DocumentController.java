@@ -1,8 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 
 import ai.neuron.copilot.knowledge.common.io.InputStreamDTO;
-import ai.neuron.copilot.knowledge.foundation.core.exception.BusinessException;
-import ai.neuron.copilot.knowledge.foundation.core.exception.FoundationCoreErrorCode;
+import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
@@ -25,7 +24,7 @@ public class DocumentController {
 
     @GetMapping
     public void page() {
-        throw new BusinessException(FoundationCoreErrorCode.INTERNAL_ERROR, "ass");
+        throw new SystemException();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
