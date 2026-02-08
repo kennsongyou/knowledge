@@ -5,6 +5,7 @@ app:
   external:
     dify:
       domain: http://localhost:31000/v1
+      dataset-id: 02f16206-4b46-4071-abfc-cbef350c3a07
       dataset-api-key: dataset-D15DzkZ7i4JxpZdkEOu8ciTV
 
 spring:

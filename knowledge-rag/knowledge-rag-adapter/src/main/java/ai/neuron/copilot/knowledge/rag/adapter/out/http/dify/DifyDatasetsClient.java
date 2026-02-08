@@ -4,6 +4,7 @@ import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.dto.response.PageDa
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ public interface DifyDatasetsClient {
 
     @GetExchange("/datasets")
     PageDatasetsResponse pageDatasets(@RequestParam(name = "keyword", required = false) String keyword,
+                                      @RequestParam(name = "tag_ids", required = false) List<String> tagIds,
+                                      @RequestParam(name = "page", defaultValue = "1") Integer page,
+                                      @RequestParam(name = "limit", defaultValue = "20") Integer limit,
+                                      @RequestParam(name = "include_all", defaultValue = "false") Boolean includeAll
+    );
+
+    @PostExchange("/datasets")
+    PageDatasetsResponse createDataset(@RequestParam(name = "keyword", required = false) String keyword,
                                       @RequestParam(name = "tag_ids", required = false) List<String> tagIds,
                                       @RequestParam(name = "page", defaultValue = "1") Integer page,
                                       @RequestParam(name = "limit", defaultValue = "20") Integer limit,

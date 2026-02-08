@@ -4,6 +4,7 @@ import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.CreateKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.PageKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.shared.KnowledgeBaseDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.CreateKnowledgeBaseUseCase;
@@ -34,7 +35,8 @@ public class KnowledgeBaseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateKnowledgeBaseResponse create(@RequestBody CreateKnowledgeBaseCommand command) {
+    public CreateKnowledgeBaseResponse create(@RequestBody CreateKnowledgeBaseRequest request) {
+        CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(request.getName(), request.getDescription());
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
         return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());
     }
