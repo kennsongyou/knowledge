@@ -32,7 +32,7 @@ public class DocumentController {
                                                     @RequestPart(value = "payload", required = false) String payload)
             throws IOException {
         try (InputStream in = file.getInputStream()) {
-            InputStreamDTO inputStreamDTO = new InputStreamDTO(in, OptionalLong.of(file.getSize()));
+            InputStreamDTO inputStreamDTO = new InputStreamDTO(in, file.getContentType(), OptionalLong.of(file.getSize()));
             CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(payload, inputStreamDTO);
             DocumentId documentId = createDocumentUseCase.byFile(command);
             return new CreateKnowledgeBaseResponse(documentId.value());
