@@ -59,3 +59,8 @@ spring:
         nettyThreads: 32
         codec: !<org.redisson.codec.Kryo5Codec> {}
         transportMode: "NIO"
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
