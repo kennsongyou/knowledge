@@ -3,19 +3,18 @@ plugins {
 	`maven-publish`
 }
 
-description = "knowledge-foundation-core"
+description = "knowledge-foundation-blob"
 
 dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(libs.spring.context)
 	implementation(libs.spring.boot.starter.aop)
 	implementation(libs.spring.boot.starter.json)
-	implementation(libs.jasypt.spring.boot.starter)
 	implementation(libs.apache.commons.lang3)
+	implementation(libs.qcloud.cos.api)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }
-
 
 tasks.withType<Jar> {
 	archiveBaseName.set(project.name)

@@ -1,6 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.http.config;
 
-import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyDatasetIdProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Configuration
 @ConfigurationProperties(prefix = "app.external.dify")
-public class ExternalDifyConfig {
+public class DifyProperties {
 
     String domain;
 

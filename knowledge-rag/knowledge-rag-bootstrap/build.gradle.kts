@@ -12,6 +12,7 @@ description = "knowledge-rag-bootstrap"
 
 dependencies {
 	implementation(project(":knowledge-common"))
+	implementation(project(":knowledge-foundation:knowledge-foundation-blob"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-web"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-data"))
@@ -21,6 +22,8 @@ dependencies {
 	implementation(libs.spring.boot.starter)
 	implementation(libs.spring.boot.starter.web)
 	testImplementation(libs.spring.boot.starter.test)
+	testImplementation(libs.jasypt.spring.boot.starter)
+	testImplementation(libs.qcloud.cos.api)
 }
 
 tasks.withType<Test> {

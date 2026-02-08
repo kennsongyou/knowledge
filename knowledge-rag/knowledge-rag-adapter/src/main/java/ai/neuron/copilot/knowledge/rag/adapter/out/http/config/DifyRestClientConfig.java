@@ -16,7 +16,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 @Configuration
 public class DifyRestClientConfig {
 
-    private final ExternalDifyConfig externalDifyConfig;
+    private final DifyProperties difyProperties;
 
     private final RestClient.Builder restClientBuilder;
 
@@ -33,12 +33,12 @@ public class DifyRestClientConfig {
     public RestClient difyDatasetsRestClient(@Qualifier("snakeObjectMapper") ObjectMapper objectMapper) {
 
         ClientHttpRequestInterceptor requestInterceptor = (request, body, execution) -> {
-            request.getHeaders().setBearerAuth(externalDifyConfig.getDatasetApiKey());
+            request.getHeaders().setBearerAuth(difyProperties.getDatasetApiKey());
             return execution.execute(request, body);
         };
 
         return restClientBuilder
-                .baseUrl(externalDifyConfig.getDomain())
+                .baseUrl(difyProperties.getDomain())
                 .requestInterceptor(requestInterceptor)
                 .messageConverters(converters -> converters.stream()
                         .filter(c -> c instanceof MappingJackson2HttpMessageConverter)

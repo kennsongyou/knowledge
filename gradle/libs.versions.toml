@@ -8,6 +8,8 @@ redisson = "4.1.0"
 mapstruct = "1.6.3"
 lombok = "1.18.42"
 junit-jupiter = "5.11.3"
+qcloud-cos-api = "5.6.261"
+jasypt-spring-boot-starter = "3.0.5"
 
 [bundles]
 testing = ["junit-jupiter-api", "junit-jupiter-engine", "junit-platform-launcher"]
@@ -27,6 +29,7 @@ apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.re
 apache-http-client5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apache-http-client5" }
 fasterxml-uuid = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "fasterxml-uuid" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+jasypt-spring-boot-starter = { module = "com.github.ulisesbocchio:jasypt-spring-boot-starter", version.ref = "jasypt-spring-boot-starter" }
 mapstruct-core = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 redisson-spring-boot-starter = { module = "org.redisson:redisson-spring-boot-starter", version.ref = "redisson" }
@@ -36,6 +39,7 @@ postgresql = { module = "org.postgresql:postgresql" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+qcloud-cos-api = { module = "com.qcloud:cos_api", version.ref = "qcloud-cos-api" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

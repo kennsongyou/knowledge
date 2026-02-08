@@ -9,6 +9,7 @@ dependencyResolutionManagement {
 
 include(
     ":knowledge-common",
+    ":knowledge-foundation:knowledge-foundation-blob",
     ":knowledge-foundation:knowledge-foundation-core",
     ":knowledge-foundation:knowledge-foundation-web",
     ":knowledge-foundation:knowledge-foundation-webflux",

@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
 @Configuration
-public class DifyRuntimeConfig {
+public class DifyConfig {
 
-    private final ExternalDifyConfig externalDifyConfig;
+    private final DifyProperties difyProperties;
 
     @Bean
     public DifyDatasetIdProvider datasetIdProvider() {
-        return () -> DifyDatasetId.reconstitute(externalDifyConfig.getDatasetId());
+        return () -> DifyDatasetId.reconstitute(difyProperties.getDatasetId());
     }
 
 }

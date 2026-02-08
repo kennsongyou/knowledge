@@ -2,10 +2,23 @@ server:
   port: 30001
 
 app:
+  foundation:
+    qcloud:
+      credential:
+        app-id: 1307245285
+        secret-id: ENC(iiL2EXbREuOdpINJrm/NyVMznC0tjYYUGJahnYm46fBDCFcZikuGk505IZfasK/TQgx1pN12BskON6GS5suLpoMVp4LKC5av3rHnGkmMw38=)
+        secret-key: ENC(WHuXLAUj1WMS+XxSmatz9ox6x/p95v657QUswSTD9zzeY9ZZaGdX3c16Uto+oMcOqxoXQwHFtyc74mv7ciV6YsLe1nb+4JAQwoTYtrE62Dg=)
+        region: ap-hongkong
+      cos:
+        enabled: true
+        bucket: neuron-knowledge-1307245285
+        key-prefix: /neuron/rag
+        domain: ${app.foundation.qcloud.cos.bucket}-${app.foundation.qcloud.credential.app-id}.cos.ap-beijing.myqcloud.com
   external:
     dify:
       domain: http://localhost:31000/v1
-      dataset-api-key: dataset-D15DzkZ7i4JxpZdkEOu8ciTV
+      dataset-id: 02f16206-4b46-4071-abfc-cbef350c3a07
+      dataset-api-key: ENC(AylxvjY8LaWdzGO2NZVKeRSMElOi+0rTjHZJSz0YkerpwLYR2cJKcdc9yVSqv+NF8+GbMZbnCLWdHVKH2tXk9TO56GBw20XVb2T4FXWXWq8=)
 
 spring:
   http:
@@ -16,7 +29,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/knowledge_rag?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
-    password: a2882131
+    password: ENC(YOwP3p5QYgB075w5saF28p+/SQGjNlirju+QyCqN/WiPgO6SJOqI4AILkGopIMCl)
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 20
@@ -59,3 +72,17 @@ spring:
         nettyThreads: 32
         codec: !<org.redisson.codec.Kryo5Codec> {}
         transportMode: "NIO"
+
+logging:
+  level:
+    root: INFO
+    ai.neuron.copilot.knowledge: DEBUG
+    org.hibernate.SQL: DEBUG
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    key-obtention-iterations: 1000
+    pool-size: 4
+    string-output-type: base64
