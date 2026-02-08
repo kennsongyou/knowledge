@@ -17,8 +17,8 @@ public class JsonAutoConfig {
 
     @Bean
     @Primary
-    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
-        return builder.build();
+    public ObjectMapper objectMapper() {
+        return Jackson2ObjectMapperBuilder.json().build();
     }
 
     @Bean("snakeObjectMapper")

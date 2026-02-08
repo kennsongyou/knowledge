@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "app.external.dify")
-public class DifyConfig {
+public class ExternalDifyConfig {
 
     private String domain;
 

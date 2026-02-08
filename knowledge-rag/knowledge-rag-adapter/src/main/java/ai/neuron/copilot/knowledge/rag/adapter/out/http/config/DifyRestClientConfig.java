@@ -16,36 +16,36 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 @Configuration
 public class DifyRestClientConfig {
 
-    private final DifyConfig difyConfig;
+    private final ExternalDifyConfig externalDifyConfig;
+
+    private final RestClient.Builder restClientBuilder;
 
     @Bean
     public DifyDatasetsClient difyDatasetsClient(
-            @Qualifier("difyDatasetClient") RestClient difyRestClient) {
+            @Qualifier("difyDatasetsRestClient") RestClient difyDatasetsRestClient) {
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                        .builderFor(RestClientAdapter.create(difyRestClient))
+                        .builderFor(RestClientAdapter.create(difyDatasetsRestClient))
                         .build();
         return factory.createClient(DifyDatasetsClient.class);
     }
 
     @Bean
-    public RestClient difyDatasetClient(RestClient.Builder builder,
-                                        @Qualifier("snakeObjectMapper") ObjectMapper objectMapper) {
-        return builder
-                .baseUrl(difyConfig.getDomain())
-                .requestInterceptor(difyDatasetHeaderInterceptor())
-                .messageConverters(converters -> {
-                    converters.removeIf(c -> c instanceof MappingJackson2HttpMessageConverter);
-                    converters.addFirst(new MappingJackson2HttpMessageConverter(objectMapper));
-                })
-                .build();
-    }
+    public RestClient difyDatasetsRestClient(@Qualifier("snakeObjectMapper") ObjectMapper objectMapper) {
 
-    @Bean
-    public ClientHttpRequestInterceptor difyDatasetHeaderInterceptor() {
-        return (request, body, execution) -> {
-            request.getHeaders().setBearerAuth(difyConfig.getDatasetApiKey());
+        ClientHttpRequestInterceptor requestInterceptor = (request, body, execution) -> {
+            request.getHeaders().setBearerAuth(externalDifyConfig.getDatasetApiKey());
             return execution.execute(request, body);
         };
+
+        return restClientBuilder
+                .baseUrl(externalDifyConfig.getDomain())
+                .requestInterceptor(requestInterceptor)
+                .messageConverters(converters -> converters.stream()
+                        .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+                        .findFirst()
+                        .ifPresent(c -> ((MappingJackson2HttpMessageConverter) c)
+                                .setObjectMapper(objectMapper)))
+                .build();
     }
 
 }

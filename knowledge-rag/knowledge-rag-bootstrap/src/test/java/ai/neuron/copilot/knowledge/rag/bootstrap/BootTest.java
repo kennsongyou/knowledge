@@ -21,7 +21,6 @@ public class BootTest {
     private DifyDatasetsClient difyDatasetsClient;
 
     @Autowired
-    @Qualifier("snakeObjectMapper")
     private ObjectMapper objectMapper;
 
     @Test
