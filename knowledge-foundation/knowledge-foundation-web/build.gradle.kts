@@ -14,6 +14,7 @@ dependencies {
 	implementation(project(":knowledge-common"))
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
 	implementation(libs.spring.boot.starter.web)
+	implementation(libs.spring.boot.starter.validation)
 	implementation(libs.apache.commons.lang3)
 	testImplementation(libs.spring.boot.starter.test)
 	compileOnly(libs.lombok)

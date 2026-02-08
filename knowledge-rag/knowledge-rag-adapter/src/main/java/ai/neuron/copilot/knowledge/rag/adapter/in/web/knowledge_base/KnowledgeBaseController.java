@@ -16,6 +16,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.Page
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class KnowledgeBaseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateKnowledgeBaseResponse create(@RequestBody CreateKnowledgeBaseRequest request) {
+    public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateKnowledgeBaseRequest request) {
         CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(request.getName(), request.getDescription());
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
         return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());

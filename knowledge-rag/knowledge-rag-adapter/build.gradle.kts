@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":knowledge-rag:knowledge-rag-app"))
     implementation(project(":knowledge-rag:knowledge-rag-domain"))
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.apache.commons.lang3)
     implementation(libs.apache.http.client5)
