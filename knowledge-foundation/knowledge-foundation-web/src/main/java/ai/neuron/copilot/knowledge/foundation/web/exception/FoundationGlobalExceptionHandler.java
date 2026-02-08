@@ -1,14 +1,14 @@
 package ai.neuron.copilot.knowledge.foundation.web.exception;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.BaseException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ErrorCode;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,19 +23,26 @@ public class FoundationGlobalExceptionHandler {
 
     private final MessageSource messageSource;
 
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ProblemDetail> handleBusinessException(
-            BaseException ex) {
+    @ExceptionHandler(ResourceNotExistException.class)
+    public ProblemDetail handleResourceNotExist(ResourceNotExistException ex) {
         Locale locale = LocaleContextHolder.getLocale();
         String detail = messageSource.getMessage(ex.getErrorCode().messageKey(), ex.getMessageArgs(), locale);
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problem.setType(URI.create("urn:error:" + ex.getErrorCode().code()));
-        problem.setTitle("Business Error");
-        problem.setDetail(detail);
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                .body(problem);
+        return buildProblemDetail(ex.getErrorCode(), HttpStatus.NOT_FOUND, detail);
+    }
+
+    @ExceptionHandler(BaseException.class)
+    public ProblemDetail handleBase(BaseException ex) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String detail = messageSource.getMessage(ex.getErrorCode().messageKey(), ex.getMessageArgs(), locale);
+        return buildProblemDetail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR, detail);
+    }
+
+    private static ProblemDetail buildProblemDetail(ErrorCode errorCode, HttpStatus httpStatus, String detail) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
+        problemDetail.setType(URI.create("urn:error:" + errorCode.code()));
+        problemDetail.setTitle(errorCode.code());
+        problemDetail.setDetail(detail);
+        return problemDetail;
     }
 
 }

@@ -9,6 +9,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRep
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotExistException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -59,7 +60,7 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public void delete(KnowledgeBaseId knowledgeBaseId) {
         KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseId(knowledgeBaseId.value())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(ResourceNotExistException::new);
         knowledgeBasePO.setDeletedAt(Instant.now());
         jpaKnowledgeBaseRepository.save(knowledgeBasePO);
     }

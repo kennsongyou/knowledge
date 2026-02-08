@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum FoundationCoreErrorCode implements ErrorCode {
 
-    INVALID_ARGUMENT("foundation_invalid_argument", "error.foundation.core.invalid_argument"),
+    INVALID_ARGUMENT("invalid_argument", "error.foundation.core.invalid_argument"),
 
-    INTERNAL_ERROR("foundation_internal_error", "error.foundation.core.internal_error");
+    INTERNAL_ERROR("internal_error", "error.foundation.core.internal_error"),
+
+    RESOURCE_NOT_EXIST("resource_not_exist", "error.foundation.core.resource_not_exist");
 
     private final String code;
 

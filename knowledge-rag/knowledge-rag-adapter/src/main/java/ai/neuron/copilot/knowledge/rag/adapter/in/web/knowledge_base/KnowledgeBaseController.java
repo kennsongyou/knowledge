@@ -57,9 +57,9 @@ public class KnowledgeBaseController {
         );
     }
 
-    @DeleteMapping("/{knowledgeBaseId}")
+    @DeleteMapping("/{knowledge_base_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("knowledgeBaseId") String knowledgeBaseId) {
+    public void delete(@PathVariable("knowledge_base_id") String knowledgeBaseId) {
         deleteKnowledgeBaseUseCase.execute(new DeleteKnowledgeBaseCommand(knowledgeBaseId));
     }
 
