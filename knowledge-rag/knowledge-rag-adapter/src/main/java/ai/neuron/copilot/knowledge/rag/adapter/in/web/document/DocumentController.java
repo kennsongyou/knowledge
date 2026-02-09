@@ -78,7 +78,8 @@ public class DocumentController {
         return new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
-                document.getExtension()
+                document.getExtension(),
+                document.getUrl()
         );
     }
 
@@ -93,7 +94,8 @@ public class DocumentController {
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
-                document.getExtension()
+                document.getExtension(),
+                document.getUrl()
         )).toList();
         return new PageResult<>(records, pageResult.total(), pageResult.pageNo(), pageResult.pageSize());
     }

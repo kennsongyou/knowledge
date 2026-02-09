@@ -3,6 +3,7 @@ package ai.neuron.copilot.knowledge.rag.domain.document.model;
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +26,9 @@ public final class Document {
     final String blobProvider;
 
     final TenantId tenantId;
+
+    @Setter(AccessLevel.PUBLIC)
+    String url;
 
     private Document(DocumentId id, String originalFileName, String displayName, String extension, String objectKey,
                      String blobProvider, TenantId tenantId) {

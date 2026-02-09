@@ -5,7 +5,10 @@ import ai.neuron.copilot.knowledge.foundation.blob.BlobProvider;
 import ai.neuron.copilot.knowledge.foundation.blob.qcloud.cos.QcloudCosProperties;
 import ai.neuron.copilot.knowledge.rag.app.port.out.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObject;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObjectKey;
 import com.qcloud.cos.COSClient;
+import com.qcloud.cos.http.HttpMethodName;
+import com.qcloud.cos.model.GeneratePresignedUrlRequest;
 import com.qcloud.cos.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -38,8 +41,13 @@ public class QcloudClient implements ObjectStorageClient {
     }
 
     @Override
-    public URL url(BlobObject blobObject) {
-        return cosClient.getObjectUrl(qcloudCosProperties.getBucket(), blobObject.blobObjectKey().value());
+    public URL url(BlobObjectKey blobObjectKey) {
+        GeneratePresignedUrlRequest request =
+                new GeneratePresignedUrlRequest(qcloudCosProperties.getBucket(), blobObjectKey.value());
+        request.setMethod(HttpMethodName.GET);
+        Date expiration = new Date(System.currentTimeMillis() + 60 * 1000);
+        request.setExpiration(expiration);
+        return cosClient.generatePresignedUrl(request);
     }
 
     @Override
