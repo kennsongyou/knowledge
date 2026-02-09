@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.blob;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
+import ai.neuron.copilot.knowledge.foundation.blob.BlobProvider;
 import ai.neuron.copilot.knowledge.foundation.blob.qcloud.cos.QcloudCosProperties;
 import ai.neuron.copilot.knowledge.rag.app.port.out.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.BlobObject;
@@ -44,6 +45,11 @@ public class QcloudClient implements ObjectStorageClient {
     @Override
     public String keyPrefix() {
         return qcloudCosProperties.getKeyPrefix();
+    }
+
+    @Override
+    public String blobProvider() {
+        return BlobProvider.QCLOUD.getType();
     }
 
 }

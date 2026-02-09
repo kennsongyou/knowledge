@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
 
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -23,14 +24,17 @@ public final class Document {
 
     final String blobProvider;
 
+    final TenantId tenantId;
+
     private Document(DocumentId id, String originalFileName, String displayName, String extension, String objectKey,
-                     String blobProvider) {
+                     String blobProvider, TenantId tenantId) {
         this.id = Objects.requireNonNull(id);
         this.originalFileName = requireValidName(originalFileName);
         this.displayName = requireValidName(displayName);
         this.extension = extension;
         this.objectKey = objectKey;
         this.blobProvider = blobProvider;
+        this.tenantId = tenantId;
     }
 
     public void rename(String displayName) {
@@ -38,12 +42,13 @@ public final class Document {
     }
 
     public static Document reconstitute(DocumentId id, String originalFileName, String displayName, String extension,
-                                        String objectKey, String blobProvider) {
-        return new Document(id, originalFileName, displayName, extension, objectKey, blobProvider);
+                                        String objectKey, String blobProvider, TenantId tenantId) {
+        return new Document(id, originalFileName, displayName, extension, objectKey, blobProvider, tenantId);
     }
 
-    public static Document create(DocumentId id, String originalFileName, String extension, String objectKey, String blobProvider) {
-        return new Document(id, originalFileName, originalFileName, extension, objectKey, blobProvider);
+    public static Document create(DocumentId id, String originalFileName, String extension, String objectKey,
+                                  String blobProvider, TenantId tenantId) {
+        return new Document(id, originalFileName, originalFileName, extension, objectKey, blobProvider, tenantId);
     }
 
     private static String requireValidName(String name) {

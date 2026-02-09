@@ -1,8 +1,9 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
-import ai.neuron.copilot.knowledge.common.io.InputStreamDTO;
-import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
+import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
+import ai.neuron.copilot.knowledge.foundation.core.context.TenantContext;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.foundation.web.file.FileUploadAdapter;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
@@ -34,7 +35,12 @@ public class DocumentController {
             throws IOException {
         FileUploadDTO fileUploadDTO = FileUploadAdapter.from(file);
         try (InputStream inputStream = file.getInputStream()) {
-            CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(inputStream, fileUploadDTO, payload);
+            CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(
+                    inputStream,
+                    fileUploadDTO,
+                    payload,
+                    TenantId.reconstitute(ContextHolder.tenant().id())
+            );
             DocumentId documentId = createDocumentUseCase.byFile(command);
             return new CreateKnowledgeBaseResponse(documentId.value());
         }

@@ -8,9 +8,9 @@ import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DocumentId;
 
 public interface DocumentRepository {
 
-    void create(Document document);
+    void save(Document document);
 
-    PageResult<Document> pageByKeyword(TenantId tenantId, String keyword, PageQuery pageQuery);
+    PageResult<Document> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId);
 
     void delete(DocumentId documentId);
 
