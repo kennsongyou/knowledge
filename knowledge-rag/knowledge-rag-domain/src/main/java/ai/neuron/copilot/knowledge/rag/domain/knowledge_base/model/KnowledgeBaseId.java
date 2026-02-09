@@ -25,4 +25,12 @@ public record KnowledgeBaseId(String value) {
         return value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KnowledgeBaseId that = (KnowledgeBaseId) o;
+        return Objects.equals(value, that.value);
+    }
+
 }

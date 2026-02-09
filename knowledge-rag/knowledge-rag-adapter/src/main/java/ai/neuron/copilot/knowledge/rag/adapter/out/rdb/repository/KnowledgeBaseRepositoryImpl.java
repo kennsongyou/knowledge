@@ -8,7 +8,7 @@ import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.repository.JpaKnowled
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper.KnowledgeBaseMapper;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
-import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotExistException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -28,13 +29,20 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public KnowledgeBase get(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
         KnowledgeBasePO po = jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
-                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotExistException::new);
+                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
         return KnowledgeBaseMapper.toDomain(po);
     }
 
     @Override
     public void save(KnowledgeBase knowledgeBase) {
         jpaKnowledgeBaseRepository.save(KnowledgeBaseMapper.toPO(knowledgeBase));
+    }
+
+    @Override
+    public Optional<KnowledgeBase> getByName(KnowledgeBaseName name, TenantId tenantId) {
+        return jpaKnowledgeBaseRepository
+                .findByNameAndTenantId(name.value(), tenantId.value())
+                .map(KnowledgeBaseMapper::toDomain);
     }
 
     @Override
@@ -55,7 +63,7 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public void delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
         KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
-                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotExistException::new);
+                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
         knowledgeBasePO.setDeletedAt(Instant.now());
         jpaKnowledgeBaseRepository.save(knowledgeBasePO);
     }

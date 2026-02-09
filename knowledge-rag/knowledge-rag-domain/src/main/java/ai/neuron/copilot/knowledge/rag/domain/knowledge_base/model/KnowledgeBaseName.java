@@ -8,7 +8,7 @@ public record KnowledgeBaseName(String value) {
 
     public KnowledgeBaseName {
         Objects.requireNonNull(value, "Knowledge base name cannot be null");
-        if (value.trim().isEmpty()) {
+        if (StringUtils.isEmpty(value)) {
             throw new IllegalArgumentException("Knowledge base name cannot be empty");
         }
         if (StringUtils.length(value) > 32) {
@@ -17,11 +17,11 @@ public record KnowledgeBaseName(String value) {
     }
 
     public static KnowledgeBaseName reconstitute(String value) {
-        return new KnowledgeBaseName(value);
+        return new KnowledgeBaseName(StringUtils.trim(value));
     }
 
     public static KnowledgeBaseName create(String value) {
-        return new KnowledgeBaseName(value);
+        return new KnowledgeBaseName(StringUtils.trim(value));
     }
 
     @Override

@@ -12,8 +12,4 @@ import lombok.experimental.FieldDefaults;
 @MappedSuperclass
 public abstract class BasePO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
 }

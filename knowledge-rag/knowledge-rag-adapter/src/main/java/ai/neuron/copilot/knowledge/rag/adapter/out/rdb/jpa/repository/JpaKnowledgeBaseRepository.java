@@ -15,6 +15,8 @@ public interface JpaKnowledgeBaseRepository extends BaseRepository<KnowledgeBase
 
 	Optional<KnowledgeBasePO> findByKnowledgeBaseIdAndTenantId(String knowledgeBaseId, Long tenantId);
 
+	Optional<KnowledgeBasePO> findByNameAndTenantId(String name, Long tenantId);
+
 	Page<KnowledgeBasePO> findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(Pageable pageable,
 																						Long tenantId, String name);
 	Page<KnowledgeBasePO> findByTenantIdOrderByCreatedAtDesc(Pageable pageable, Long tenantId);

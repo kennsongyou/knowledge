@@ -1,10 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po;
 
 import ai.neuron.copilot.knowledge.foundation.data.rdb.AuditingPO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +18,8 @@ import org.hibernate.annotations.SQLRestriction;
 })
 public final class DocumentPO extends AuditingPO {
 
-	@Column(name = "document_id", nullable = false)
+	@Id
+	@Column(name = "document_id", nullable = false, unique = true, updatable = false)
 	String documentId;
 
 	@Column(name = "original_file_name", nullable = false)

@@ -9,7 +9,9 @@ public enum FoundationCoreErrorCode implements ErrorCode {
 
     INTERNAL_ERROR("internal_error", "error.foundation.core.internal_error"),
 
-    RESOURCE_NOT_EXIST("resource_not_exist", "error.foundation.core.resource_not_exist");
+    RESOURCE_NOT_FOUND("resource_not_found", "error.foundation.core.resource_not_found"),
+
+    RESOURCE_ALREADY_EXIST("resource_already_exist", "error.foundation.core.resource_already_exist");
 
     private final String code;
 
