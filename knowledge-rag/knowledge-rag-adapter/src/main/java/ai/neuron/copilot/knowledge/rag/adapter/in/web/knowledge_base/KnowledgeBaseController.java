@@ -81,12 +81,7 @@ public class KnowledgeBaseController {
                 kb.getName().value(),
                 kb.getDescription().value()
         )).toList();
-        return new PageResult<>(
-                records,
-                pageResult.total(),
-                pageResult.pageNo(),
-                pageResult.pageSize()
-        );
+        return new PageResult<>(records, pageResult.total(), pageResult.pageNo(), pageResult.pageSize());
     }
 
     @PatchMapping("/{knowledge_base_id}")

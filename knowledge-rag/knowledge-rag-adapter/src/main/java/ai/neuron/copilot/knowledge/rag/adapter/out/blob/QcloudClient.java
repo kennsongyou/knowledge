@@ -4,7 +4,7 @@ import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobProvider;
 import ai.neuron.copilot.knowledge.foundation.blob.qcloud.cos.QcloudCosProperties;
 import ai.neuron.copilot.knowledge.rag.app.port.out.blob.ObjectStorageClient;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.BlobObject;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObject;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;

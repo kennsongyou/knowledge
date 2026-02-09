@@ -5,10 +5,10 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCas
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.BlobObject;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.BlobObjectKey;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.Document;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DocumentId;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObject;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObjectKey;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

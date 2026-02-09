@@ -1,15 +1,15 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.DocumentPO;
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBasePO;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.repository.JpaDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper.DocumentMapper;
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper.KnowledgeBaseMapper;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,6 +29,13 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Override
     public void save(Document document) {
         jpaDocumentRepository.save(DocumentMapper.toPO(document));
+    }
+
+    @Override
+    public Document get(DocumentId documentId, TenantId tenantId) {
+        DocumentPO po = jpaDocumentRepository.findByDocumentIdAndTenantId(
+                documentId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
+        return DocumentMapper.toDomain(po);
     }
 
     @Override
@@ -46,47 +54,11 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public void delete(DocumentId documentId) {
-
+    public void delete(DocumentId documentId, TenantId tenantId) {
+        DocumentPO po = jpaDocumentRepository.findByDocumentIdAndTenantId(documentId.value(), tenantId.value())
+                .orElseThrow(ResourceNotFoundException::new);
+        po.setDeletedAt(Instant.now());
+        jpaDocumentRepository.save(po);
     }
-
-//    @Override
-//    public void create(KnowledgeBase knowledgeBase) {
-//        KnowledgeBasePO po = new KnowledgeBasePO();
-//        po.setKnowledgeBaseId(knowledgeBase.getId().value());
-//        po.setName(knowledgeBase.getName());
-//        po.setDescription(knowledgeBase.getDescription());
-//        po.setDifyDatasetId(knowledgeBase.getDifyDatasetId().value());
-//        jpaKnowledgeBaseRepository.save(po);
-//    }
-//
-//    @Override
-//    public PageResult<KnowledgeBase> pageByKeyword(TenantId tenantId, String keyword, PageQuery pageQuery) {
-//        Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
-//
-//        Page<KnowledgeBasePO> poPage;
-//        if (StringUtils.isBlank(keyword)) {
-//            poPage = jpaKnowledgeBaseRepository.findByTenantIdOrderByCreatedAtDesc(pageable, tenantId.value());
-//        } else {
-//            poPage = jpaKnowledgeBaseRepository
-//                    .findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, tenantId.value(), keyword);
-//        }
-//        List<KnowledgeBase> domainPage = poPage.getContent().stream()
-//                .map(e -> KnowledgeBase.reconstitute(
-//                        KnowledgeBaseId.reconstitute(e.getKnowledgeBaseId()),
-//                        e.getName(),
-//                        e.getDescription(),
-//                        DifyDatasetId.reconstitute(e.getDifyDatasetId()))
-//                ).toList();
-//        return new PageResult<>(domainPage, poPage.getTotalElements(), pageQuery.getPageNo(), pageQuery.getPageSize());
-//    }
-//
-//    @Override
-//    public void delete(KnowledgeBaseId id) {
-//        KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseId(id.value())
-//                .orElseThrow(ResourceNotExistException::new);
-//        knowledgeBasePO.setDeletedAt(Instant.now());
-//        jpaKnowledgeBaseRepository.save(knowledgeBasePO);
-//    }
 
 }

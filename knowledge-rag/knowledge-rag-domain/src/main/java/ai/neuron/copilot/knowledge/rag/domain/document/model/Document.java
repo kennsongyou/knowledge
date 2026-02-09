@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
+package ai.neuron.copilot.knowledge.rag.domain.document.model;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import lombok.AccessLevel;

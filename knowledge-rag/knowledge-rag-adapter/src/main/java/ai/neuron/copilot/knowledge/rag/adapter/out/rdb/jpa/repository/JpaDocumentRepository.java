@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface JpaDocumentRepository extends BaseRepository<DocumentPO, Long>,
 		JpaSpecificationExecutor<DocumentPO> {
 
-	Optional<DocumentPO> findByDocumentId(String documentId);
+	Optional<DocumentPO> findByDocumentIdAndTenantId(String documentId, Long tenantId);
 
 	Page<DocumentPO> findByTenantIdAndDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(Pageable pageable,
 																						Long tenantId, String name);

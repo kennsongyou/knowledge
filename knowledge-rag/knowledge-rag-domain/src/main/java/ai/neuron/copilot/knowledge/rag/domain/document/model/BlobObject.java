@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
+package ai.neuron.copilot.knowledge.rag.domain.document.model;
 
 import java.time.Instant;
 import java.util.Objects;

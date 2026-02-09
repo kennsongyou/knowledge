@@ -2,8 +2,8 @@ package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.DocumentPO;
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBasePO;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 
 public final class DocumentMapper {
 

@@ -1,8 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.app.port.out.blob;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
-import ai.neuron.copilot.knowledge.common.io.InputStreamDTO;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.BlobObject;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObject;
 
 import java.io.InputStream;
 import java.net.URL;
