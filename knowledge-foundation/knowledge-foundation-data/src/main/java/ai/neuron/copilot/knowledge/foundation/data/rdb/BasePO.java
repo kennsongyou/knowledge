@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
-@EntityListeners(TenantFillListener.class)
 public abstract class BasePO {
 
     @Id

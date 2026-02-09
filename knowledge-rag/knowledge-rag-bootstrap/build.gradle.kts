@@ -21,8 +21,8 @@ dependencies {
 	implementation(project(":knowledge-rag:knowledge-rag-domain"))
 	implementation(libs.spring.boot.starter)
 	implementation(libs.spring.boot.starter.web)
-	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.jasypt.spring.boot.starter)
+	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.qcloud.cos.api)
 }
 

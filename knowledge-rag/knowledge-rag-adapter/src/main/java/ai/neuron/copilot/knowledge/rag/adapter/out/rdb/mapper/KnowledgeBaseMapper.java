@@ -2,10 +2,7 @@ package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBasePO;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseName;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
 
 public final class KnowledgeBaseMapper {
 
@@ -13,7 +10,7 @@ public final class KnowledgeBaseMapper {
         return KnowledgeBase.reconstitute(
                 KnowledgeBaseId.reconstitute(po.getKnowledgeBaseId()),
                 KnowledgeBaseName.reconstitute(po.getName()),
-                po.getDescription(),
+                KnowledgeBaseDescription.reconstitute(po.getDescription()),
                 DifyDatasetId.reconstitute(po.getDifyDatasetId()),
                 TenantId.reconstitute(po.getTenantId()));
     }
@@ -22,7 +19,7 @@ public final class KnowledgeBaseMapper {
         KnowledgeBasePO po = new KnowledgeBasePO();
         po.setKnowledgeBaseId(knowledgeBase.getId().value());
         po.setName(knowledgeBase.getName().value());
-        po.setDescription(knowledgeBase.getDescription());
+        po.setDescription(knowledgeBase.getDescription().value());
         po.setDifyDatasetId(knowledgeBase.getDifyDatasetId().value());
         po.setTenantId(knowledgeBase.getTenantId().value());
         return po;

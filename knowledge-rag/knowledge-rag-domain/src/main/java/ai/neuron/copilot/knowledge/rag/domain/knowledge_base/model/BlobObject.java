@@ -1,14 +1,8 @@
 package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.experimental.FieldDefaults;
-
 import java.time.Instant;
 import java.util.Objects;
 
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public record BlobObject(BlobObjectKey blobObjectKey, Instant expiration) {
 
     public BlobObject {

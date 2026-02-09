@@ -15,7 +15,7 @@ public interface JpaDocumentRepository extends BaseRepository<DocumentPO, Long>,
 
 	Optional<DocumentPO> findByDocumentId(String documentId);
 
-	Page<DocumentPO> findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(Pageable pageable,
+	Page<DocumentPO> findByTenantIdAndDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(Pageable pageable,
 																						Long tenantId, String name);
 	Page<DocumentPO> findByTenantIdOrderByCreatedAtDesc(Pageable pageable, Long tenantId);
 

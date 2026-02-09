@@ -1,14 +1,10 @@
 package ai.neuron.copilot.knowledge.rag.bootstrap;
 
-import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.DifyDatasetsClient;
-import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.dto.response.PageDatasetsResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.MessageSource;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -17,14 +13,14 @@ public class BootTest {
     @Value("${jasypt.encryptor.password}")
     private String password;
 
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private DifyDatasetsClient difyDatasetsClient;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private MessageSource messageSource;
+//
+//    @Autowired
+//    private DifyDatasetsClient difyDatasetsClient;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
     @Test
     void testMessageZhCN() {
