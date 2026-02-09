@@ -8,10 +8,12 @@ import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase
 
 public interface KnowledgeBaseRepository {
 
-    void create(KnowledgeBase knowledgeBase);
+    KnowledgeBase get(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
 
-    PageResult<KnowledgeBase> pageByKeyword(TenantId tenantId, String keyword, PageQuery pageQuery);
+    void save(KnowledgeBase knowledgeBase);
 
-    void delete(KnowledgeBaseId knowledgeBaseId);
+    PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId);
+
+    void delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
 
 }

@@ -64,12 +64,12 @@ public class ContextFilter extends OncePerRequestFilter {
 	private RequestContext buildRequestContext(HttpServletRequest request) {
 		String requestId = request.getHeader(HeaderConstants.REQUEST_ID_HEADER);
 		if (StringUtils.isBlank(requestId)) {
-			requestId = IdUtils.uuidStr();
+			requestId = IdUtils.uuidV7Str();
 		}
 
 		String traceId = request.getHeader(HeaderConstants.TRACE_ID_HEADER);
 		if (StringUtils.isBlank(traceId)) {
-			traceId = IdUtils.uuidStr();
+			traceId = IdUtils.uuidV7Str();
 		}
 
 		String clientIp = getClientIp(request);

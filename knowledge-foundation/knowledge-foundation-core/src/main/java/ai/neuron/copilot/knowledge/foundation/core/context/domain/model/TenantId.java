@@ -6,4 +6,8 @@ public record TenantId(Long value) {
     public TenantId {
         Objects.requireNonNull(value, "TenantId cannot be null");
     }
+
+    public static TenantId reconstitute(Long value) {
+        return new TenantId(value);
+    }
 }

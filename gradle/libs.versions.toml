@@ -2,6 +2,7 @@
 spring-boot = "3.5.9"
 spring-dependency-management = "1.1.7"
 apache-commons-lang3 = "3.20.0"
+apache-commons-io = "2.21.0"
 apache-http-client5 = "5.6"
 fasterxml-uuid = "5.2.0"
 redisson = "4.1.0"
@@ -26,6 +27,7 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-context = { module = "org.springframework:spring-context" }
 spring-tx = { module = "org.springframework:spring-tx" }
 apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang3" }
+apache-commons-io = { module = "commons-io:commons-io", version.ref = "apache-commons-io" }
 apache-http-client5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apache-http-client5" }
 fasterxml-uuid = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "fasterxml-uuid" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }

@@ -58,12 +58,12 @@ public class ContextWebFilter implements WebFilter {
     private RequestContext buildRequestContext(ServerWebExchange exchange) {
         String requestId = exchange.getRequest().getHeaders().getFirst(HeaderConstants.REQUEST_ID_HEADER);
         if (StringUtils.isBlank(requestId)) {
-            requestId = IdUtils.uuidStr();
+            requestId = IdUtils.uuidV7Str();
         }
 
         String traceId = exchange.getRequest().getHeaders().getFirst(HeaderConstants.TRACE_ID_HEADER);
         if (StringUtils.isBlank(traceId)) {
-            traceId = IdUtils.uuidStr();
+            traceId = IdUtils.uuidV7Str();
         }
 
         String clientIp = getClientIp(exchange);

@@ -17,7 +17,7 @@ public record KnowledgeBaseId(String value) {
     }
 
     public static KnowledgeBaseId create() {
-        return new KnowledgeBaseId(IdUtils.uuidStr());
+        return new KnowledgeBaseId(IdUtils.uuidV7Str());
     }
 
     @Override

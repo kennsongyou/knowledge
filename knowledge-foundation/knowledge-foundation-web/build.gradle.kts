@@ -16,6 +16,7 @@ dependencies {
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.boot.starter.validation)
 	implementation(libs.apache.commons.lang3)
+	implementation(libs.apache.commons.io)
 	testImplementation(libs.spring.boot.starter.test)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)

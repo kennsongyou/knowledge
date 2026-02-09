@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface JpaKnowledgeBaseRepository extends BaseRepository<KnowledgeBasePO, Long>,
 		JpaSpecificationExecutor<KnowledgeBasePO> {
 
-	Optional<KnowledgeBasePO> findByKnowledgeBaseId(String knowledgeBaseId);
+	Optional<KnowledgeBasePO> findByKnowledgeBaseIdAndTenantId(String knowledgeBaseId, Long tenantId);
 
 	Page<KnowledgeBasePO> findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(Pageable pageable,
 																						Long tenantId, String name);

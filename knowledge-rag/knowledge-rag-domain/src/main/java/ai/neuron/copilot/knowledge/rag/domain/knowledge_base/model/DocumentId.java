@@ -18,7 +18,7 @@ public record DocumentId(String value) {
     }
 
     public static DocumentId create() {
-        return new DocumentId(IdUtils.uuidStr());
+        return new DocumentId(IdUtils.uuidV7Str());
     }
 
     @Override

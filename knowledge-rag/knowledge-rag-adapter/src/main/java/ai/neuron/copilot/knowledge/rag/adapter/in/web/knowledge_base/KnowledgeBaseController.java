@@ -6,16 +6,19 @@ import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.CreateKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.PageKnowledgeBaseRequest;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.UpdateKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.shared.KnowledgeBaseDTO;
-import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.CreateKnowledgeBaseUseCase;
-import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
-import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.PageKnowledgeBaseUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.*;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.CreateKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.UpdateKnowledgeBaseCommand;
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.GetKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.PageKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseDescription;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseName;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,27 +33,53 @@ public class KnowledgeBaseController {
 
     private final CreateKnowledgeBaseUseCase createKnowledgeBaseUseCase;
 
+    private final GetKnowledgeBaseUseCase getKnowledgeBaseUseCase;
+
     private final PageKnowledgeBaseUseCase pageKnowledgeBaseUseCase;
 
     private final DeleteKnowledgeBaseUseCase deleteKnowledgeBaseUseCase;
 
+    private final UpdateKnowledgeBaseUseCase updateKnowledgeBaseUseCase;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateKnowledgeBaseRequest request) {
-        CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(request.getName(), request.getDescription());
+        CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(
+                KnowledgeBaseName.create(request.getName()),
+                KnowledgeBaseDescription.create(request.getDescription()),
+                TenantId.reconstitute(ContextHolder.tenant().id())
+        );
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
         return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());
     }
 
+    @GetMapping("/{knowledge_base_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public KnowledgeBaseDTO get(@PathVariable("knowledge_base_id") String knowledgeBaseId) {
+        GetKnowledgeBaseQuery query = new GetKnowledgeBaseQuery(
+                KnowledgeBaseId.reconstitute(knowledgeBaseId),
+                TenantId.reconstitute(ContextHolder.tenant().id())
+        );
+        KnowledgeBase kb = getKnowledgeBaseUseCase.execute(query);
+        return new KnowledgeBaseDTO(
+                kb.getId().value(),
+                kb.getName().value(),
+                kb.getDescription().value()
+        );
+    }
+
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public PageResult<KnowledgeBaseDTO> page(@ModelAttribute PageKnowledgeBaseRequest request) {
-        PageKnowledgeBaseQuery query = new PageKnowledgeBaseQuery(new TenantId(ContextHolder.tenant().id()),
-                request.getKeyword(), new PageQuery(request.getPageNo(), request.getPageSize()));
+        PageKnowledgeBaseQuery query = new PageKnowledgeBaseQuery(request.getKeyword(),
+                new PageQuery(request.getPageNo(), request.getPageSize()),
+                TenantId.reconstitute(ContextHolder.tenant().id())
+        );
         PageResult<KnowledgeBase> pageResult = pageKnowledgeBaseUseCase.execute(query);
         List<KnowledgeBaseDTO> records = pageResult.records().stream().map(kb -> new KnowledgeBaseDTO(
                 kb.getId().value(),
-                kb.getName(),
-                kb.getDescription()
+                kb.getName().value(),
+                kb.getDescription().value()
         )).toList();
         return new PageResult<>(
                 records,
@@ -60,10 +89,26 @@ public class KnowledgeBaseController {
         );
     }
 
+    @PatchMapping("/{knowledge_base_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable("knowledge_base_id") String knowledgeBaseId,
+                       @RequestBody @Valid UpdateKnowledgeBaseRequest request) {
+        KnowledgeBaseId knowledgeBaseIdVO = KnowledgeBaseId.reconstitute(knowledgeBaseId);
+        UpdateKnowledgeBaseCommand command = new UpdateKnowledgeBaseCommand(
+                knowledgeBaseIdVO,
+                KnowledgeBaseName.create(request.getName()),
+                KnowledgeBaseDescription.create(request.getDescription()),
+                TenantId.reconstitute(ContextHolder.tenant().id()));
+        updateKnowledgeBaseUseCase.execute(command);
+    }
+
     @DeleteMapping("/{knowledge_base_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("knowledge_base_id") String knowledgeBaseId) {
-        deleteKnowledgeBaseUseCase.execute(new DeleteKnowledgeBaseCommand(knowledgeBaseId));
+        deleteKnowledgeBaseUseCase.execute(new DeleteKnowledgeBaseCommand(
+                KnowledgeBaseId.reconstitute(knowledgeBaseId),
+                TenantId.reconstitute(ContextHolder.tenant().id()))
+        );
     }
 
 }

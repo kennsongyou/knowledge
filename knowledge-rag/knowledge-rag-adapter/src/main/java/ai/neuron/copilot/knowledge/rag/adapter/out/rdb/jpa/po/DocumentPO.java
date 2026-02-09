@@ -16,22 +16,28 @@ import org.hibernate.annotations.SQLRestriction;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @SQLRestriction("deleted_at IS NULL")
-@Table(name = "knowledge_base", uniqueConstraints = {
-		@UniqueConstraint(name = "knowledge_base_id_UNIQUE", columnNames = "knowledge_base_id")
+@Table(name = "document", uniqueConstraints = {
+		@UniqueConstraint(name = "document_id_UNIQUE", columnNames = "document_id")
 })
-public final class KnowledgeBasePO extends AuditingPO {
+public final class DocumentPO extends AuditingPO {
 
-	@Column(name = "knowledge_base_id", nullable = false)
-	String knowledgeBaseId;
+	@Column(name = "document_id", nullable = false)
+	String documentId;
 
-	@Column(name = "name", nullable = false)
-	String name;
+	@Column(name = "original_file_name", nullable = false)
+	String originalFileName;
 
-	@Column(name = "description", columnDefinition = "text")
-	String description;
+	@Column(name = "display_name", nullable = false)
+	String displayName;
 
-	@Column(name = "dify_dataset_id", nullable = false)
-	String difyDatasetId;
+	@Column(name = "extension")
+	String extension;
+
+	@Column(name = "object_key", nullable = false)
+	String objectKey;
+
+	@Column(name = "blob_provider", nullable = false)
+	String blobProvider;
 
 	@Column(name = "tenant_id", nullable = false)
 	Long tenantId;

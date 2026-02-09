@@ -6,14 +6,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@Component
-public class TenantFillListener {
-
-    @PrePersist
-    public void prePersist(Object entity) {
-        if (entity instanceof TenantAware tenantAware) {
-            tenantAware.setTenantId(Objects.requireNonNull(ContextHolder.tenant()).id());
-        }
-    }
-
-}
+//@Component
+//public class TenantFillListener {
+//
+//    @PrePersist
+//    public void prePersist(Object entity) {
+//        if (entity instanceof TenantAware tenantAware) {
+//            tenantAware.setTenantId(Objects.requireNonNull(ContextHolder.tenant()).id());
+//        }
+//    }
+//
+//}

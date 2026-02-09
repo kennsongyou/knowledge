@@ -16,6 +16,6 @@ public class PageKnowledgeBaseService implements PageKnowledgeBaseUseCase {
 
     @Override
     public PageResult<KnowledgeBase> execute(PageKnowledgeBaseQuery query) {
-        return knowledgeBaseRepository.pageByKeyword(query.tenantId(), query.keyword(), query.pageQuery());
+        return knowledgeBaseRepository.pageByKeyword(query.keyword(), query.pageQuery(), query.tenantId());
     }
 }

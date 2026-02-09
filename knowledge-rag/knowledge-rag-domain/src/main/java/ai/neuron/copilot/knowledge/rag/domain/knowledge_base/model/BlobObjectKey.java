@@ -13,12 +13,12 @@ public record BlobObjectKey(String value) {
         }
     }
 
-    public static BlobObjectKey reconstitute(String prefix, String key) {
-        return new BlobObjectKey(prefix + "/" + key);
+    public static BlobObjectKey reconstitute(String key) {
+        return new BlobObjectKey(key);
     }
 
     public static BlobObjectKey create(String prefix, String ext) {
-        return new BlobObjectKey(prefix + "/" + IdUtils.uuid() + "." + ext);
+        return new BlobObjectKey(prefix + "/" + IdUtils.uuidV4Str() + "." + ext);
     }
 
     @Override

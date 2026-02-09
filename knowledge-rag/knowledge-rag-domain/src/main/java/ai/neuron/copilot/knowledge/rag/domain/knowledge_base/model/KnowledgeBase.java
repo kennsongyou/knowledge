@@ -1,9 +1,9 @@
 package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
 
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -13,51 +13,40 @@ public final class KnowledgeBase {
 
     final KnowledgeBaseId id;
 
-    String name;
+    KnowledgeBaseName name;
 
-    String description;
+    KnowledgeBaseDescription description;
 
     final DifyDatasetId difyDatasetId;
 
-    private KnowledgeBase(KnowledgeBaseId id, String name, String description, DifyDatasetId difyDatasetId) {
+    final TenantId tenantId;
+
+    private KnowledgeBase(KnowledgeBaseId id, KnowledgeBaseName name, KnowledgeBaseDescription description,
+                          DifyDatasetId difyDatasetId, TenantId tenantId) {
         this.id = Objects.requireNonNull(id);
-        this.name = requireValidName(name);
-        this.description = requireValidDescription(description);
+        this.name = name;
+        this.description = description;
         this.difyDatasetId = Objects.requireNonNull(difyDatasetId);
+        this.tenantId = Objects.requireNonNull(tenantId);
     }
 
-    public void rename(String name) {
-        this.name = requireValidName(name);
+    public void rename(KnowledgeBaseName knowledgeBaseName) {
+        this.name = knowledgeBaseName;
     }
 
-    public void changeDescription(String description) {
-        this.description = requireValidDescription(description);
+    public void changeDescription(KnowledgeBaseDescription description) {
+        this.description = description;
     }
 
-    public static KnowledgeBase reconstitute(KnowledgeBaseId id, String name, String description,
-                                             DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(id, name, description, difyDatasetId);
+    public static KnowledgeBase reconstitute(KnowledgeBaseId knowledgeBaseId, KnowledgeBaseName knowledgeBaseName,
+                                             KnowledgeBaseDescription description, DifyDatasetId difyDatasetId,
+                                             TenantId tenantId) {
+        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, difyDatasetId, tenantId);
     }
 
-    public static KnowledgeBase create(String name, String description, DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(KnowledgeBaseId.create(), name, description, difyDatasetId);
-    }
-
-    private static String requireValidName(String name) {
-        if (StringUtils.isBlank(name)) {
-            throw new IllegalArgumentException("Knowledge base name cannot be empty");
-        }
-        if (StringUtils.length(name) > 32) {
-            throw new IllegalArgumentException("Knowledge base name is too long (max 32 characters)");
-        }
-        return name;
-    }
-
-    private static String requireValidDescription(String description) {
-        if (StringUtils.length(description) > 255) {
-            throw new IllegalArgumentException("Knowledge base description is too long (max 255 characters)");
-        }
-        return description;
+    public static KnowledgeBase create(KnowledgeBaseName knowledgeBaseName, KnowledgeBaseDescription description,
+                                       DifyDatasetId difyDatasetId, TenantId tenantId) {
+        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, difyDatasetId, tenantId);
     }
 
 }

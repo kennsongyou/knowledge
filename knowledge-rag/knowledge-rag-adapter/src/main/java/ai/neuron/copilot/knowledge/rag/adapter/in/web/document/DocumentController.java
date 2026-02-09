@@ -1,7 +1,9 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 
+import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.common.io.InputStreamDTO;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
+import ai.neuron.copilot.knowledge.foundation.web.file.FileUploadAdapter;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
@@ -13,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.OptionalLong;
 
 @AllArgsConstructor
 @RestController
@@ -24,16 +25,16 @@ public class DocumentController {
 
     @GetMapping
     public void page() {
-        throw new SystemException();
+        throw new UnsupportedOperationException();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CreateKnowledgeBaseResponse createByFile(@RequestPart("file") MultipartFile file,
                                                     @RequestPart(value = "payload", required = false) String payload)
             throws IOException {
-        try (InputStream in = file.getInputStream()) {
-            InputStreamDTO inputStreamDTO = new InputStreamDTO(in, file.getContentType(), OptionalLong.of(file.getSize()));
-            CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(payload, inputStreamDTO);
+        FileUploadDTO fileUploadDTO = FileUploadAdapter.from(file);
+        try (InputStream inputStream = file.getInputStream()) {
+            CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(inputStream, fileUploadDTO, payload);
             DocumentId documentId = createDocumentUseCase.byFile(command);
             return new CreateKnowledgeBaseResponse(documentId.value());
         }
@@ -41,7 +42,7 @@ public class DocumentController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public CreateKnowledgeBaseResponse createByText(@RequestBody CreateDocumentByFileCommand command) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }
