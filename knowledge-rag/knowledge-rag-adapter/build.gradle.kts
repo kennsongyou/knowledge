@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.apache.http.client5)
     implementation(libs.mysql.connector.j)
     implementation(libs.qcloud.cos.api)
+    implementation(libs.apache.poi.ooxml)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }

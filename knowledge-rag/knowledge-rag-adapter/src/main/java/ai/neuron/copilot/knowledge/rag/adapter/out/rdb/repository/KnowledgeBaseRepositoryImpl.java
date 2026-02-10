@@ -27,10 +27,9 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     public final JpaKnowledgeBaseRepository jpaKnowledgeBaseRepository;
 
     @Override
-    public KnowledgeBase get(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
-        KnowledgeBasePO po = jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
-                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
-        return KnowledgeBaseMapper.toDomain(po);
+    public Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
+        return jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
+                knowledgeBaseId.value(), tenantId.value()).map(KnowledgeBaseMapper::toDomain);
     }
 
     @Override
@@ -61,11 +60,13 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     }
 
     @Override
-    public void delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
-        KnowledgeBasePO knowledgeBasePO = jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
-                knowledgeBaseId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
-        knowledgeBasePO.setDeletedAt(Instant.now());
-        jpaKnowledgeBaseRepository.save(knowledgeBasePO);
+    public boolean delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
+        return jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(knowledgeBaseId.value(), tenantId.value())
+                .map(po -> {
+                    po.setDeletedAt(Instant.now());
+                    jpaKnowledgeBaseRepository.save(po);
+                    return true;
+                }).orElse(false);
     }
 
 }

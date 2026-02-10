@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface KnowledgeBaseRepository {
 
-    KnowledgeBase get(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
+    Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
 
     void save(KnowledgeBase knowledgeBase);
 
@@ -19,6 +19,6 @@ public interface KnowledgeBaseRepository {
 
     PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId);
 
-    void delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
+    boolean delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
 
 }

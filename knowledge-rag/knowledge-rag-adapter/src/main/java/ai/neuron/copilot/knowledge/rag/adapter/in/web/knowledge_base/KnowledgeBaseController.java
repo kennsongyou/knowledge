@@ -33,7 +33,7 @@ public class KnowledgeBaseController {
 
     private final CreateKnowledgeBaseUseCase createKnowledgeBaseUseCase;
 
-    private final GetKnowledgeBaseUseCase getKnowledgeBaseUseCase;
+    private final FetchKnowledgeBaseUseCase fetchKnowledgeBaseUseCase;
 
     private final PageKnowledgeBaseUseCase pageKnowledgeBaseUseCase;
 
@@ -60,7 +60,7 @@ public class KnowledgeBaseController {
                 KnowledgeBaseId.reconstitute(knowledgeBaseId),
                 TenantId.reconstitute(ContextHolder.tenant().id())
         );
-        KnowledgeBase kb = getKnowledgeBaseUseCase.execute(query);
+        KnowledgeBase kb = fetchKnowledgeBaseUseCase.execute(query);
         return new KnowledgeBaseDTO(
                 kb.getId().value(),
                 kb.getName().value(),

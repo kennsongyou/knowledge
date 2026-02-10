@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.UpdateKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.UpdateKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
@@ -26,7 +27,8 @@ public class UpdateKnowledgeBaseService implements UpdateKnowledgeBaseUseCase {
 		byName.filter(e -> !e.getId().equals(command.id())).ifPresent(e -> {
 			throw new ResourceAlreadyExistException();
 		});
-		KnowledgeBase knowledgeBase = knowledgeBaseRepository.get(command.id(), command.tenantId());
+		KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.id(), command.tenantId())
+				.orElseThrow(ResourceNotFoundException::new);
 		knowledgeBase.rename(command.name());
 		knowledgeBase.changeDescription(command.description());
 		knowledgeBaseRepository.save(knowledgeBase);

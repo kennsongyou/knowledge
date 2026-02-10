@@ -1,14 +1,14 @@
 package ai.neuron.copilot.knowledge.foundation.data.rdb;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
@@ -17,17 +17,15 @@ import java.time.Instant;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
-public abstract class AuditingPO extends CreatedAuditingPO {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class CreatedAuditingPO extends BasePO {
 
-	@Column(name = "deleted_at")
-	Instant deletedAt;
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    protected Long createdBy;
 
-	@LastModifiedBy
-	@Column(name = "updated_by")
-	Long updatedBy;
-
-	@LastModifiedDate
-	@Column(name = "updated_at")
-	Instant updatedAt;
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    protected Instant createdAt;
 
 }

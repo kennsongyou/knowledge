@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
 
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
@@ -16,7 +17,10 @@ public class DeleteKnowledgeBaseService implements DeleteKnowledgeBaseUseCase {
     @Transactional
     @Override
     public void execute(DeleteKnowledgeBaseCommand command) {
-        knowledgeBaseRepository.delete(command.id(), command.tenantId());
+        boolean deleted = knowledgeBaseRepository.delete(command.id(), command.tenantId());
+        if (!deleted) {
+            throw new ResourceNotFoundException();
+        }
     }
 
 }
