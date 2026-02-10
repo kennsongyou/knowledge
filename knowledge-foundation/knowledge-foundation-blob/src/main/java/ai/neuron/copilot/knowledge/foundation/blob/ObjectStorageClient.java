@@ -15,6 +15,6 @@ public interface ObjectStorageClient {
 
     String keyPrefix();
 
-    String blobProvider();
+    BlobProvider blobProvider();
 
 }

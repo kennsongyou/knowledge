@@ -11,7 +11,6 @@ import com.qcloud.cos.model.GeneratePresignedUrlRequest;
 import com.qcloud.cos.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -55,8 +54,8 @@ public class QcloudCOSClient implements ObjectStorageClient {
     }
 
     @Override
-    public String blobProvider() {
-        return BlobProvider.QCLOUD.getType();
+    public BlobProvider blobProvider() {
+        return BlobProvider.QCLOUD;
     }
 
 }

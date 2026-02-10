@@ -32,7 +32,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
                 fileUploadDTO.getOriginalFileName(),
                 fileUploadDTO.getExtension(),
                 blobObjectKey.value(),
-                objectStorageClient.blobProvider(),
+                objectStorageClient.blobProvider().getType(),
                 command.tenantId()
         );
         documentRepository.save(document);
