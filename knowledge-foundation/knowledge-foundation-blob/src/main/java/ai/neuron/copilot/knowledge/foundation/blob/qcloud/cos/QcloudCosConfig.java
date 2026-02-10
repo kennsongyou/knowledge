@@ -30,4 +30,10 @@ public class QcloudCosConfig {
         return new COSClient(cred, clientConfig);
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public QcloudCOSClient qcloudCOSClient(COSClient cosClient, QcloudCosProperties qcloudCosProperties) {
+        return new QcloudCOSClient(cosClient, qcloudCosProperties);
+    }
+
 }

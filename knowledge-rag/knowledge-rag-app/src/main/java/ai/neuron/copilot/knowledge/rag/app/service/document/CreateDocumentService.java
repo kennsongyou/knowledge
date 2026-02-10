@@ -1,12 +1,12 @@
 package ai.neuron.copilot.knowledge.rag.app.service.document;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
+import ai.neuron.copilot.knowledge.foundation.blob.BlobObject;
+import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
+import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
-import ai.neuron.copilot.knowledge.rag.app.port.out.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
-import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObject;
-import ai.neuron.copilot.knowledge.rag.domain.document.model.BlobObjectKey;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import lombok.RequiredArgsConstructor;
