@@ -27,9 +27,6 @@ public final class Document {
 
     final TenantId tenantId;
 
-    @Setter(AccessLevel.PUBLIC)
-    String url;
-
     private Document(DocumentId id, String originalFileName, String displayName, String extension, String objectKey,
                      String blobProvider, TenantId tenantId) {
         this.id = Objects.requireNonNull(id);

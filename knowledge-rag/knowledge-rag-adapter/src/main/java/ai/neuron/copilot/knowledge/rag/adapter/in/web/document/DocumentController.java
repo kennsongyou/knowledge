@@ -17,6 +17,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDo
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByTextCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.DeleteDocumentCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.GetDocumentQuery;
+import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.GetDocumentUrlQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.PageDocumentQuery;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
@@ -78,9 +79,18 @@ public class DocumentController {
         return new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
-                document.getExtension(),
-                document.getUrl()
+                document.getExtension()
         );
+    }
+
+    @GetMapping("/{document_id}/access-url")
+    @ResponseStatus(HttpStatus.OK)
+    public String getUrl(@PathVariable("document_id") String documentId) {
+        GetDocumentUrlQuery query = new GetDocumentUrlQuery(
+                DocumentId.reconstitute(documentId),
+                TenantId.reconstitute(ContextHolder.tenant().id())
+        );
+        return getDocumentUseCase.accessUrl(query);
     }
 
     @GetMapping
@@ -94,8 +104,7 @@ public class DocumentController {
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
-                document.getExtension(),
-                document.getUrl()
+                document.getExtension()
         )).toList();
         return new PageResult<>(records, pageResult.total(), pageResult.pageNo(), pageResult.pageSize());
     }
