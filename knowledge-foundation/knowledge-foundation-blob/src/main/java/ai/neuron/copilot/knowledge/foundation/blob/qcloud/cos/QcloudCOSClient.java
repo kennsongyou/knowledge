@@ -43,7 +43,7 @@ public class QcloudCOSClient implements ObjectStorageClient {
         GeneratePresignedUrlRequest request =
                 new GeneratePresignedUrlRequest(qcloudCosProperties.getBucket(), blobObjectKey.value());
         request.setMethod(HttpMethodName.GET);
-        Date expiration = new Date(System.currentTimeMillis() + timeout.getSeconds());
+        Date expiration = new Date(System.currentTimeMillis() + timeout.toMillis());
         request.setExpiration(expiration);
         return cosClient.generatePresignedUrl(request);
     }

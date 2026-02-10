@@ -8,7 +8,8 @@ import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.foundation.web.file.FileUploadAdapter;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.request.PageDocumentRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.response.CreateDocumentResponse;
-import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.shared.DocumentDTO;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.response.GetDocumentUrlResponse;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.shared.DocumentDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.DeleteDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.GetDocumentUseCase;
@@ -85,12 +86,12 @@ public class DocumentController {
 
     @GetMapping("/{document_id}/access-url")
     @ResponseStatus(HttpStatus.OK)
-    public String getUrl(@PathVariable("document_id") String documentId) {
+    public GetDocumentUrlResponse getUrl(@PathVariable("document_id") String documentId) {
         GetDocumentUrlQuery query = new GetDocumentUrlQuery(
                 DocumentId.reconstitute(documentId),
                 TenantId.reconstitute(ContextHolder.tenant().id())
         );
-        return getDocumentUseCase.accessUrl(query);
+        return new GetDocumentUrlResponse(getDocumentUseCase.accessUrl(query));
     }
 
     @GetMapping
