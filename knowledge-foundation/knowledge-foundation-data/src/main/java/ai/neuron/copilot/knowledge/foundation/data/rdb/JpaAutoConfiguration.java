@@ -9,6 +9,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import java.util.Optional;
 
 @Configuration
@@ -19,7 +20,7 @@ public class JpaAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public AuditorAware<Long> auditorAware() {
-		return () -> Optional.of(ContextHolder.user()).map(UserContext::id);
+		return () -> Optional.of(ContextHolder.user()).map(UserContext::id).map(UserId::value);
 	}
 
 }

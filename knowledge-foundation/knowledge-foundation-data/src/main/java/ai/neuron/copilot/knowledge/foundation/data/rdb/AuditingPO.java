@@ -19,15 +19,15 @@ import java.time.Instant;
 @MappedSuperclass
 public abstract class AuditingPO extends CreatedAuditingPO {
 
-	@Column(name = "deleted_at")
-	Instant deletedAt;
+	@Column(name = "deleted", nullable = false, columnDefinition = "TINYINT NOT NULL DEFAULT 0")
+	boolean deleted;
 
 	@LastModifiedBy
-	@Column(name = "updated_by")
-	Long updatedBy;
+	@Column(name = "updated_by", nullable = false, columnDefinition = "BIGINT NOT NULL")
+	long updatedBy;
 
 	@LastModifiedDate
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", nullable = false)
 	Instant updatedAt;
 
 }

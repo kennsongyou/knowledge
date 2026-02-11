@@ -1,6 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
-import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBaseDocumentIdPO;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBaseDocumentPO;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.repository.JpaKnowledgeBaseDocumentRepository;
@@ -9,8 +8,6 @@ import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.time.Instant;
 
 @RequiredArgsConstructor
 @Repository

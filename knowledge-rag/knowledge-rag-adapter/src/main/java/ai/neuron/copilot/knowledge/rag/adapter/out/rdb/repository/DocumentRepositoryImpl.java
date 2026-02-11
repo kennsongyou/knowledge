@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
@@ -54,11 +55,8 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public void delete(DocumentId documentId, TenantId tenantId) {
-        DocumentPO po = jpaDocumentRepository.findByDocumentIdAndTenantId(documentId.value(), tenantId.value())
-                .orElseThrow(ResourceNotFoundException::new);
-        po.setDeletedAt(Instant.now());
-        jpaDocumentRepository.save(po);
+    public boolean delete(DocumentId documentId, UserId userId, TenantId tenantId) {
+        return jpaDocumentRepository.softDelete(documentId.value(), userId.value(), tenantId.value()) > 0;
     }
 
 }

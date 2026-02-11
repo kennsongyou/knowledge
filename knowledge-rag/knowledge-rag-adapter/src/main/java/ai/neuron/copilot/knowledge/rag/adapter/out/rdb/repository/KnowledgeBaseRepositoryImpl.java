@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBasePO;
@@ -8,7 +9,6 @@ import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.repository.JpaKnowled
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper.KnowledgeBaseMapper;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
-import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,13 +59,8 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     }
 
     @Override
-    public boolean delete(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
-        return jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(knowledgeBaseId.value(), tenantId.value())
-                .map(po -> {
-                    po.setDeletedAt(Instant.now());
-                    jpaKnowledgeBaseRepository.save(po);
-                    return true;
-                }).orElse(false);
+    public boolean delete(KnowledgeBaseId knowledgeBaseId, UserId userId, TenantId tenantId) {
+        return jpaKnowledgeBaseRepository.softDelete(knowledgeBaseId.value(), tenantId.value(), userId.value()) > 0;
     }
 
 }

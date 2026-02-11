@@ -3,6 +3,7 @@ package ai.neuron.copilot.knowledge.foundation.web.interceptor;
 import ai.neuron.copilot.knowledge.common.http.HeaderConstants;
 import ai.neuron.copilot.knowledge.common.util.IdUtils;
 import ai.neuron.copilot.knowledge.foundation.core.context.*;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -48,7 +49,7 @@ public class ContextFilter extends OncePerRequestFilter {
 
 	private UserContext buildUserContext(HttpServletRequest request) {
 		String idStr = request.getHeader(HeaderConstants.USER_ID_HEADER);
-		Long id = Optional.ofNullable(idStr).map(NumberUtils::toLong).orElse(null);
+		UserId id = Optional.ofNullable(idStr).map(NumberUtils::toLong).map(UserId::reconstitute).orElse(null);
 		String userName = request.getHeader(HeaderConstants.USER_NAME_HEADER);
 		return new UserContext(id, userName);
 	}

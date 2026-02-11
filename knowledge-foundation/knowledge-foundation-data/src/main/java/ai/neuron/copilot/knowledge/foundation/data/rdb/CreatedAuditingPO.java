@@ -21,11 +21,11 @@ import java.time.Instant;
 public abstract class CreatedAuditingPO extends BasePO {
 
     @CreatedBy
-    @Column(name = "created_by", updatable = false)
-    protected Long createdBy;
+    @Column(name = "created_by", nullable = false, updatable = false, columnDefinition = "BIGINT NOT NULL")
+    long createdBy;
 
     @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    protected Instant createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    Instant createdAt;
 
 }

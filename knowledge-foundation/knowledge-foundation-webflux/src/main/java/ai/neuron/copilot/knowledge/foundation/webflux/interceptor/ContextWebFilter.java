@@ -6,6 +6,7 @@ import ai.neuron.copilot.knowledge.foundation.core.context.ContextContainer;
 import ai.neuron.copilot.knowledge.foundation.core.context.RequestContext;
 import ai.neuron.copilot.knowledge.foundation.core.context.TenantContext;
 import ai.neuron.copilot.knowledge.foundation.core.context.UserContext;
+import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import jakarta.annotation.Nonnull;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -42,7 +43,7 @@ public class ContextWebFilter implements WebFilter {
 
     private UserContext buildUserContext(ServerWebExchange exchange) {
         String idStr = exchange.getRequest().getHeaders().getFirst(HeaderConstants.USER_ID_HEADER);
-        Long id = Optional.ofNullable(idStr).map(NumberUtils::toLong).orElse(null);
+        UserId id = Optional.ofNullable(idStr).map(NumberUtils::toLong).map(UserId::reconstitute).orElse(null);
         String userName = exchange.getRequest().getHeaders().getFirst(HeaderConstants.USER_NAME_HEADER);
         return new UserContext(id, userName);
     }

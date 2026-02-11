@@ -100,10 +100,7 @@ public class KnowledgeBaseController {
     @DeleteMapping("/{knowledge_base_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("knowledge_base_id") String knowledgeBaseId) {
-        deleteKnowledgeBaseUseCase.execute(new DeleteKnowledgeBaseCommand(
-                KnowledgeBaseId.reconstitute(knowledgeBaseId),
-                TenantId.reconstitute(ContextHolder.tenant().id()))
-        );
+        deleteKnowledgeBaseUseCase.execute(new DeleteKnowledgeBaseCommand(KnowledgeBaseId.reconstitute(knowledgeBaseId)));
     }
 
 }

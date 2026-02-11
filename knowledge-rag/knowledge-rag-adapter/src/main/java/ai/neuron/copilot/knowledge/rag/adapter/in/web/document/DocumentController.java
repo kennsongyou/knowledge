@@ -133,10 +133,7 @@ public class DocumentController {
     @DeleteMapping("/{document_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("document_id") String documentId) {
-        deleteDocumentUseCase.execute(new DeleteDocumentCommand(
-                DocumentId.reconstitute(documentId),
-                TenantId.reconstitute(ContextHolder.tenant().id()))
-        );
+        deleteDocumentUseCase.execute(new DeleteDocumentCommand(DocumentId.reconstitute(documentId)));
     }
 
     /**
@@ -145,7 +142,7 @@ public class DocumentController {
     @Deprecated
     @PostMapping("/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public void uploadDocument(@RequestPart("file") MultipartFile file) throws IOException {
+    public void uploadDocument(@RequestPart("file") MultipartFile file, @RequestPart("payload") String payload) throws IOException {
         FileUploadDTO fileUploadDTO = FileUploadAdapter.from(file);
         String extension = fileUploadDTO.getExtension();
 
