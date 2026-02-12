@@ -18,11 +18,11 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class CreatedAuditingPO extends BasePO {
+public abstract class CreatedAuditingPO extends BusinessPO {
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false, columnDefinition = "BIGINT NOT NULL")
-    long createdBy;
+    Long createdBy;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

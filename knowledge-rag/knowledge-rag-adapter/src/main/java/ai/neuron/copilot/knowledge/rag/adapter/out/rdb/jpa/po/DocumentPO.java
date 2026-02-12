@@ -7,12 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.TenantId;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@SQLRestriction("deleted_at IS NULL")
+@SQLRestriction("deleted = 0")
 @Table(name = "document", uniqueConstraints = {
 		@UniqueConstraint(name = "document_id_UNIQUE", columnNames = "document_id")
 })
@@ -37,6 +38,7 @@ public final class DocumentPO extends AuditingPO {
 	@Column(name = "blob_provider", nullable = false)
 	String blobProvider;
 
+	@TenantId
 	@Column(name = "tenant_id", nullable = false)
 	Long tenantId;
 

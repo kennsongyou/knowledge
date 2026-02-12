@@ -33,7 +33,4 @@ public final class KnowledgeBasePO extends AuditingPO {
 	@Column(name = "dify_dataset_id", nullable = false)
 	String difyDatasetId;
 
-	@Column(name = "tenant_id", nullable = false)
-	Long tenantId;
-
 }
