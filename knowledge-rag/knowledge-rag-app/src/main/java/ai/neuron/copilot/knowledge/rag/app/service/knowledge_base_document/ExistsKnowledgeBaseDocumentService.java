@@ -23,8 +23,8 @@ public class ExistsKnowledgeBaseDocumentService implements ExistsKnowledgeBaseDo
 
 	@Override
 	public void requireRelationExists(ExistsKnowledgeBaseDocumentQuery query) {
-		knowledgeBaseRepository.fetch(query.knowledgeBaseId());
-		documentRepository.fetch(query.documentId(), query.tenantId());
+		knowledgeBaseRepository.fetch(query.knowledgeBaseId()).orElseThrow(ResourceNotFoundException::new);
+		documentRepository.fetch(query.documentId()).orElseThrow(ResourceNotFoundException::new);
 		boolean exists = knowledgeBaseDocumentRepository.exists(query.knowledgeBaseId(), query.documentId());
 		if (!exists) {
 			throw new ResourceNotFoundException();

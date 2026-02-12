@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base_document;
 
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.CreateKnowledgeBaseDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.dto.command.CreateKnowledgeBaseDocumentCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
@@ -22,8 +23,8 @@ public class CreateKnowledgeBaseDocumentService implements CreateKnowledgeBaseDo
 
 	@Override
 	public void execute(CreateKnowledgeBaseDocumentCommand command) {
-		knowledgeBaseRepository.fetch(command.knowledgeBaseId());
-		documentRepository.fetch(command.documentId(), command.tenantId());
+		knowledgeBaseRepository.fetch(command.knowledgeBaseId()).orElseThrow(ResourceNotFoundException::new);;
+		documentRepository.fetch(command.documentId()).orElseThrow(ResourceNotFoundException::new);;
 		knowledgeBaseDocumentRepository.save(command.knowledgeBaseId(), command.documentId());
 	}
 

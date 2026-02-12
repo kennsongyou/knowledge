@@ -23,7 +23,7 @@ public class DeleteKnowledgeBaseDocumentService implements DeleteKnowledgeBaseDo
 	@Override
 	public void execute(DeleteKnowledgeBaseDocumentCommand command) {
 		knowledgeBaseRepository.fetch(command.knowledgeBaseId());
-		documentRepository.fetch(command.documentId(), command.tenantId());
+		documentRepository.fetch(command.documentId());
 		knowledgeBaseDocumentRepository.delete(command.knowledgeBaseId(), command.documentId());
 	}
 

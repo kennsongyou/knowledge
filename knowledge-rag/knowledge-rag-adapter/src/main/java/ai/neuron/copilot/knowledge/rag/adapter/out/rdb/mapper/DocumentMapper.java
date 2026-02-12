@@ -1,6 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.DocumentPO;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
@@ -14,9 +13,7 @@ public final class DocumentMapper {
                 po.getDisplayName(),
                 po.getExtension(),
                 po.getObjectKey(),
-                po.getBlobProvider(),
-                TenantId.reconstitute(po.getTenantId())
-        );
+                po.getBlobProvider());
     }
 
     public static DocumentPO toPO(Document document) {
@@ -27,7 +24,6 @@ public final class DocumentMapper {
         po.setExtension(document.getExtension());
         po.setObjectKey(document.getObjectKey());
         po.setBlobProvider(document.getBlobProvider());
-        po.setTenantId(document.getTenantId().value());
         return po;
     }
 

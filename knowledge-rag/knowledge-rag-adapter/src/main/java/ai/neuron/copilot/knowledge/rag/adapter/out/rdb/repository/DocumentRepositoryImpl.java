@@ -1,7 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
-import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.DocumentPO;
@@ -18,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -31,21 +30,18 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public Document fetch(DocumentId documentId) {
-        DocumentPO po = jpaDocumentRepository.findByDocumentId(documentId.value())
-                .orElseThrow(ResourceNotFoundException::new);
-        return DocumentMapper.toDomain(po);
+    public Optional<Document> fetch(DocumentId documentId) {
+        return jpaDocumentRepository.findByDocumentId(documentId.value()).map(DocumentMapper::toDomain);
     }
 
     @Override
-    public PageResult<Document> pageByKeyword(String keyword, PageQuery pageQuery) {
+    public PageResult<Document> pageByKeyword(PageQuery pageQuery, String keyword) {
         Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
         Page<DocumentPO> poPage;
         if (StringUtils.isBlank(keyword)) {
             poPage = jpaDocumentRepository.findByOrderByCreatedAtDesc(pageable);
         } else {
-            poPage = jpaDocumentRepository
-                    .findByDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, keyword);
+            poPage = jpaDocumentRepository.findByDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, keyword);
         }
         List<Document> domainPage = poPage.getContent().stream().map(DocumentMapper::toDomain).toList();
         return new PageResult<>(domainPage, poPage.getTotalElements(), pageQuery.getPageNo(), pageQuery.getPageSize());

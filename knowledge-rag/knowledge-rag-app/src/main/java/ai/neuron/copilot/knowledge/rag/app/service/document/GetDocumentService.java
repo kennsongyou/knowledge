@@ -2,7 +2,8 @@ package ai.neuron.copilot.knowledge.rag.app.service.document;
 
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
 import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
-import ai.neuron.copilot.knowledge.rag.app.port.in.document.FetchDocumentUseCase;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
+import ai.neuron.copilot.knowledge.rag.app.port.in.document.GetDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.GetDocumentQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.FetchDocumentUrlQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
@@ -15,7 +16,7 @@ import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service
-public class FetchDocumentService implements FetchDocumentUseCase {
+public class GetDocumentService implements GetDocumentUseCase {
 
     private final DocumentRepository documentRepository;
 
@@ -23,12 +24,12 @@ public class FetchDocumentService implements FetchDocumentUseCase {
 
     @Override
     public Document execute(GetDocumentQuery query) {
-        return documentRepository.fetch(query.id(), query.tenantId());
+        return documentRepository.fetch(query.id()).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
     public String accessUrl(FetchDocumentUrlQuery query) {
-        Document document = documentRepository.fetch(query.id(), query.tenantId());
+        Document document = documentRepository.fetch(query.id()).orElseThrow(ResourceNotFoundException::new);
         BlobObjectKey objectKey = BlobObjectKey.reconstitute(document.getObjectKey());
         URL url = objectStorageClient.url(objectKey, Duration.ofMinutes(1));
         return url.toString();

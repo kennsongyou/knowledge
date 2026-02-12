@@ -16,7 +16,7 @@ public class PageDocumentService implements PageDocumentUseCase {
 
     @Override
     public PageResult<Document> execute(PageDocumentQuery query) {
-        return documentRepository.pageByKeyword(query.keyword(), query.pageQuery(), query.tenantId());
+        return documentRepository.pageByKeyword(query.pageQuery(), query.keyword());
     }
 
 }

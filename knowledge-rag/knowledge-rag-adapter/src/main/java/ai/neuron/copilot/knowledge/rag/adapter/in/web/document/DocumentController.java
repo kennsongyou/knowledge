@@ -3,7 +3,6 @@ package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.foundation.web.file.FileUploadAdapter;
@@ -13,7 +12,7 @@ import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.response.GetD
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.shared.DocumentDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.DeleteDocumentUseCase;
-import ai.neuron.copilot.knowledge.rag.app.port.in.document.FetchDocumentUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.document.GetDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.PageDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByTextCommand;
@@ -54,7 +53,7 @@ public class DocumentController {
 
     private final CreateDocumentUseCase createDocumentUseCase;
 
-    private final FetchDocumentUseCase fetchDocumentUseCase;
+    private final GetDocumentUseCase getDocumentUseCase;
 
     private final PageDocumentUseCase pageDocumentUseCase;
 
@@ -89,11 +88,8 @@ public class DocumentController {
     @GetMapping("/{document_id}")
     @ResponseStatus(HttpStatus.OK)
     public DocumentDTO get(@PathVariable("document_id") String documentId) {
-        GetDocumentQuery query = new GetDocumentQuery(
-                DocumentId.reconstitute(documentId),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
-        Document document = fetchDocumentUseCase.execute(query);
+        GetDocumentQuery query = new GetDocumentQuery(DocumentId.reconstitute(documentId));
+        Document document = getDocumentUseCase.execute(query);
         return new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
@@ -105,16 +101,13 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public GetDocumentUrlResponse getUrl(@PathVariable("document_id") String documentId) {
         FetchDocumentUrlQuery query = new FetchDocumentUrlQuery(DocumentId.reconstitute(documentId));
-        return new GetDocumentUrlResponse(fetchDocumentUseCase.accessUrl(query));
+        return new GetDocumentUrlResponse(getDocumentUseCase.accessUrl(query));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageResult<DocumentDTO> page(@ModelAttribute PageDocumentRequest request) {
-        PageDocumentQuery query = new PageDocumentQuery(request.getKeyword(),
-                new PageQuery(request.getPageNo(), request.getPageSize()),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
+        PageDocumentQuery query = new PageDocumentQuery(new PageQuery(request.getPageNo(), request.getPageSize()), request.getKeyword());
         PageResult<Document> pageResult = pageDocumentUseCase.execute(query);
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),
