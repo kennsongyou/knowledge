@@ -1,7 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
 import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.UserId;
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,30 +31,29 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public Document get(DocumentId documentId, TenantId tenantId) {
-        DocumentPO po = jpaDocumentRepository.findByDocumentIdAndTenantId(
-                documentId.value(), tenantId.value()).orElseThrow(ResourceNotFoundException::new);
+    public Document fetch(DocumentId documentId) {
+        DocumentPO po = jpaDocumentRepository.findByDocumentId(documentId.value())
+                .orElseThrow(ResourceNotFoundException::new);
         return DocumentMapper.toDomain(po);
     }
 
     @Override
-    public PageResult<Document> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId) {
+    public PageResult<Document> pageByKeyword(String keyword, PageQuery pageQuery) {
         Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
-
         Page<DocumentPO> poPage;
         if (StringUtils.isBlank(keyword)) {
-            poPage = jpaDocumentRepository.findByTenantIdOrderByCreatedAtDesc(pageable, tenantId.value());
+            poPage = jpaDocumentRepository.findByOrderByCreatedAtDesc(pageable);
         } else {
             poPage = jpaDocumentRepository
-                    .findByTenantIdAndDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, tenantId.value(), keyword);
+                    .findByDisplayNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, keyword);
         }
         List<Document> domainPage = poPage.getContent().stream().map(DocumentMapper::toDomain).toList();
         return new PageResult<>(domainPage, poPage.getTotalElements(), pageQuery.getPageNo(), pageQuery.getPageSize());
     }
 
     @Override
-    public boolean delete(DocumentId documentId, UserId userId, TenantId tenantId) {
-        return jpaDocumentRepository.softDelete(documentId.value(), userId.value(), tenantId.value()) > 0;
+    public boolean delete(DocumentId documentId) {
+        return jpaDocumentRepository.softDelete(documentId.value());
     }
 
 }

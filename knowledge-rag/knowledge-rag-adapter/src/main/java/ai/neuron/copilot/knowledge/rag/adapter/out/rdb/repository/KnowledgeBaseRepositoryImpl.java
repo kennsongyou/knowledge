@@ -26,9 +26,9 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     public final JpaKnowledgeBaseRepository jpaKnowledgeBaseRepository;
 
     @Override
-    public Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId, TenantId tenantId) {
-        return jpaKnowledgeBaseRepository.findByKnowledgeBaseIdAndTenantId(
-                knowledgeBaseId.value(), tenantId.value()).map(KnowledgeBaseMapper::toDomain);
+    public Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId) {
+        return jpaKnowledgeBaseRepository.findByKnowledgeBaseId(
+                knowledgeBaseId.value()).map(KnowledgeBaseMapper::toDomain);
     }
 
     @Override
@@ -37,30 +37,27 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     }
 
     @Override
-    public Optional<KnowledgeBase> getByName(KnowledgeBaseName name, TenantId tenantId) {
-        return jpaKnowledgeBaseRepository
-                .findByNameAndTenantId(name.value(), tenantId.value())
-                .map(KnowledgeBaseMapper::toDomain);
+    public Optional<KnowledgeBase> getByName(KnowledgeBaseName name) {
+        return jpaKnowledgeBaseRepository.findByName(name.value()).map(KnowledgeBaseMapper::toDomain);
     }
 
     @Override
-    public PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId) {
+    public PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery) {
         Pageable pageable = PageRequest.of(pageQuery.getPageNo() - 1, pageQuery.getPageSize());
 
         Page<KnowledgeBasePO> poPage;
         if (StringUtils.isBlank(keyword)) {
-            poPage = jpaKnowledgeBaseRepository.findByTenantIdOrderByCreatedAtDesc(pageable, tenantId.value());
+            poPage = jpaKnowledgeBaseRepository.findByOrderByCreatedAtDesc(pageable);
         } else {
-            poPage = jpaKnowledgeBaseRepository
-                    .findByTenantIdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, tenantId.value(), keyword);
+            poPage = jpaKnowledgeBaseRepository.findByNameContainingIgnoreCaseOrderByCreatedAtDesc(pageable, keyword);
         }
         List<KnowledgeBase> domainPage = poPage.getContent().stream().map(KnowledgeBaseMapper::toDomain).toList();
         return new PageResult<>(domainPage, poPage.getTotalElements(), pageQuery.getPageNo(), pageQuery.getPageSize());
     }
 
     @Override
-    public boolean delete(KnowledgeBaseId knowledgeBaseId, UserId userId, TenantId tenantId) {
-        return jpaKnowledgeBaseRepository.softDelete(knowledgeBaseId.value(), tenantId.value(), userId.value()) > 0;
+    public boolean delete(KnowledgeBaseId knowledgeBaseId) {
+        return jpaKnowledgeBaseRepository.softDelete(knowledgeBaseId.value());
     }
 
 }

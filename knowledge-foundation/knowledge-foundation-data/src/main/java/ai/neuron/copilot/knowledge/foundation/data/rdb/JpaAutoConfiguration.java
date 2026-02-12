@@ -24,10 +24,10 @@ public class JpaAutoConfiguration {
 		return () -> Optional.of(ContextHolder.user()).map(UserContext::id).map(UserId::value);
 	}
 
-	@Bean
-	@ConditionalOnMissingBean
-	public CurrentTenantIdentifierResolver<Long> currentTenantIdentifierResolver() {
-		return new CurrentTenantIdentifierResolverImpl();
-	}
+//	@Bean
+//	@ConditionalOnMissingBean
+//	public CurrentTenantIdentifierResolver<Long> currentTenantIdentifierResolver() {
+//		return new DefaultCurrentTenantIdentifierResolver();
+//	}
 
 }

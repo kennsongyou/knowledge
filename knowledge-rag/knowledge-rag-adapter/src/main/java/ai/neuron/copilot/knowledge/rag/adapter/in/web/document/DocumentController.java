@@ -13,18 +13,17 @@ import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.response.GetD
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.shared.DocumentDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.DeleteDocumentUseCase;
-import ai.neuron.copilot.knowledge.rag.app.port.in.document.GetDocumentUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.document.FetchDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.PageDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByTextCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.DeleteDocumentCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.GetDocumentQuery;
-import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.GetDocumentUrlQuery;
+import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.FetchDocumentUrlQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.query.PageDocumentQuery;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.SystemException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
@@ -55,7 +54,7 @@ public class DocumentController {
 
     private final CreateDocumentUseCase createDocumentUseCase;
 
-    private final GetDocumentUseCase getDocumentUseCase;
+    private final FetchDocumentUseCase fetchDocumentUseCase;
 
     private final PageDocumentUseCase pageDocumentUseCase;
 
@@ -75,9 +74,7 @@ public class DocumentController {
             CreateDocumentByFileCommand command = new CreateDocumentByFileCommand(
                     inputStream,
                     fileUploadDTO,
-                    payload,
-                    TenantId.reconstitute(ContextHolder.tenant().id())
-            );
+                    payload);
             DocumentId documentId = createDocumentUseCase.byFile(command);
             return new CreateDocumentResponse(documentId.value());
         }
@@ -96,7 +93,7 @@ public class DocumentController {
                 DocumentId.reconstitute(documentId),
                 TenantId.reconstitute(ContextHolder.tenant().id())
         );
-        Document document = getDocumentUseCase.execute(query);
+        Document document = fetchDocumentUseCase.execute(query);
         return new DocumentDTO(
                 document.getId().value(),
                 document.getDisplayName(),
@@ -107,11 +104,8 @@ public class DocumentController {
     @GetMapping("/{document_id}/access-url")
     @ResponseStatus(HttpStatus.OK)
     public GetDocumentUrlResponse getUrl(@PathVariable("document_id") String documentId) {
-        GetDocumentUrlQuery query = new GetDocumentUrlQuery(
-                DocumentId.reconstitute(documentId),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
-        return new GetDocumentUrlResponse(getDocumentUseCase.accessUrl(query));
+        FetchDocumentUrlQuery query = new FetchDocumentUrlQuery(DocumentId.reconstitute(documentId));
+        return new GetDocumentUrlResponse(fetchDocumentUseCase.accessUrl(query));
     }
 
     @GetMapping

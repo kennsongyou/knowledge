@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.repository;
 
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBaseDocumentIdPO;
+import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBaseDocumentEmbeddedId;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBaseDocumentPO;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.repository.JpaKnowledgeBaseDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseDocumentRepository;
@@ -17,29 +17,29 @@ public class KnowledgeBaseDocumentRepositoryImpl implements KnowledgeBaseDocumen
 
     @Override
     public boolean exists(KnowledgeBaseId knowledgeBaseId, DocumentId documentId) {
-        KnowledgeBaseDocumentIdPO idPO = new KnowledgeBaseDocumentIdPO(
+        KnowledgeBaseDocumentEmbeddedId embeddedId = new KnowledgeBaseDocumentEmbeddedId(
                 knowledgeBaseId.value(),
                 documentId.value()
         );
-        return jpaKnowledgeBaseDocumentRepository.existsByKnowledgeBaseDocumentIdPO(idPO);
+        return jpaKnowledgeBaseDocumentRepository.existsByKnowledgeBaseDocumentEmbeddedId(embeddedId);
     }
 
     @Override
     public void save(KnowledgeBaseId knowledgeBaseId, DocumentId documentId) {
-        KnowledgeBaseDocumentIdPO idPO = new KnowledgeBaseDocumentIdPO(
+        KnowledgeBaseDocumentEmbeddedId embeddedId = new KnowledgeBaseDocumentEmbeddedId(
                 knowledgeBaseId.value(),
                 documentId.value()
         );
-        jpaKnowledgeBaseDocumentRepository.save(new KnowledgeBaseDocumentPO(idPO));
+        jpaKnowledgeBaseDocumentRepository.save(new KnowledgeBaseDocumentPO(embeddedId));
     }
 
     @Override
     public boolean delete(KnowledgeBaseId knowledgeBaseId, DocumentId documentId) {
-        KnowledgeBaseDocumentIdPO idPO = new KnowledgeBaseDocumentIdPO(
+        KnowledgeBaseDocumentEmbeddedId embeddedId = new KnowledgeBaseDocumentEmbeddedId(
                 knowledgeBaseId.value(),
                 documentId.value()
         );
-        return jpaKnowledgeBaseDocumentRepository.findByKnowledgeBaseDocumentIdPO(idPO)
+        return jpaKnowledgeBaseDocumentRepository.findByKnowledgeBaseDocumentEmbeddedId(embeddedId)
                 .map(po -> {
                     jpaKnowledgeBaseDocumentRepository.delete(po);
                     return true;

@@ -19,15 +19,12 @@ public final class KnowledgeBase {
 
     final DifyDatasetId difyDatasetId;
 
-    final TenantId tenantId;
-
     private KnowledgeBase(KnowledgeBaseId id, KnowledgeBaseName name, KnowledgeBaseDescription description,
-                          DifyDatasetId difyDatasetId, TenantId tenantId) {
+                          DifyDatasetId difyDatasetId) {
         this.id = Objects.requireNonNull(id);
         this.name = name;
         this.description = description;
         this.difyDatasetId = Objects.requireNonNull(difyDatasetId);
-        this.tenantId = Objects.requireNonNull(tenantId);
     }
 
     public void rename(KnowledgeBaseName knowledgeBaseName) {
@@ -39,14 +36,13 @@ public final class KnowledgeBase {
     }
 
     public static KnowledgeBase reconstitute(KnowledgeBaseId knowledgeBaseId, KnowledgeBaseName knowledgeBaseName,
-                                             KnowledgeBaseDescription description, DifyDatasetId difyDatasetId,
-                                             TenantId tenantId) {
-        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, difyDatasetId, tenantId);
+                                             KnowledgeBaseDescription description, DifyDatasetId difyDatasetId) {
+        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, difyDatasetId);
     }
 
     public static KnowledgeBase create(KnowledgeBaseName knowledgeBaseName, KnowledgeBaseDescription description,
-                                       DifyDatasetId difyDatasetId, TenantId tenantId) {
-        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, difyDatasetId, tenantId);
+                                       DifyDatasetId difyDatasetId) {
+        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, difyDatasetId);
     }
 
 }

@@ -22,8 +22,8 @@ public class CreateKnowledgeBaseDocumentService implements CreateKnowledgeBaseDo
 
 	@Override
 	public void execute(CreateKnowledgeBaseDocumentCommand command) {
-		knowledgeBaseRepository.fetch(command.knowledgeBaseId(), command.tenantId());
-		documentRepository.get(command.documentId(), command.tenantId());
+		knowledgeBaseRepository.fetch(command.knowledgeBaseId());
+		documentRepository.fetch(command.documentId(), command.tenantId());
 		knowledgeBaseDocumentRepository.save(command.knowledgeBaseId(), command.documentId());
 	}
 

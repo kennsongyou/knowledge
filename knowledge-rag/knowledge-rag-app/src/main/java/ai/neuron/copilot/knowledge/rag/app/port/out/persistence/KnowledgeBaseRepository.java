@@ -12,14 +12,14 @@ import java.util.Optional;
 
 public interface KnowledgeBaseRepository {
 
-    Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId, TenantId tenantId);
+    Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId);
 
     void save(KnowledgeBase knowledgeBase);
 
-    Optional<KnowledgeBase> getByName(KnowledgeBaseName name, TenantId tenantId);
+    Optional<KnowledgeBase> getByName(KnowledgeBaseName name);
 
-    PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery, TenantId tenantId);
+    PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery);
 
-    boolean delete(KnowledgeBaseId knowledgeBaseId, UserId userId, TenantId tenantId);
+    boolean delete(KnowledgeBaseId knowledgeBaseId);
 
 }

@@ -24,13 +24,12 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 	@Transactional
 	@Override
 	public KnowledgeBaseId execute(CreateKnowledgeBaseCommand command) {
-		knowledgeBaseRepository.getByName(command.name(), command.tenantId())
+		knowledgeBaseRepository.getByName(command.name())
 				.ifPresent(knowledgeBase -> { throw new ResourceAlreadyExistException(); });
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(
 				command.name(),
 				command.description(),
-				difyDatasetIdProvider.get(),
-				command.tenantId()
+				difyDatasetIdProvider.get()
 		);
 		knowledgeBaseRepository.save(knowledgeBase);
 		return knowledgeBase.getId();

@@ -1,7 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.CreateKnowledgeBaseRequest;
@@ -12,7 +10,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.*;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.CreateKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.UpdateKnowledgeBaseCommand;
-import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.GetKnowledgeBaseQuery;
+import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.FetchKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.PageKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
@@ -46,9 +44,7 @@ public class KnowledgeBaseController {
     public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateKnowledgeBaseRequest request) {
         CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(
                 KnowledgeBaseName.create(request.getName()),
-                KnowledgeBaseDescription.create(request.getDescription()),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
+                KnowledgeBaseDescription.create(request.getDescription()));
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
         return new CreateKnowledgeBaseResponse(knowledgeBaseId.value());
     }
@@ -56,10 +52,7 @@ public class KnowledgeBaseController {
     @GetMapping("/{knowledge_base_id}")
     @ResponseStatus(HttpStatus.OK)
     public KnowledgeBaseDTO get(@PathVariable("knowledge_base_id") String knowledgeBaseId) {
-        GetKnowledgeBaseQuery query = new GetKnowledgeBaseQuery(
-                KnowledgeBaseId.reconstitute(knowledgeBaseId),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
+        FetchKnowledgeBaseQuery query = new FetchKnowledgeBaseQuery(KnowledgeBaseId.reconstitute(knowledgeBaseId));
         KnowledgeBase kb = fetchKnowledgeBaseUseCase.execute(query);
         return new KnowledgeBaseDTO(
                 kb.getId().value(),
@@ -72,9 +65,7 @@ public class KnowledgeBaseController {
     @ResponseStatus(HttpStatus.OK)
     public PageResult<KnowledgeBaseDTO> page(@ModelAttribute PageKnowledgeBaseRequest request) {
         PageKnowledgeBaseQuery query = new PageKnowledgeBaseQuery(request.getKeyword(),
-                new PageQuery(request.getPageNo(), request.getPageSize()),
-                TenantId.reconstitute(ContextHolder.tenant().id())
-        );
+                new PageQuery(request.getPageNo(), request.getPageSize()));
         PageResult<KnowledgeBase> pageResult = pageKnowledgeBaseUseCase.execute(query);
         List<KnowledgeBaseDTO> records = pageResult.records().stream().map(kb -> new KnowledgeBaseDTO(
                 kb.getId().value(),
@@ -92,8 +83,7 @@ public class KnowledgeBaseController {
         UpdateKnowledgeBaseCommand command = new UpdateKnowledgeBaseCommand(
                 knowledgeBaseIdVO,
                 KnowledgeBaseName.create(request.getName()),
-                KnowledgeBaseDescription.create(request.getDescription()),
-                TenantId.reconstitute(ContextHolder.tenant().id()));
+                KnowledgeBaseDescription.create(request.getDescription()));
         updateKnowledgeBaseUseCase.execute(command);
     }
 

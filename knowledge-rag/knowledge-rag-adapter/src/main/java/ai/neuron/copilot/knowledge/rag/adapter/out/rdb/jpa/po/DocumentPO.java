@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.TenantId;
 
 @Getter
 @Setter
@@ -37,9 +36,5 @@ public final class DocumentPO extends AuditingPO {
 
 	@Column(name = "blob_provider", nullable = false)
 	String blobProvider;
-
-	@TenantId
-	@Column(name = "tenant_id", nullable = false)
-	Long tenantId;
 
 }

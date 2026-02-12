@@ -17,6 +17,6 @@ import lombok.experimental.FieldDefaults;
 public final class KnowledgeBaseDocumentPO extends CreatedAuditingPO {
 
 	@EmbeddedId
-    KnowledgeBaseDocumentIdPO knowledgeBaseDocumentIdPO;
+	KnowledgeBaseDocumentEmbeddedId knowledgeBaseDocumentEmbeddedId;
 
 }

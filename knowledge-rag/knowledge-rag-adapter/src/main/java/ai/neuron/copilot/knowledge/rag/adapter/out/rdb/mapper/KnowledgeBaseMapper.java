@@ -11,8 +11,7 @@ public final class KnowledgeBaseMapper {
                 KnowledgeBaseId.reconstitute(po.getKnowledgeBaseId()),
                 KnowledgeBaseName.reconstitute(po.getName()),
                 KnowledgeBaseDescription.reconstitute(po.getDescription()),
-                DifyDatasetId.reconstitute(po.getDifyDatasetId()),
-                TenantId.reconstitute(po.getTenantId()));
+                DifyDatasetId.reconstitute(po.getDifyDatasetId()));
     }
 
     public static KnowledgeBasePO toPO(KnowledgeBase knowledgeBase) {
@@ -21,7 +20,6 @@ public final class KnowledgeBaseMapper {
         po.setName(knowledgeBase.getName().value());
         po.setDescription(knowledgeBase.getDescription().value());
         po.setDifyDatasetId(knowledgeBase.getDifyDatasetId().value());
-        po.setTenantId(knowledgeBase.getTenantId().value());
         return po;
     }
 

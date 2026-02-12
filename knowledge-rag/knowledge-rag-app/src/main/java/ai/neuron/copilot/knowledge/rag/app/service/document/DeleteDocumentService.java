@@ -18,8 +18,7 @@ public class DeleteDocumentService implements DeleteDocumentUseCase {
 
     @Override
     public void execute(DeleteDocumentCommand command) {
-        boolean deleted = documentRepository.delete(command.id(), currentOperatorProvider.userId(),
-                currentOperatorProvider.tenantId());
+        boolean deleted = documentRepository.delete(command.id());
         if (!deleted) {
             throw new ResourceNotFoundException();
         }

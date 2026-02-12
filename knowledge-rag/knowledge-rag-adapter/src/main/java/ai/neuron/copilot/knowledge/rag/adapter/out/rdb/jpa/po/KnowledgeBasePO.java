@@ -6,14 +6,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@SQLRestriction("deleted_at IS NULL")
 @Table(name = "knowledge_base", uniqueConstraints = {
 		@UniqueConstraint(name = "knowledge_base_id_UNIQUE", columnNames = "knowledge_base_id"),
 		@UniqueConstraint(name = "tenant_id_name_UNIQUE", columnNames = {"tenant_id", "name"})

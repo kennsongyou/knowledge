@@ -15,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class KnowledgeBaseDocumentIdPO implements Serializable {
+public class KnowledgeBaseDocumentEmbeddedId implements Serializable {
 
     @Column(name = "knowledge_base_id", nullable = false, updatable = false)
     private String knowledgeBaseId;
@@ -26,7 +26,7 @@ public class KnowledgeBaseDocumentIdPO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof KnowledgeBaseDocumentIdPO that)) return false;
+        if (!(o instanceof KnowledgeBaseDocumentEmbeddedId that)) return false;
         return Objects.equals(knowledgeBaseId, that.knowledgeBaseId)
                 && Objects.equals(documentId, that.documentId);
     }

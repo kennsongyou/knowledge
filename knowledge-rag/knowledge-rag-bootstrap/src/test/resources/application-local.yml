@@ -44,6 +44,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        tenant_identifier_resolver: ai.neuron.copilot.knowledge.foundation.data.rdb.DefaultCurrentTenantIdentifierResolver
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     open-in-view: false

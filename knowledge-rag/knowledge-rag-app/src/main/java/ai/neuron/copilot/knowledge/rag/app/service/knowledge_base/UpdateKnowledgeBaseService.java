@@ -23,11 +23,11 @@ public class UpdateKnowledgeBaseService implements UpdateKnowledgeBaseUseCase {
 	@Transactional
 	@Override
 	public void execute(UpdateKnowledgeBaseCommand command) {
-		Optional<KnowledgeBase> byName = knowledgeBaseRepository.getByName(command.name(), command.tenantId());
+		Optional<KnowledgeBase> byName = knowledgeBaseRepository.getByName(command.name());
 		byName.filter(e -> !e.getId().equals(command.id())).ifPresent(e -> {
 			throw new ResourceAlreadyExistException();
 		});
-		KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.id(), command.tenantId())
+		KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.id())
 				.orElseThrow(ResourceNotFoundException::new);
 		knowledgeBase.rename(command.name());
 		knowledgeBase.changeDescription(command.description());
