@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.mapper.DocumentMapper">
+
+    <select id="pageByKnowledgeBaseIdKeyword"
+            resultType="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.DocumentPO">
+        SELECT
+            document.document_id,
+            document.display_name,
+            document.extension
+        FROM
+            document
+        JOIN knowledge_base_document
+            ON document.document_id = knowledge_base_document.document_id
+        WHERE
+            knowledge_base_document.knowledge_base_id = #{knowledgeBaseId}
+        <if test="keyword != null and keyword != ''">
+            AND document.display_name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY knowledge_base_document.created_at DESC
+    </select>
+
+</mapper>

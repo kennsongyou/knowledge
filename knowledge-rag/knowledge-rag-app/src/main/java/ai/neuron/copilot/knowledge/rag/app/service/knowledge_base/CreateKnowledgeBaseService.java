@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.CreateKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.CreateKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyDatasetIdProvider;
@@ -31,7 +32,10 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 				command.description(),
 				difyDatasetIdProvider.get()
 		);
-		knowledgeBaseRepository.save(knowledgeBase);
+		boolean saved = knowledgeBaseRepository.save(knowledgeBase);
+		if (!saved) {
+			throw new SystemException();
+		}
 		return knowledgeBase.getId();
 	}
 

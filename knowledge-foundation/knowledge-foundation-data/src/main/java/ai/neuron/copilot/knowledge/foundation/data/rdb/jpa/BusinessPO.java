@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.foundation.data.rdb;
+package ai.neuron.copilot.knowledge.foundation.data.rdb.jpa;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

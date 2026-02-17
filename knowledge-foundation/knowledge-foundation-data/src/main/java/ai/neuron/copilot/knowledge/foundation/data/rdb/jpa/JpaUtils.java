@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.foundation.data.rdb;
+package ai.neuron.copilot.knowledge.foundation.data.rdb.jpa;
 
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import org.springframework.data.domain.Page;

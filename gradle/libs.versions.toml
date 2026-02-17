@@ -1,10 +1,7 @@
 [versions]
 spring-boot = "3.5.9"
 spring-dependency-management = "1.1.7"
-apache-commons-lang3 = "3.20.0"
 apache-commons-io = "2.21.0"
-apache-http-client5 = "5.6"
-apache-poi-ooxml = "5.5.1"
 fasterxml-uuid = "5.2.0"
 redisson = "4.1.0"
 mapstruct = "1.6.3"
@@ -28,10 +25,9 @@ spring-boot-starter-jooq = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-context = { module = "org.springframework:spring-context" }
 spring-tx = { module = "org.springframework:spring-tx" }
-apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang3" }
-apache-commons-io = { module = "commons-io:commons-io", version.ref = "apache-commons-io" }
-apache-http-client5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apache-http-client5" }
-apache-poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "apache-poi-ooxml" }
+apache-commons-lang3 = { module = "org.apache.commons:commons-lang3" }
+apache-commons-io = { module = "commons-io:commons-io", version.ref = "apache-commons-io"}
+apache-http-client5 = { module = "org.apache.httpcomponents.client5:httpclient5" }
 fasterxml-uuid = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "fasterxml-uuid" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 jasypt-spring-boot-starter = { module = "com.github.ulisesbocchio:jasypt-spring-boot-starter", version.ref = "jasypt-spring-boot-starter" }
@@ -40,6 +36,8 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 redisson-spring-boot-starter = { module = "org.redisson:redisson-spring-boot-starter", version.ref = "redisson" }
 redisson-spring-data-35 = { module = "org.redisson:redisson-spring-data-35", version.ref = "redisson" }
 mysql-connector-j = { module = "com.mysql:mysql-connector-j" }
+mybatis-plus-spring-boot-starter = { module = "com.baomidou:mybatis-plus-spring-boot3-starter" }
+mybatis-plus-jsqlparser = { module = "com.baomidou:mybatis-plus-jsqlparser" }
 postgresql = { module = "org.postgresql:postgresql" }
 
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }

@@ -7,7 +7,7 @@ public interface KnowledgeBaseDocumentRepository {
 
     boolean exists(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
 
-    void save(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
+    boolean save(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
 
     boolean delete(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
 

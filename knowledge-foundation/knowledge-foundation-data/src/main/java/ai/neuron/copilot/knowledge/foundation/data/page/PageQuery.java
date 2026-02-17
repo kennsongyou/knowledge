@@ -10,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class PageQuery {
 
-    int pageNo;
+    long pageNo;
 
-    int pageSize;
+    long pageSize;
 
 }

@@ -4,6 +4,7 @@ import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObject;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
 import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
+import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.CreateDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.CreateDocumentByFileCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
@@ -33,7 +34,10 @@ public class CreateDocumentService implements CreateDocumentUseCase {
                 fileUploadDTO.getExtension(),
                 blobObjectKey.value(),
                 objectStorageClient.blobProvider().getType());
-        documentRepository.save(document);
+        boolean saved = documentRepository.save(document);
+        if (!saved) {
+            throw new SystemException();
+        }
         return document.getId();
     }
 

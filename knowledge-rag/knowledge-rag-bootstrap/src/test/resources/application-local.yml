@@ -38,16 +38,6 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       connection-test-query: SELECT 1
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-    properties:
-      hibernate:
-        tenant_identifier_resolver: ai.neuron.copilot.knowledge.foundation.data.rdb.DefaultCurrentTenantIdentifierResolver
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true
-    open-in-view: false
   redis:
     redisson:
       config: |
@@ -74,11 +64,32 @@ spring:
         codec: !<org.redisson.codec.Kryo5Codec> {}
         transportMode: "NIO"
 
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+    jdbc-type-for-null: null
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
 logging:
   level:
     root: INFO
     ai.neuron.copilot.knowledge: DEBUG
     org.hibernate.SQL: DEBUG
+    org.hibernate: DEBUG
+    org.hibernate.boot: TRACE
+    org.hibernate.engine: DEBUG
+    org.hibernate.context: TRACE
+    org.hibernate.internal.SessionFactoryImpl: DEBUG
 
 jasypt:
   encryptor:

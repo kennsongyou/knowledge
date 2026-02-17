@@ -14,7 +14,7 @@ public interface KnowledgeBaseRepository {
 
     Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId);
 
-    void save(KnowledgeBase knowledgeBase);
+    boolean save(KnowledgeBase knowledgeBase);
 
     Optional<KnowledgeBase> getByName(KnowledgeBaseName name);
 

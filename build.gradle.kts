@@ -30,6 +30,7 @@ subprojects {
 	configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
 		imports {
 			mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.9")
+			mavenBom("com.baomidou:mybatis-plus-bom:3.5.9")
 		}
 	}
 
@@ -43,10 +44,6 @@ subprojects {
 		}
 		withSourcesJar()
 	}
-
-//	tasks.withType<ProcessResources>().configureEach {
-//		filteringCharset = "UTF-8"
-//	}
 
 	configure<PublishingExtension> {
 		publications {

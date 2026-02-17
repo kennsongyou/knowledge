@@ -1,10 +1,9 @@
-package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper;
+package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.converter;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.KnowledgeBasePO;
+import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.KnowledgeBasePO;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
 
-public final class KnowledgeBaseMapper {
+public final class KnowledgeBaseConverter {
 
     public static KnowledgeBase toDomain(KnowledgeBasePO po) {
         return KnowledgeBase.reconstitute(

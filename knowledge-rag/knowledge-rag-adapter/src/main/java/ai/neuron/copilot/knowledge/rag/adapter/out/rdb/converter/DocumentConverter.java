@@ -1,10 +1,10 @@
-package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mapper;
+package ai.neuron.copilot.knowledge.rag.adapter.out.rdb.converter;
 
-import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.jpa.po.DocumentPO;
+import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.DocumentPO;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 
-public final class DocumentMapper {
+public final class DocumentConverter {
 
     public static Document toDomain(DocumentPO po) {
         return Document.reconstitute(
