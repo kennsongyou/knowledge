@@ -24,7 +24,7 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     @Override
     public Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId) {
         return knowledgeBasePORepository.lambdaQuery()
-                .eq(KnowledgeBasePO::getKnowledgeBaseId, knowledgeBaseId)
+                .eq(KnowledgeBasePO::getKnowledgeBaseId, knowledgeBaseId.value())
                 .oneOpt().map(KnowledgeBaseConverter::toDomain);
     }
 
@@ -34,9 +34,18 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
     }
 
     @Override
+    public boolean update(KnowledgeBase knowledgeBase) {
+        return knowledgeBasePORepository.lambdaUpdate()
+                .eq(KnowledgeBasePO::getKnowledgeBaseId, knowledgeBase.getId().value())
+                .set(KnowledgeBasePO::getName, knowledgeBase.getName().value())
+                .set(KnowledgeBasePO::getDescription, knowledgeBase.getDescription().value())
+                .update();
+    }
+
+    @Override
     public Optional<KnowledgeBase> getByName(KnowledgeBaseName name) {
         return knowledgeBasePORepository.lambdaQuery()
-                .like(KnowledgeBasePO::getName, name)
+                .like(KnowledgeBasePO::getName, name.value())
                 .oneOpt().map(KnowledgeBaseConverter::toDomain);
     }
 

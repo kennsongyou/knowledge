@@ -14,25 +14,25 @@ public class KnowledgeMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Optional.ofNullable(ContextHolder.tenant()).map(TenantContext::id).ifPresent(tenantId -> {
-            this.strictInsertFill(metaObject, "tenant_id", Long.class, tenantId);
+            this.strictInsertFill(metaObject, "tenantId", Long.class, tenantId);
         });
         Optional.ofNullable(ContextHolder.user()).map(UserContext::id).ifPresent(userId -> {
-            this.strictInsertFill(metaObject, "created_by", Long.class, userId.value());
-            this.strictInsertFill(metaObject, "updated_by", Long.class, userId.value());
+            this.strictInsertFill(metaObject, "createdBy", Long.class, userId.value());
+            this.strictInsertFill(metaObject, "updatedBy", Long.class, userId.value());
         });
         Instant now = Instant.now();
-        this.strictInsertFill(metaObject, "created_at", Instant.class, now);
-        this.strictInsertFill(metaObject, "updated_at", Instant.class, now);
+        this.strictInsertFill(metaObject, "createdAt", Instant.class, now);
+        this.strictInsertFill(metaObject, "updatedAt", Instant.class, now);
         this.strictInsertFill(metaObject, "deleted", Integer.class, 0);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         Optional.ofNullable(ContextHolder.user()).map(UserContext::id).ifPresent(userId -> {
-            this.strictInsertFill(metaObject, "updated_by", Long.class, userId.value());
+            this.strictInsertFill(metaObject, "updatedBy", Long.class, userId.value());
         });
         Instant now = Instant.now();
-        this.strictUpdateFill(metaObject, "updated_at", Instant.class, now);
+        this.strictUpdateFill(metaObject, "updatedAt", Instant.class, now);
     }
 
 }

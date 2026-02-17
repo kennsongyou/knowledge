@@ -50,7 +50,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Override
     public boolean delete(DocumentId documentId) {
-        return documentPORepository.lambdaUpdate().eq(DocumentPO::getDocumentId, documentId.value()).remove();
+        return documentPORepository.lambdaUpdate()
+                .eq(DocumentPO::getDocumentId, documentId.value())
+                .remove();
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface KnowledgeBaseRepository {
 
     boolean save(KnowledgeBase knowledgeBase);
 
+    boolean update(KnowledgeBase knowledgeBase);
+
     Optional<KnowledgeBase> getByName(KnowledgeBaseName name);
 
     PageResult<KnowledgeBase> pageByKeyword(String keyword, PageQuery pageQuery);
