@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class KnowledgeBaseDocumentRepositoryImpl implements KnowledgeBaseDocumentRepository {
 
-    public final KnowledgeBaseDocumentPORepository knowledgeBaseDocumentPORepository;
+    private final KnowledgeBaseDocumentPORepository knowledgeBaseDocumentPORepository;
 
     @Override
     public boolean exists(KnowledgeBaseId knowledgeBaseId, DocumentId documentId) {

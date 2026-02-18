@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
 
-    public final KnowledgeBasePORepository knowledgeBasePORepository;
+    private final KnowledgeBasePORepository knowledgeBasePORepository;
 
     @Override
     public Optional<KnowledgeBase> fetch(KnowledgeBaseId knowledgeBaseId) {
