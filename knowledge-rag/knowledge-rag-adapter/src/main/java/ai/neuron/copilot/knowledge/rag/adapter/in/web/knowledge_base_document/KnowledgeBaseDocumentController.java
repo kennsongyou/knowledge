@@ -81,8 +81,7 @@ public class KnowledgeBaseDocumentController {
                        @PathVariable("document_id") String documentId) {
         DeleteKnowledgeBaseDocumentCommand command = new DeleteKnowledgeBaseDocumentCommand(
                 KnowledgeBaseId.reconstitute(knowledgeBaseId),
-                DocumentId.reconstitute(documentId),
-                TenantId.reconstitute(ContextHolder.tenant().id())
+                DocumentId.reconstitute(documentId)
         );
         deleteKnowledgeBaseDocumentUseCase.execute(command);
     }

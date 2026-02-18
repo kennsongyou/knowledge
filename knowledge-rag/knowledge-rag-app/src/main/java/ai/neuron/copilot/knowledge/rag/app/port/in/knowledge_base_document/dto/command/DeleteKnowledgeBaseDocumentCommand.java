@@ -6,6 +6,5 @@ import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase
 
 public record DeleteKnowledgeBaseDocumentCommand(
         KnowledgeBaseId knowledgeBaseId,
-        DocumentId documentId,
-        TenantId tenantId) {
+        DocumentId documentId) {
 }
