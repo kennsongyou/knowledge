@@ -40,9 +40,8 @@ public class KnowledgeBaseDocumentController {
     @ResponseStatus(HttpStatus.OK)
     public PageResult<DocumentDTO> page(@PathVariable("knowledge_base_id") String knowledgeBaseId,
                      @ModelAttribute PageKnowledgeBaseDocumentRequest request) {
-
         PageKnowledgeBaseDocumentQuery query = new PageKnowledgeBaseDocumentQuery(new PageQuery(request.getPageNo(),
-                request.getPageSize()), KnowledgeBaseId.reconstitute(knowledgeBaseId));
+                request.getPageSize()), KnowledgeBaseId.reconstitute(knowledgeBaseId), request.getKeyword());
         PageResult<Document> pageResult = pageKnowledgeBaseDocumentUseCase.execute(query);
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),
@@ -50,10 +49,7 @@ public class KnowledgeBaseDocumentController {
                 document.getExtension()
         )).toList();
         return new PageResult<>(records, pageResult.total(), pageResult.pageNo(), pageResult.pageSize());
-
     }
-
-
 
     @GetMapping("/{document_id}")
     @ResponseStatus(HttpStatus.OK)

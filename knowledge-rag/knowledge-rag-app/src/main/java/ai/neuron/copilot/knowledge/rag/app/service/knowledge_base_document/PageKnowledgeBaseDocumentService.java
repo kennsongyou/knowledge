@@ -24,7 +24,8 @@ public class PageKnowledgeBaseDocumentService implements PageKnowledgeBaseDocume
 
     @Override
     public PageResult<Document> execute(PageKnowledgeBaseDocumentQuery query) {
-        return null;
+        return documentRepository.pageByKnowledgeBaseIdAndKeyword(query.pageQuery(), query.knowledgeBaseId(),
+                query.keyword());
     }
 
 }

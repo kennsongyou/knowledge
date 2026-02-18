@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base_document;
 
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.CreateKnowledgeBaseDocumentUseCase;
@@ -26,6 +27,10 @@ public class CreateKnowledgeBaseDocumentService implements CreateKnowledgeBaseDo
 	public void execute(CreateKnowledgeBaseDocumentCommand command) {
 		knowledgeBaseRepository.fetch(command.knowledgeBaseId()).orElseThrow(ResourceNotFoundException::new);;
 		documentRepository.fetch(command.documentId()).orElseThrow(ResourceNotFoundException::new);;
+		boolean exists = knowledgeBaseDocumentRepository.exists(command.knowledgeBaseId(), command.documentId());
+		if (exists) {
+			throw new ResourceAlreadyExistException();
+		}
 		boolean saved = knowledgeBaseDocumentRepository.save(command.knowledgeBaseId(), command.documentId());
 		if (!saved) {
 			throw new SystemException();

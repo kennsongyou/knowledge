@@ -8,19 +8,22 @@
     <select id="pageByKnowledgeBaseIdKeyword"
             resultType="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.DocumentPO">
         SELECT
-            document.document_id,
-            document.display_name,
-            document.extension
+            d.document_id,
+            d.original_file_name,
+            d.display_name,
+            d.extension,
+            d.object_key,
+            d.blob_provider
         FROM
-            document
-        JOIN knowledge_base_document
-            ON document.document_id = knowledge_base_document.document_id
+            document d
+        JOIN knowledge_base_document kbd
+            ON d.document_id = kbd.document_id
         WHERE
-            knowledge_base_document.knowledge_base_id = #{knowledgeBaseId}
+            kbd.knowledge_base_id = #{knowledgeBaseId}
         <if test="keyword != null and keyword != ''">
-            AND document.display_name LIKE CONCAT('%', #{keyword}, '%')
+            AND d.display_name LIKE CONCAT('%', #{keyword}, '%')
         </if>
-        ORDER BY knowledge_base_document.created_at DESC
+        ORDER BY kbd.created_at DESC
     </select>
 
 </mapper>
