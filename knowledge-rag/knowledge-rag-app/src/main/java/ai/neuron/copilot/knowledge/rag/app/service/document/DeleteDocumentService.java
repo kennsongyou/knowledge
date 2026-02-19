@@ -14,8 +14,6 @@ public class DeleteDocumentService implements DeleteDocumentUseCase {
 
     private final DocumentRepository documentRepository;
 
-    private final CurrentOperatorProvider currentOperatorProvider;
-
     @Override
     public void execute(DeleteDocumentCommand command) {
         boolean deleted = documentRepository.delete(command.id());

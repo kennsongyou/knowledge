@@ -11,6 +11,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRep
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class CreateKnowledgeBaseDocumentService implements CreateKnowledgeBaseDo
 
 	private final DocumentRepository documentRepository;
 
+	@Transactional
 	@Override
 	public void execute(CreateKnowledgeBaseDocumentCommand command) {
 		knowledgeBaseRepository.fetch(command.knowledgeBaseId()).orElseThrow(ResourceNotFoundException::new);;
@@ -35,6 +37,12 @@ public class CreateKnowledgeBaseDocumentService implements CreateKnowledgeBaseDo
 		if (!saved) {
 			throw new SystemException();
 		}
+
+//		createDocumentByFile
+
+
+
+
 	}
 
 }

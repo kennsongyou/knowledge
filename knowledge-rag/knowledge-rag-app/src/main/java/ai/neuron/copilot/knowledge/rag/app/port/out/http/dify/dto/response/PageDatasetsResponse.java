@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.dto.response;
+package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;

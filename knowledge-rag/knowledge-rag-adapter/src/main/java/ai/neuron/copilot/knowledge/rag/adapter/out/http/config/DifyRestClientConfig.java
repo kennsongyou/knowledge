@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.http.config;
 
-import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.DifyDatasetsClient;
+import ai.neuron.copilot.knowledge.rag.adapter.out.http.dify.DifyDatasetsClientImpl;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +27,7 @@ public class DifyRestClientConfig {
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                         .builderFor(RestClientAdapter.create(difyDatasetsRestClient))
                         .build();
-        return factory.createClient(DifyDatasetsClient.class);
+        return factory.createClient(DifyDatasetsClientImpl.class);
     }
 
     @Bean
