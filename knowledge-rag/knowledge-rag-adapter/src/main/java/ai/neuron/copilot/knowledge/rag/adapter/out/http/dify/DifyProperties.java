@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.adapter.out.http.config;
+package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify;
 
 import lombok.AccessLevel;
 import lombok.Getter;

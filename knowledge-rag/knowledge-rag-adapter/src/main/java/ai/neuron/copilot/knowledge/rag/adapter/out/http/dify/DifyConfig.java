@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.adapter.out.http.config;
+package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify;
 
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyDatasetIdProvider;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId;
