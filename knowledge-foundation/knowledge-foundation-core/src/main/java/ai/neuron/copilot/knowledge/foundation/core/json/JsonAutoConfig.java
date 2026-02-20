@@ -33,4 +33,9 @@ public class JsonAutoConfig {
                 .build();
     }
 
+    @Bean
+    public FoundationJsonCodec jsonCodec() {
+        return new FoundationJsonCodec(snakeObjectMapper(), objectMapper());
+    }
+
 }

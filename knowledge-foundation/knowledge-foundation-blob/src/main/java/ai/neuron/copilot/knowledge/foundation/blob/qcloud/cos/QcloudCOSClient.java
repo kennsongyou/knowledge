@@ -1,12 +1,11 @@
 package ai.neuron.copilot.knowledge.foundation.blob.qcloud.cos;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
-import ai.neuron.copilot.knowledge.foundation.blob.BlobObject;
-import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
-import ai.neuron.copilot.knowledge.foundation.blob.BlobProvider;
-import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
+import ai.neuron.copilot.knowledge.foundation.blob.*;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.http.HttpMethodName;
+import com.qcloud.cos.model.COSObject;
+import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.model.GeneratePresignedUrlRequest;
 import com.qcloud.cos.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +35,20 @@ public class QcloudCOSClient implements ObjectStorageClient {
                 .map(e -> e.atZone(timeZone.toZoneId()))
                 .map(e -> Date.from(e.toInstant())).ifPresent(metadata::setExpirationTime);
         cosClient.putObject(qcloudCosProperties.getBucket(), blobObject.blobObjectKey().value(), inputStream, metadata);
+    }
+
+    @Override
+    public BlobInputStreamDTO fetch(BlobObjectKey blobObjectKey) {
+        COSObject object = cosClient.getObject(qcloudCosProperties.getBucket(), blobObjectKey.value());
+        COSObjectInputStream objectContent = object.getObjectContent();
+        ObjectMetadata objectMetadata = object.getObjectMetadata();
+        return BlobInputStreamDTO.builder()
+                .objectKey(blobObjectKey.value())
+                .blobProvider(blobProvider())
+                .inputStream(objectContent)
+                .size(objectMetadata.getContentLength())
+                .contentType(objectMetadata.getContentType())
+                .build();
     }
 
     @Override

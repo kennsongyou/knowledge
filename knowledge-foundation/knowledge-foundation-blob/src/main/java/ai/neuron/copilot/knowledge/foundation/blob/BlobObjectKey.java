@@ -21,6 +21,20 @@ public record BlobObjectKey(String value) {
         return new BlobObjectKey(prefix + "/" + IdUtils.uuidV4Str() + "." + ext);
     }
 
+    public String fileName() {
+        int slashIndex = value.lastIndexOf('/');
+        return slashIndex >= 0 ? value.substring(slashIndex + 1) : value;
+    }
+
+    public String extension() {
+        String filename = fileName();
+        int dotIndex = filename.lastIndexOf('.');
+        if (dotIndex < 0 || dotIndex == filename.length() - 1) {
+            return "";
+        }
+        return filename.substring(dotIndex + 1);
+    }
+
     @Override
     public String toString() {
         return value;

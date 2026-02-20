@@ -11,6 +11,8 @@ public interface ObjectStorageClient {
 
     void save(InputStream inputStream, FileUploadDTO fileUploadDTO, BlobObject blobObject);
 
+    BlobInputStreamDTO fetch(BlobObjectKey blobObjectKey);
+
     URL url(BlobObjectKey blobObjectKey, Duration timeout);
 
     String keyPrefix();

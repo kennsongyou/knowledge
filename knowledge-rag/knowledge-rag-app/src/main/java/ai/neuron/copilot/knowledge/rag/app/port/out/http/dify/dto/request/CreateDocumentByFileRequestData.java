@@ -1,55 +1,72 @@
 package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
+@Builder
 public class CreateDocumentByFileRequestData {
 
-    private String indexingTechnique;
+    @Builder.Default
+    private String indexingTechnique = "high_quality";
 
-    private ProcessRule processRule;
+    @Builder.Default
+    private ProcessRule processRule = ProcessRule.builder().build();
 
-    private SummaryIndexSetting summaryIndexSetting;
+    @Builder.Default
+    private SummaryIndexSetting summaryIndexSetting = SummaryIndexSetting.builder().build();
 
     @Getter
-    @Setter
+    @Builder
     public static class ProcessRule {
 
-        private String mode;
+        @Builder.Default
+        private String mode = "automatic";
 
-        private Rules rules;
+        @Builder.Default
+        private Object rules = null;
     }
 
     @Getter
-    @Setter
-    public static class Rules {
+    @Builder
+    public static class PreProcessingRule {
 
-        private Segmentation segmentation;
+        private String id;
 
+        private Boolean enabled;
     }
 
     @Getter
-    @Setter
+    @Builder
     public static class Segmentation {
 
-        private String separator;
+        @Builder.Default
+        private String separator = "###";
 
-        private Integer maxTokens;
+        @Builder.Default
+        private Integer maxTokens = 500;
     }
 
     @Getter
-    @Setter
+    @Builder
     public static class SummaryIndexSetting {
 
-        private Boolean enable;
+        @Builder.Default
+        private Boolean enable = true;
 
-        private String modelName;
+        @Builder.Default
+        private String modelName = "text-embedding-3-small";
 
-        private String modelProviderName;
+        @Builder.Default
+        private String modelProviderName = "langgenius/openai/openai";
 
-        private String summaryPrompt;
+        @Builder.Default
+        private String summaryPrompt = "summarize the text";
 
     }
+
+    public static CreateDocumentByFileRequestData defaultRequest() {
+        return CreateDocumentByFileRequestData.builder().build();
+    }
+
 }
