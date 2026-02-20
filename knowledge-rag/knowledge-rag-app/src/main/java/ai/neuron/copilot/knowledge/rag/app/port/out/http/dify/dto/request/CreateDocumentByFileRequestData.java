@@ -13,8 +13,6 @@ public class CreateDocumentByFileRequestData {
 
     private SummaryIndexSetting summaryIndexSetting;
 
-
-
     @Getter
     @Setter
     public static class ProcessRule {

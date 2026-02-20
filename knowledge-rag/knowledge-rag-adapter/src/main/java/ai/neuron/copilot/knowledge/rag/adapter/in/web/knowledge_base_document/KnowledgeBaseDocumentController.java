@@ -1,7 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base_document;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.ContextHolder;
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.shared.DocumentDTO;
@@ -69,8 +67,7 @@ public class KnowledgeBaseDocumentController {
                                               @PathVariable("document_id") String documentId) {
         CreateKnowledgeBaseDocumentCommand command = new CreateKnowledgeBaseDocumentCommand(
                 KnowledgeBaseId.reconstitute(knowledgeBaseId),
-                DocumentId.reconstitute(documentId),
-                TenantId.reconstitute(ContextHolder.tenant().id())
+                DocumentId.reconstitute(documentId)
         );
         createKnowledgeBaseDocumentUseCase.execute(command);
     }

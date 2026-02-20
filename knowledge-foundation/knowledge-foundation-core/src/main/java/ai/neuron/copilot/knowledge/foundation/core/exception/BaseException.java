@@ -16,11 +16,23 @@ public abstract class BaseException extends RuntimeException {
     }
 
     public BaseException(ErrorCode errorCode) {
-        this(errorCode, null, (Object[]) null);
+        this(errorCode, (Throwable) null, (Object[]) null);
     }
 
     public BaseException(ErrorCode errorCode, Object... messageArgs) {
-        this(errorCode, null, messageArgs);
+        this(errorCode, (Throwable) null, messageArgs);
+    }
+
+    public BaseException(ErrorCode code, String messageKey, Object... messageArgs) {
+        super(messageKey, null);
+        this.errorCode = code;
+        this.messageArgs = messageArgs;
+    }
+
+    public BaseException(ErrorCode code, String messageKey, Throwable cause, Object... messageArgs) {
+        super(messageKey, cause);
+        this.errorCode = code;
+        this.messageArgs = messageArgs;
     }
 
 }
