@@ -18,10 +18,8 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyDocumentRepo
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyKnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
-import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDocument;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

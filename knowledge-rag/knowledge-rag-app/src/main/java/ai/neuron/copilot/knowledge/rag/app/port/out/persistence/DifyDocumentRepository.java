@@ -14,7 +14,7 @@ public interface DifyDocumentRepository {
 
     List<DifyDocument> listByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId);
 
-    boolean deleteByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId);
+    void deleteByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId);
 
     Optional<DifyDocument> fetchExternalInfo(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
 

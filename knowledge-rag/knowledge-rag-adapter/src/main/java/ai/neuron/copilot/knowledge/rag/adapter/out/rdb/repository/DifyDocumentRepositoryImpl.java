@@ -46,8 +46,8 @@ public class DifyDocumentRepositoryImpl implements DifyDocumentRepository {
     }
 
     @Override
-    public boolean deleteByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId) {
-        return difyDocumentPORepository.lambdaUpdate()
+    public void deleteByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId) {
+        difyDocumentPORepository.lambdaUpdate()
                 .eq(DifyDocumentPO::getKnowledgeBaseId, knowledgeBaseId.value())
                 .remove();
     }
