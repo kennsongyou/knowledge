@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.document;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObject;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CreateDocumentService implements CreateDocumentUseCase {
+public class CreateDocumentUseCaseImpl implements CreateDocumentUseCase {
 
     private final ObjectStorageClient objectStorageClient;
 

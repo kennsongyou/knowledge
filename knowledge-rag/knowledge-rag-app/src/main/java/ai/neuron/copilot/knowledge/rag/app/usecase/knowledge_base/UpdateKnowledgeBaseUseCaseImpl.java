@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class UpdateKnowledgeBaseService implements UpdateKnowledgeBaseUseCase {
+public class UpdateKnowledgeBaseUseCaseImpl implements UpdateKnowledgeBaseUseCase {
 
 	private final KnowledgeBaseRepository knowledgeBaseRepository;
 

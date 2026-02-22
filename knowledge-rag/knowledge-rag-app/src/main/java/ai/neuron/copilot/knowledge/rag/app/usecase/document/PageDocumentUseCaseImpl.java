@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.document;
 
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.PageDocumentUseCase;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class PageDocumentService implements PageDocumentUseCase {
+public class PageDocumentUseCaseImpl implements PageDocumentUseCase {
 
     private final DocumentRepository documentRepository;
 

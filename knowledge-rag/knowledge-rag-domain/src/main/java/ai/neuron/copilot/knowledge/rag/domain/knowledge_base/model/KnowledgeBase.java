@@ -1,6 +1,5 @@
 package ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model;
 
-import ai.neuron.copilot.knowledge.foundation.core.context.domain.model.TenantId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -17,13 +16,16 @@ public final class KnowledgeBase {
 
     KnowledgeBaseDescription description;
 
+    final KnowledgeBaseImpl impl;
+
     final DifyDatasetId difyDatasetId;
 
     private KnowledgeBase(KnowledgeBaseId id, KnowledgeBaseName name, KnowledgeBaseDescription description,
-                          DifyDatasetId difyDatasetId) {
+                          KnowledgeBaseImpl impl, DifyDatasetId difyDatasetId) {
         this.id = Objects.requireNonNull(id);
         this.name = name;
         this.description = description;
+        this.impl = impl;
         this.difyDatasetId = Objects.requireNonNull(difyDatasetId);
     }
 
@@ -36,13 +38,14 @@ public final class KnowledgeBase {
     }
 
     public static KnowledgeBase reconstitute(KnowledgeBaseId knowledgeBaseId, KnowledgeBaseName knowledgeBaseName,
-                                             KnowledgeBaseDescription description, DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, difyDatasetId);
+                                             KnowledgeBaseDescription description, KnowledgeBaseImpl impl,
+                                             DifyDatasetId difyDatasetId) {
+        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, impl, difyDatasetId);
     }
 
     public static KnowledgeBase create(KnowledgeBaseName knowledgeBaseName, KnowledgeBaseDescription description,
-                                       DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, difyDatasetId);
+                                       KnowledgeBaseImpl impl, DifyDatasetId difyDatasetId) {
+        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, impl, difyDatasetId);
     }
 
 }

@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base_document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base_document;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.DeleteKnowledgeBaseDocumentUseCase;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class DeleteKnowledgeBaseDocumentService implements DeleteKnowledgeBaseDocumentUseCase {
+public class DeleteKnowledgeBaseDocumentUseCaseImpl implements DeleteKnowledgeBaseDocumentUseCase {
 
 	private final KnowledgeBaseDocumentRepository knowledgeBaseDocumentRepository;
 

@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.document;
 
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
 import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
@@ -16,7 +16,7 @@ import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service
-public class GetDocumentService implements GetDocumentUseCase {
+public class GetDocumentUseCaseImpl implements GetDocumentUseCase {
 
     private final DocumentRepository documentRepository;
 

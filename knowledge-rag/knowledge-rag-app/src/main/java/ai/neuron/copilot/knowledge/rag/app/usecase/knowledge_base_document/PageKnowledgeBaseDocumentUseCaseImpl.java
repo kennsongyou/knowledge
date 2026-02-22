@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base_document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base_document;
 
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.PageKnowledgeBaseDocumentUseCase;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class PageKnowledgeBaseDocumentService implements PageKnowledgeBaseDocumentUseCase {
+public class PageKnowledgeBaseDocumentUseCaseImpl implements PageKnowledgeBaseDocumentUseCase {
 
     private final KnowledgeBaseDocumentRepository knowledgeBaseDocumentRepository;
 

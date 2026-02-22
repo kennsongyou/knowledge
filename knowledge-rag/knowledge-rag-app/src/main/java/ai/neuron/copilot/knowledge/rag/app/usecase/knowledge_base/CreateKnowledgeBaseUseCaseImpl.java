@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
+public class CreateKnowledgeBaseUseCaseImpl implements CreateKnowledgeBaseUseCase {
 
 	private final KnowledgeBaseRepository knowledgeBaseRepository;
 
@@ -30,6 +30,7 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(
 				command.name(),
 				command.description(),
+				command.impl(),
 				difyConfigProvider.difyDatasetId()
 		);
 		boolean saved = knowledgeBaseRepository.save(knowledgeBase);

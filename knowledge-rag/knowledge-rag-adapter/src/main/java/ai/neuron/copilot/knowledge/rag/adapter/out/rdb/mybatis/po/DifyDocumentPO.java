@@ -10,17 +10,13 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@TableName("knowledge_base")
-public final class KnowledgeBasePO extends AuditPO {
+@TableName("dify_document")
+public final class DifyDocumentPO extends AuditPO {
 
-	String knowledgeBaseId;
+	String difyDocumentId;
 
-	String name;
+	String documentId;
 
-	String description;
-
-	String impl;
-
-	String difyDatasetId;
+	String externalDocumentId;
 
 }

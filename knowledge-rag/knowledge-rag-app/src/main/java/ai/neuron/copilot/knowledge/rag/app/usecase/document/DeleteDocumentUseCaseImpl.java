@@ -1,16 +1,15 @@
-package ai.neuron.copilot.knowledge.rag.app.service.document;
+package ai.neuron.copilot.knowledge.rag.app.usecase.document;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.DeleteDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.document.dto.command.DeleteDocumentCommand;
-import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class DeleteDocumentService implements DeleteDocumentUseCase {
+public class DeleteDocumentUseCaseImpl implements DeleteDocumentUseCase {
 
     private final DocumentRepository documentRepository;
 

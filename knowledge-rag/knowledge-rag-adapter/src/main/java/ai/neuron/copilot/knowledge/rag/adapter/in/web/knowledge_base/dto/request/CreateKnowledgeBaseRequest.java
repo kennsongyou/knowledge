@@ -14,6 +14,10 @@ import lombok.experimental.FieldDefaults;
 public class CreateKnowledgeBaseRequest {
 
     @NotBlank
+    @Size(max = 255)
+    String impl;
+
+    @NotBlank
     @Size(max = 64)
     String name;
 

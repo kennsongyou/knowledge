@@ -13,10 +13,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.Up
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.FetchKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.PageKnowledgeBaseQuery;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseDescription;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseName;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,6 +40,7 @@ public class KnowledgeBaseController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateKnowledgeBaseRequest request) {
         CreateKnowledgeBaseCommand command = new CreateKnowledgeBaseCommand(
+                KnowledgeBaseImpl.fromValue(request.getImpl()),
                 KnowledgeBaseName.create(request.getName()),
                 KnowledgeBaseDescription.create(request.getDescription()));
         KnowledgeBaseId knowledgeBaseId = createKnowledgeBaseUseCase.execute(command);
@@ -57,7 +55,8 @@ public class KnowledgeBaseController {
         return new KnowledgeBaseDTO(
                 kb.getId().value(),
                 kb.getName().value(),
-                kb.getDescription().value()
+                kb.getDescription().value(),
+                kb.getImpl().getValue()
         );
     }
 
@@ -70,7 +69,8 @@ public class KnowledgeBaseController {
         List<KnowledgeBaseDTO> records = pageResult.records().stream().map(kb -> new KnowledgeBaseDTO(
                 kb.getId().value(),
                 kb.getName().value(),
-                kb.getDescription().value()
+                kb.getDescription().value(),
+                kb.getImpl().getValue()
         )).toList();
         return new PageResult<>(records, pageResult.total(), pageResult.pageNo(), pageResult.pageSize());
     }

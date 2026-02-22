@@ -1,0 +1,94 @@
+package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.impl;
+
+import ai.neuron.copilot.knowledge.foundation.blob.BlobInputStreamDTO;
+import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
+import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
+import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
+import ai.neuron.copilot.knowledge.foundation.core.io.FoundationIOUtils;
+import ai.neuron.copilot.knowledge.foundation.core.json.FoundationJsonCodec;
+import ai.neuron.copilot.knowledge.rag.app.port.out.config.DatasetMetadata;
+import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyConfigProvider;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.CreateDocumentByFileRequestData;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.UpdateDocumentMetadataRequest;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.CreateDocumentByFileResponse;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyKnowledgeBaseRepository;
+import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+@AllArgsConstructor
+public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
+
+    private final DifyKnowledgeBaseRepository difyKnowledgeBaseRepository;
+
+    private final ObjectStorageClient objectStorageClient;
+
+    private final FoundationJsonCodec foundationJsonCodec;
+
+    private final DifyDatasetsClient difyDatasetsClient;
+
+    private final DifyConfigProvider difyConfigProvider;
+
+    @Override
+    public void delete(KnowledgeBase knowledgeBase) {
+        difyKnowledgeBaseRepository.delete(knowledgeBase.getId());
+    }
+
+    @Transactional
+    @Override
+    public void createDocument(KnowledgeBase knowledgeBase, Document document) {
+        BlobObjectKey blobObjectKey = BlobObjectKey.reconstitute(document.getObjectKey());
+        BlobInputStreamDTO blobInputStreamDTO = objectStorageClient.fetch(blobObjectKey);
+        String data = foundationJsonCodec.encode(CreateDocumentByFileRequestData.defaultRequest());
+        Resource resource = FoundationIOUtils.toResource(blobInputStreamDTO.getInputStream(),
+                document.getOriginalFileName(), blobInputStreamDTO.getSize());
+        String difyDatasetId = knowledgeBase.getDifyDatasetId().value();
+        CreateDocumentByFileResponse response = difyDatasetsClient.createDocumentByFile(difyDatasetId, data, resource);
+        String difyDocumentId = Optional.ofNullable(response).map(CreateDocumentByFileResponse::getDocument)
+                .map(CreateDocumentByFileResponse.Document::getId).orElseThrow(SystemException::new);
+        if (StringUtils.isBlank(difyDocumentId)) {
+            throw new SystemException();
+        }
+        UpdateDocumentMetadataRequest request = UpdateDocumentMetadataRequest.builder()
+                .operationData(
+                        List.of(UpdateDocumentMetadataRequest.OperationData.builder()
+                                .documentId(difyDocumentId)
+                                .metadataList(
+                                        List.of(
+                                                UpdateDocumentMetadataRequest.MetadataItem.builder()
+                                                        .id(difyConfigProvider.metadataId(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID))
+                                                        .name(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID.getName())
+                                                        .value(knowledgeBase.getId().value())
+                                                        .build()
+                                        )
+                                )
+                                .build()
+                        )
+                ).build();
+        difyDatasetsClient.updateDocumentMetadata(difyDatasetId, request);
+    }
+
+    @Override
+    public void deleteDocument(KnowledgeBase knowledgeBase, Document document) {
+
+    }
+
+    @Override
+    public KnowledgeBaseImpl impl() {
+        return KnowledgeBaseImpl.DIFY;
+    }
+
+}

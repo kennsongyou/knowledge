@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.FetchKnowledgeBaseUseCase;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class FetchKnowledgeBaseService implements FetchKnowledgeBaseUseCase {
+public class FetchKnowledgeBaseUseCaseImpl implements FetchKnowledgeBaseUseCase {
 
     private final KnowledgeBaseRepository knowledgeBaseRepository;
 

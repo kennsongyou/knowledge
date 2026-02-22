@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.PageKnowledgeBaseUseCase;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class PageKnowledgeBaseService implements PageKnowledgeBaseUseCase {
+public class PageKnowledgeBaseUseCaseImpl implements PageKnowledgeBaseUseCase {
 
     private final KnowledgeBaseRepository knowledgeBaseRepository;
 
@@ -18,4 +18,5 @@ public class PageKnowledgeBaseService implements PageKnowledgeBaseUseCase {
     public PageResult<KnowledgeBase> execute(PageKnowledgeBaseQuery query) {
         return knowledgeBaseRepository.pageByKeyword(query.keyword(), query.pageQuery());
     }
+
 }

@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base;
+package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class DeleteKnowledgeBaseService implements DeleteKnowledgeBaseUseCase {
+public class DeleteKnowledgeBaseUseCaseImpl implements DeleteKnowledgeBaseUseCase {
 
     private final KnowledgeBaseRepository knowledgeBaseRepository;
 

@@ -64,7 +64,7 @@ public class KnowledgeBaseDocumentController {
     @PostMapping("/{document_id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@PathVariable("knowledge_base_id") String knowledgeBaseId,
-                                              @PathVariable("document_id") String documentId) {
+                       @PathVariable("document_id") String documentId) {
         CreateKnowledgeBaseDocumentCommand command = new CreateKnowledgeBaseDocumentCommand(
                 KnowledgeBaseId.reconstitute(knowledgeBaseId),
                 DocumentId.reconstitute(documentId)

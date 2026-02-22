@@ -23,6 +23,8 @@ app:
         neuron_knowledge_base_id: 815406af-552b-4702-803a-e2eaa4464376
 
 spring:
+  jpa:
+    open-in-view: false
   http:
     client:
       factory: http_components
