@@ -10,8 +10,7 @@ public final class KnowledgeBaseConverter {
                 KnowledgeBaseId.reconstitute(po.getKnowledgeBaseId()),
                 KnowledgeBaseName.reconstitute(po.getName()),
                 KnowledgeBaseDescription.reconstitute(po.getDescription()),
-                KnowledgeBaseImpl.fromValue(po.getImpl()),
-                DifyDatasetId.reconstitute(po.getDifyDatasetId()));
+                KnowledgeBaseImpl.fromValue(po.getImpl()));
     }
 
     public static KnowledgeBasePO toPO(KnowledgeBase knowledgeBase) {
@@ -20,7 +19,6 @@ public final class KnowledgeBaseConverter {
         po.setName(knowledgeBase.getName().value());
         po.setDescription(knowledgeBase.getDescription().value());
         po.setImpl(knowledgeBase.getImpl().getValue());
-        po.setDifyDatasetId(knowledgeBase.getDifyDatasetId().value());
         return po;
     }
 

@@ -17,7 +17,7 @@ public interface DifyDatasetsClient {
 
     CreateDocumentByFileResponse createDocumentByFile(String datasetId, String data, Resource file);
 
-    default void deleteDataset(String datasetId) {}
+    void deleteDocument(String datasetId, String documentId);
 
     void updateDocumentMetadata(String datasetId, UpdateDocumentMetadataRequest request);
 

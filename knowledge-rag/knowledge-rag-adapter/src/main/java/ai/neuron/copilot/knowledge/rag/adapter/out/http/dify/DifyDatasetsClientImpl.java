@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
@@ -41,8 +42,8 @@ public interface DifyDatasetsClientImpl extends DifyDatasetsClient {
                                                       @RequestPart("data") String data,
                                                       @RequestPart("file") Resource file);
 
-    @PostExchange("/datasets")
-    PageDatasetsResponse createDataset1(@RequestBody CreateDatasetRequest request);
+    @DeleteExchange("/datasets/{dataset_id}/documents/{document_id}")
+    void deleteDocument(@PathVariable("dataset_id") String datasetId, @PathVariable("document_id") String documentId);
 
 
     @PostExchange("/datasets/{dataset_id}/documents/metadata")

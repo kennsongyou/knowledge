@@ -17,6 +17,10 @@ public final class DifyDocumentPO extends AuditPO {
 
 	String documentId;
 
+	String knowledgeBaseId;
+
 	String externalDocumentId;
+
+	String externalDatasetId;
 
 }

@@ -6,6 +6,10 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.dto.c
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
+import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementerDispatcher;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDocument;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,14 +25,19 @@ public class DeleteKnowledgeBaseDocumentUseCaseImpl implements DeleteKnowledgeBa
 
 	private final DocumentRepository documentRepository;
 
+	private final KnowledgeBaseImplementerDispatcher knowledgeBaseImplementerDispatcher;
+
 	@Override
 	public void execute(DeleteKnowledgeBaseDocumentCommand command) {
-		knowledgeBaseRepository.fetch(command.knowledgeBaseId()).orElseThrow(ResourceNotFoundException::new);
-		documentRepository.fetch(command.documentId()).orElseThrow(ResourceNotFoundException::new);
+		KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.knowledgeBaseId())
+				.orElseThrow(ResourceNotFoundException::new);
+		Document document = documentRepository.fetch(command.documentId()).orElseThrow(ResourceNotFoundException::new);
 		boolean deleted = knowledgeBaseDocumentRepository.delete(command.knowledgeBaseId(), command.documentId());
 		if (!deleted) {
 			throw new ResourceNotFoundException();
 		}
+		knowledgeBaseImplementerDispatcher.get(knowledgeBase.getImpl()).deleteDocument(knowledgeBase, document);
+
 	}
 
 }

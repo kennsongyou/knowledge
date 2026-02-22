@@ -18,15 +18,12 @@ public final class KnowledgeBase {
 
     final KnowledgeBaseImpl impl;
 
-    final DifyDatasetId difyDatasetId;
-
     private KnowledgeBase(KnowledgeBaseId id, KnowledgeBaseName name, KnowledgeBaseDescription description,
-                          KnowledgeBaseImpl impl, DifyDatasetId difyDatasetId) {
+                          KnowledgeBaseImpl impl) {
         this.id = Objects.requireNonNull(id);
         this.name = name;
         this.description = description;
         this.impl = impl;
-        this.difyDatasetId = Objects.requireNonNull(difyDatasetId);
     }
 
     public void rename(KnowledgeBaseName knowledgeBaseName) {
@@ -38,14 +35,13 @@ public final class KnowledgeBase {
     }
 
     public static KnowledgeBase reconstitute(KnowledgeBaseId knowledgeBaseId, KnowledgeBaseName knowledgeBaseName,
-                                             KnowledgeBaseDescription description, KnowledgeBaseImpl impl,
-                                             DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, impl, difyDatasetId);
+                                             KnowledgeBaseDescription description, KnowledgeBaseImpl impl) {
+        return new KnowledgeBase(knowledgeBaseId, knowledgeBaseName, description, impl);
     }
 
     public static KnowledgeBase create(KnowledgeBaseName knowledgeBaseName, KnowledgeBaseDescription description,
-                                       KnowledgeBaseImpl impl, DifyDatasetId difyDatasetId) {
-        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, impl, difyDatasetId);
+                                       KnowledgeBaseImpl impl) {
+        return new KnowledgeBase(KnowledgeBaseId.create(), knowledgeBaseName, description, impl);
     }
 
 }

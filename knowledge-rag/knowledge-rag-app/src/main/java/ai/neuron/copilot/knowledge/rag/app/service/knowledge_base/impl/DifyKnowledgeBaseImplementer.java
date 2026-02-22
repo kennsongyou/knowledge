@@ -3,6 +3,8 @@ package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.impl;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobInputStreamDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
 import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExistException;
+import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.foundation.core.io.FoundationIOUtils;
 import ai.neuron.copilot.knowledge.foundation.core.json.FoundationJsonCodec;
@@ -12,10 +14,14 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.CreateDocumentByFileRequestData;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.UpdateDocumentMetadataRequest;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.CreateDocumentByFileResponse;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyKnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDocument;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +40,8 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
 
     private final DifyKnowledgeBaseRepository difyKnowledgeBaseRepository;
 
+    private final DifyDocumentRepository difyDocumentRepository;
+
     private final ObjectStorageClient objectStorageClient;
 
     private final FoundationJsonCodec foundationJsonCodec;
@@ -42,9 +50,14 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
 
     private final DifyConfigProvider difyConfigProvider;
 
+    @Transactional
     @Override
     public void delete(KnowledgeBase knowledgeBase) {
-        difyKnowledgeBaseRepository.delete(knowledgeBase.getId());
+        boolean deleted = difyKnowledgeBaseRepository.delete(knowledgeBase.getId());
+        if (!deleted) {
+            throw new ResourceNotFoundException();
+        }
+        difyDocumentRepository.deleteByKnowledgeBaseId(knowledgeBase.getId());
     }
 
     @Transactional
@@ -55,7 +68,7 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
         String data = foundationJsonCodec.encode(CreateDocumentByFileRequestData.defaultRequest());
         Resource resource = FoundationIOUtils.toResource(blobInputStreamDTO.getInputStream(),
                 document.getOriginalFileName(), blobInputStreamDTO.getSize());
-        String difyDatasetId = knowledgeBase.getDifyDatasetId().value();
+        String difyDatasetId = difyConfigProvider.difyDatasetId().value();
         CreateDocumentByFileResponse response = difyDatasetsClient.createDocumentByFile(difyDatasetId, data, resource);
         String difyDocumentId = Optional.ofNullable(response).map(CreateDocumentByFileResponse::getDocument)
                 .map(CreateDocumentByFileResponse.Document::getId).orElseThrow(SystemException::new);
@@ -79,11 +92,22 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
                         )
                 ).build();
         difyDatasetsClient.updateDocumentMetadata(difyDatasetId, request);
+        boolean saved = difyDocumentRepository.save(knowledgeBase.getId(), document.getId(), difyDatasetId, difyDocumentId);
+        if (!saved) {
+            throw new ResourceAlreadyExistException();
+        }
     }
 
+    @Transactional
     @Override
     public void deleteDocument(KnowledgeBase knowledgeBase, Document document) {
-
+        DifyDocument difyDocument = difyDocumentRepository.fetchExternalInfo(knowledgeBase.getId(),
+                document.getId()).orElseThrow(ResourceNotFoundException::new);
+        boolean deleted = difyDocumentRepository.delete(difyDocument);
+        if (!deleted) {
+            throw new ResourceNotFoundException();
+        }
+        difyDatasetsClient.deleteDocument(difyDocument.difyDatasetId().value(), difyDocument.difyDocumentId().value());
     }
 
     @Override
