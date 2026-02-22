@@ -21,6 +21,4 @@ public final class KnowledgeBasePO extends AuditPO {
 
 	String impl;
 
-	String difyDatasetId;
-
 }

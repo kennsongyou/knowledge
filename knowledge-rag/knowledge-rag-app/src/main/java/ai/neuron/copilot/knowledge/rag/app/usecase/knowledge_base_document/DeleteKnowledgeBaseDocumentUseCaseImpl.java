@@ -8,7 +8,6 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseDoc
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementerDispatcher;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDocument;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

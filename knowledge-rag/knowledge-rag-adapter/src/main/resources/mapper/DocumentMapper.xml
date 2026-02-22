@@ -5,6 +5,24 @@
 
 <mapper namespace="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.mapper.DocumentMapper">
 
+    <select id="listByKnowledgeBaseId"
+            resultType="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.DocumentPO">
+        SELECT
+        d.document_id,
+        d.original_file_name,
+        d.display_name,
+        d.extension,
+        d.object_key,
+        d.blob_provider
+        FROM
+        document d
+        JOIN knowledge_base_document kbd
+        ON d.document_id = kbd.document_id
+        WHERE
+        kbd.knowledge_base_id = #{knowledgeBaseId}
+        ORDER BY kbd.created_at DESC
+    </select>
+
     <select id="pageByKnowledgeBaseIdKeyword"
             resultType="ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.DocumentPO">
         SELECT

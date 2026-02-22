@@ -6,6 +6,7 @@ import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DocumentRepository {
@@ -21,5 +22,6 @@ public interface DocumentRepository {
     PageResult<Document> pageByKnowledgeBaseIdAndKeyword(PageQuery pageQuery, KnowledgeBaseId knowledgeBaseId,
                                                          String keyword);
 
+    List<Document> listByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId);
 
 }

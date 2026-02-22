@@ -63,4 +63,10 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return new PageResult<>(records, poPage.getTotal(), poPage.getCurrent(), poPage.getSize());
     }
 
+    @Override
+    public List<Document> listByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId) {
+        return documentMapper.listByKnowledgeBaseId(knowledgeBaseId.value())
+                .stream().map(DocumentConverter::toDomain).toList();
+    }
+
 }

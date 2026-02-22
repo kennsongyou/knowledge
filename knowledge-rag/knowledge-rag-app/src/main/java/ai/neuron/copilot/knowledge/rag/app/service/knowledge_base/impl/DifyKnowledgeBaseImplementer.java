@@ -18,9 +18,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyDocumentRepo
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyKnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDocument;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +45,17 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
     private final DifyDatasetsClient difyDatasetsClient;
 
     private final DifyConfigProvider difyConfigProvider;
+
+    @Transactional
+    @Override
+    public void create(KnowledgeBase knowledgeBase) {
+        DifyKnowledgeBase difyKnowledgeBase = DifyKnowledgeBase.create(knowledgeBase.getId(),
+                difyConfigProvider.difyDatasetId());
+        boolean saved = difyKnowledgeBaseRepository.save(difyKnowledgeBase);
+        if (!saved) {
+            throw new SystemException();
+        }
+    }
 
     @Transactional
     @Override

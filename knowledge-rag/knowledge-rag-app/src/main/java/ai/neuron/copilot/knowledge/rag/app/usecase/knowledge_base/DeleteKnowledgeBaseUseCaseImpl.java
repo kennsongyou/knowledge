@@ -3,19 +3,25 @@ package ai.neuron.copilot.knowledge.rag.app.usecase.knowledge_base;
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementerDispatcher;
+import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class DeleteKnowledgeBaseUseCaseImpl implements DeleteKnowledgeBaseUseCase {
 
     private final KnowledgeBaseRepository knowledgeBaseRepository;
+
+    private final DocumentRepository documentRepository;
 
     private final KnowledgeBaseImplementerDispatcher knowledgeBaseImplementerDispatcher;
 
@@ -28,7 +34,10 @@ public class DeleteKnowledgeBaseUseCaseImpl implements DeleteKnowledgeBaseUseCas
         if (!deleted) {
             throw new ResourceNotFoundException();
         }
-        knowledgeBaseImplementerDispatcher.get(knowledgeBase.getImpl()).delete(knowledgeBase);
+        KnowledgeBaseImplementer implementer = knowledgeBaseImplementerDispatcher.get(knowledgeBase.getImpl());
+        List<Document> documents = documentRepository.listByKnowledgeBaseId(knowledgeBase.getId());
+        implementer.delete(knowledgeBase);
+        documents.forEach(document -> implementer.deleteDocument(knowledgeBase, document));
     }
 
 }
