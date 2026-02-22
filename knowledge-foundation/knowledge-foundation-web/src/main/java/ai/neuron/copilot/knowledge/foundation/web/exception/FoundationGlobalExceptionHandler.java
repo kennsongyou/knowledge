@@ -52,6 +52,12 @@ public class FoundationGlobalExceptionHandler {
         return buildProblemDetail(FoundationCoreErrorCode.INVALID_ARGUMENT, HttpStatus.BAD_REQUEST, detail);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handle(Exception ex) {
+        return buildProblemDetail(FoundationCoreErrorCode.INTERNAL_ERROR, HttpStatus.INTERNAL_SERVER_ERROR,
+                "unknown error");
+    }
+
     private static ProblemDetail buildProblemDetail(ErrorCode errorCode, HttpStatus httpStatus, String detail) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
         problemDetail.setType(URI.create("urn:error:" + errorCode.code()));

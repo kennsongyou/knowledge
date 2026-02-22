@@ -4,7 +4,7 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExis
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.CreateKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.CreateKnowledgeBaseCommand;
-import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyDatasetIdProvider;
+import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyConfigProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
@@ -20,7 +20,7 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 
 	private final KnowledgeBaseRepository knowledgeBaseRepository;
 
-	private final DifyDatasetIdProvider difyDatasetIdProvider;
+	private final DifyConfigProvider difyConfigProvider;
 
 	@Transactional
 	@Override
@@ -30,7 +30,7 @@ public class CreateKnowledgeBaseService implements CreateKnowledgeBaseUseCase {
 		KnowledgeBase knowledgeBase = KnowledgeBase.create(
 				command.name(),
 				command.description(),
-				difyDatasetIdProvider.get()
+				difyConfigProvider.difyDatasetId()
 		);
 		boolean saved = knowledgeBaseRepository.save(knowledgeBase);
 		if (!saved) {

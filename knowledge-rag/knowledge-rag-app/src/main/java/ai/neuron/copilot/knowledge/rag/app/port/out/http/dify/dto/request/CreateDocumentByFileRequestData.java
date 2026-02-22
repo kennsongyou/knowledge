@@ -1,67 +1,74 @@
 package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateDocumentByFileRequestData {
 
     @Builder.Default
-    private String indexingTechnique = "high_quality";
+    String indexingTechnique = "high_quality";
 
     @Builder.Default
-    private ProcessRule processRule = ProcessRule.builder().build();
+    ProcessRule processRule = ProcessRule.builder().build();
 
     @Builder.Default
-    private SummaryIndexSetting summaryIndexSetting = SummaryIndexSetting.builder().build();
+    SummaryIndexSetting summaryIndexSetting = SummaryIndexSetting.builder().build();
 
     @Getter
     @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class ProcessRule {
 
         @Builder.Default
-        private String mode = "automatic";
+        String mode = "automatic";
 
         @Builder.Default
-        private Object rules = null;
+        Object rules = null;
     }
 
     @Getter
     @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class PreProcessingRule {
 
-        private String id;
+        String id;
 
-        private Boolean enabled;
+        Boolean enabled;
     }
 
     @Getter
     @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Segmentation {
 
         @Builder.Default
-        private String separator = "###";
+        String separator = "###";
 
         @Builder.Default
-        private Integer maxTokens = 500;
+        Integer maxTokens = 500;
     }
 
     @Getter
     @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class SummaryIndexSetting {
 
         @Builder.Default
-        private Boolean enable = true;
+        Boolean enable = true;
 
         @Builder.Default
-        private String modelName = "text-embedding-3-small";
+        String modelName = "text-embedding-3-small";
 
         @Builder.Default
-        private String modelProviderName = "langgenius/openai/openai";
+        String modelProviderName = "langgenius/openai/openai";
 
         @Builder.Default
-        private String summaryPrompt = "summarize the text";
+        String summaryPrompt = "summarize the text";
 
     }
 

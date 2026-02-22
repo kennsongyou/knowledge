@@ -2,6 +2,7 @@ package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify;
 
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.CreateDatasetRequest;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.UpdateDocumentMetadataRequest;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.CreateDocumentByFileResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.PageDatasetsResponse;
 import org.springframework.core.io.Resource;
@@ -19,6 +20,7 @@ import java.util.List;
 @HttpExchange
 public interface DifyDatasetsClientImpl extends DifyDatasetsClient {
 
+    @Override
     @GetExchange("/datasets")
     PageDatasetsResponse pageDatasets(@RequestParam(name = "keyword", required = false) String keyword,
                                       @RequestParam(name = "tag_ids", required = false) List<String> tagIds,
@@ -27,14 +29,24 @@ public interface DifyDatasetsClientImpl extends DifyDatasetsClient {
                                       @RequestParam(name = "include_all", defaultValue = "false") Boolean includeAll
     );
 
+    @Override
     @PostExchange("/datasets")
     PageDatasetsResponse createDataset(@RequestBody CreateDatasetRequest request);
 
 
+    @Override
     @PostExchange(value = "/datasets/{dataset_id}/document/create-by-file",
             contentType = MediaType.MULTIPART_FORM_DATA_VALUE)
     CreateDocumentByFileResponse createDocumentByFile(@PathVariable("dataset_id") String datasetId,
                                                       @RequestPart("data") String data,
                                                       @RequestPart("file") Resource file);
+
+    @PostExchange("/datasets")
+    PageDatasetsResponse createDataset1(@RequestBody CreateDatasetRequest request);
+
+
+    @PostExchange("/datasets/{dataset_id}/documents/metadata")
+    void updateDocumentMetadata(@PathVariable("dataset_id") String datasetId,
+                                                @RequestBody UpdateDocumentMetadataRequest request);
 
 }

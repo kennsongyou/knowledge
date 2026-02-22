@@ -1,20 +1,16 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify;
 
-import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyDatasetIdProvider;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.DifyDatasetId;
-import lombok.RequiredArgsConstructor;
+import ai.neuron.copilot.knowledge.rag.app.port.out.config.DatasetMetadata;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 
-@RequiredArgsConstructor
 @Configuration
 public class DifyConfig {
 
-    private final DifyProperties difyProperties;
-
     @Bean
-    public DifyDatasetIdProvider datasetIdProvider() {
-        return () -> DifyDatasetId.reconstitute(difyProperties.getDatasetId());
+    public Converter<String, DatasetMetadata> datasetMetadataConverter() {
+        return DatasetMetadata::fromName;
     }
 
 }

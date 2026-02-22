@@ -8,17 +8,19 @@ app:
         app-id: 1307245285
         secret-id: ENC(bh5Da08P4xYVdsw8/l0yqyYBA19WhokJmaUgX1zUApObp9s3HQFhv0gHnFT9yyanOC65ULQGGDrkSPo0LMLLH6hN8FhzWf12DZR6eHmIKF4=)
         secret-key: ENC(SQh0X0znmsbMBo2MUwjJQWLGf+XXuw3yfgVmU1wyuO6JOU8ygn18J+LOlvAbsgdyHNRjvyNnfuUfeqqkBqz/iyHGqtTXEIPzDGjAmowgw70=)
-        region: ap-hongkong
+        region: ap-tokyo
       cos:
         enabled: true
-        bucket: neuron-knowledge-1307245285
-        key-prefix: /neuron/rag
-        domain: ${app.foundation.qcloud.cos.bucket}-${app.foundation.qcloud.credential.app-id}.cos.ap-beijing.myqcloud.com
+        bucket: copilot-knowledge-1307245285
+        key-prefix: /copilot/knowledge/rag
+        domain: ${app.foundation.qcloud.cos.bucket}-${app.foundation.qcloud.credential.app-id}.cos.${app.foundation.qcloud.credential.region}.myqcloud.com
   external:
     dify:
       domain: http://localhost:31000/v1
       dataset-id: 02f16206-4b46-4071-abfc-cbef350c3a07
       dataset-api-key: ENC(0zrQE7eQW12dBVD5wV/sBWHeXghX65heYlWOx0PHKjz7lTU8ougqu6bMEOIMx9HaUJg93c8gZ65wvy09lllPtVGaImN6dDptrYr0FwmeMpw=)
+      dataset-metadata:
+        neuron_knowledge_base_id: 815406af-552b-4702-803a-e2eaa4464376
 
 spring:
   http:

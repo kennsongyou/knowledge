@@ -19,6 +19,9 @@ app:
       domain: http://localhost:31000/v1
       dataset-id: 02f16206-4b46-4071-abfc-cbef350c3a07
       dataset-api-key: ENC(0zrQE7eQW12dBVD5wV/sBWHeXghX65heYlWOx0PHKjz7lTU8ougqu6bMEOIMx9HaUJg93c8gZ65wvy09lllPtVGaImN6dDptrYr0FwmeMpw=)
+      dataset-metadata:
+        neuron_knowledge_base_id: 15406af-552b-4702-803a-e2eaa4464376
+
 
 spring:
   http:
@@ -84,12 +87,9 @@ logging:
   level:
     root: INFO
     ai.neuron.copilot.knowledge: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate: DEBUG
-    org.hibernate.boot: TRACE
-    org.hibernate.engine: DEBUG
-    org.hibernate.context: TRACE
-    org.hibernate.internal.SessionFactoryImpl: DEBUG
+    com.baomidou.mybatisplus: DEBUG
+    org.mybatis: DEBUG
+    org.mybatis.spring: DEBUG
 
 jasypt:
   encryptor:
