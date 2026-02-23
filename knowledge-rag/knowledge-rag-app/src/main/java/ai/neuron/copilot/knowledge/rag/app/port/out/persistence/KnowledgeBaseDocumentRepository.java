@@ -11,4 +11,6 @@ public interface KnowledgeBaseDocumentRepository {
 
     boolean delete(KnowledgeBaseId knowledgeBaseId, DocumentId documentId);
 
+    boolean deleteByKnowledgeBaseId(KnowledgeBaseId knowledgeBaseId);
+
 }

@@ -4,6 +4,7 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundExc
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.DeleteKnowledgeBaseUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.command.DeleteKnowledgeBaseCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DocumentRepository;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementerDispatcher;
@@ -23,6 +24,8 @@ public class DeleteKnowledgeBaseUseCaseImpl implements DeleteKnowledgeBaseUseCas
 
     private final DocumentRepository documentRepository;
 
+    private final KnowledgeBaseDocumentRepository knowledgeBaseDocumentRepository;
+
     private final KnowledgeBaseImplementerDispatcher knowledgeBaseImplementerDispatcher;
 
     @Transactional
@@ -38,6 +41,7 @@ public class DeleteKnowledgeBaseUseCaseImpl implements DeleteKnowledgeBaseUseCas
         List<Document> documents = documentRepository.listByKnowledgeBaseId(knowledgeBase.getId());
         implementer.delete(knowledgeBase);
         documents.forEach(document -> implementer.deleteDocument(knowledgeBase, document));
+        knowledgeBaseDocumentRepository.deleteByKnowledgeBaseId(knowledgeBase.getId());
     }
 
 }

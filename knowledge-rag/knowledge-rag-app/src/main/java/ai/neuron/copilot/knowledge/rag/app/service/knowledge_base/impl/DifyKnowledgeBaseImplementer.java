@@ -64,7 +64,6 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
         if (!deleted) {
             throw new ResourceNotFoundException();
         }
-        difyDocumentRepository.deleteByKnowledgeBaseId(knowledgeBase.getId());
     }
 
     @Transactional
