@@ -20,6 +20,8 @@ app:
       dataset-api-key: ENC(0zrQE7eQW12dBVD5wV/sBWHeXghX65heYlWOx0PHKjz7lTU8ougqu6bMEOIMx9HaUJg93c8gZ65wvy09lllPtVGaImN6dDptrYr0FwmeMpw=)
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   jpa:
     open-in-view: false
   http:
@@ -64,6 +66,7 @@ spring:
         nettyThreads: 32
         codec: !<org.redisson.codec.Kryo5Codec> {}
         transportMode: "NIO"
+
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

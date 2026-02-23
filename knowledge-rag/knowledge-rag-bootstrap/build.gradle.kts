@@ -26,11 +26,12 @@ dependencies {
 	testImplementation(libs.qcloud.cos.api)
 }
 
-tasks.withType<Test> {
+tasks.named<Test>("test") {
 	useJUnitPlatform()
+	workingDir = rootProject.projectDir
 }
 
-tasks.withType<Jar> {
+tasks.named<Jar>("jar") {
 	archiveBaseName.set(project.name)
 	archiveVersion.set(project.version.toString())
 }
