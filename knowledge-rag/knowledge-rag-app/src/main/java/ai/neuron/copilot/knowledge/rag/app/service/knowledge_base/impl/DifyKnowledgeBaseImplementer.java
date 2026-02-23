@@ -9,7 +9,6 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.foundation.core.io.FoundationIOUtils;
 import ai.neuron.copilot.knowledge.foundation.core.json.FoundationJsonCodec;
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DatasetMetadata;
-import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyConfigProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.CreateDocumentByFileRequestData;
@@ -46,8 +45,6 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
     private final FoundationJsonCodec foundationJsonCodec;
 
     private final DifyDatasetsClient difyDatasetsClient;
-
-    private final DifyConfigProvider difyConfigProvider;
 
     private final CurrentOperatorProvider currentOperatorProvider;
 
@@ -97,7 +94,6 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
         if (StringUtils.isBlank(difyDocumentId)) {
             throw new SystemException();
         }
-
 
         String knowledgeBaseMetadataId = sysTenantDifyRegister.datasetMetadata()
                 .get(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID.getName());
