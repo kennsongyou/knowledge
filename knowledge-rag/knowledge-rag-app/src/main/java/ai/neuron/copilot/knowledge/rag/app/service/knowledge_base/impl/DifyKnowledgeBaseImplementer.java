@@ -10,15 +10,18 @@ import ai.neuron.copilot.knowledge.foundation.core.io.FoundationIOUtils;
 import ai.neuron.copilot.knowledge.foundation.core.json.FoundationJsonCodec;
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DatasetMetadata;
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DifyConfigProvider;
+import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.CreateDocumentByFileRequestData;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.UpdateDocumentMetadataRequest;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.CreateDocumentByFileResponse;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyDocumentRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.DifyKnowledgeBaseRepository;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.SysTenantDifyRegisterRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.KnowledgeBaseImplementer;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
+import ai.neuron.copilot.knowledge.rag.domain.sys.model.SysTenantDifyRegister;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,11 +49,18 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
 
     private final DifyConfigProvider difyConfigProvider;
 
+    private final CurrentOperatorProvider currentOperatorProvider;
+
+    private final SysTenantDifyRegisterRepository sysTenantDifyRegisterRepository;
+
     @Transactional
     @Override
     public void create(KnowledgeBase knowledgeBase) {
+        SysTenantDifyRegister sysTenantDifyRegister = sysTenantDifyRegisterRepository
+                .fetchByTenantId(currentOperatorProvider.tenantId())
+                .orElseThrow(ResourceNotFoundException::new);
         DifyKnowledgeBase difyKnowledgeBase = DifyKnowledgeBase.create(knowledgeBase.getId(),
-                difyConfigProvider.difyDatasetId());
+                DifyDatasetId.reconstitute(sysTenantDifyRegister.datasetId()));
         boolean saved = difyKnowledgeBaseRepository.save(difyKnowledgeBase);
         if (!saved) {
             throw new SystemException();
@@ -69,18 +79,28 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
     @Transactional
     @Override
     public void createDocument(KnowledgeBase knowledgeBase, Document document) {
+
+        SysTenantDifyRegister sysTenantDifyRegister = sysTenantDifyRegisterRepository
+                .fetchByTenantId(currentOperatorProvider.tenantId())
+                .orElseThrow(ResourceNotFoundException::new);
+
         BlobObjectKey blobObjectKey = BlobObjectKey.reconstitute(document.getObjectKey());
         BlobInputStreamDTO blobInputStreamDTO = objectStorageClient.fetch(blobObjectKey);
         String data = foundationJsonCodec.encode(CreateDocumentByFileRequestData.defaultRequest());
         Resource resource = FoundationIOUtils.toResource(blobInputStreamDTO.getInputStream(),
                 document.getOriginalFileName(), blobInputStreamDTO.getSize());
-        String difyDatasetId = difyConfigProvider.difyDatasetId().value();
-        CreateDocumentByFileResponse response = difyDatasetsClient.createDocumentByFile(difyDatasetId, data, resource);
+
+        CreateDocumentByFileResponse response = difyDatasetsClient.createDocumentByFile(
+                sysTenantDifyRegister.datasetId(), data, resource);
         String difyDocumentId = Optional.ofNullable(response).map(CreateDocumentByFileResponse::getDocument)
                 .map(CreateDocumentByFileResponse.Document::getId).orElseThrow(SystemException::new);
         if (StringUtils.isBlank(difyDocumentId)) {
             throw new SystemException();
         }
+
+
+        String knowledgeBaseMetadataId = sysTenantDifyRegister.datasetMetadata()
+                .get(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID.getName());
         UpdateDocumentMetadataRequest request = UpdateDocumentMetadataRequest.builder()
                 .operationData(
                         List.of(UpdateDocumentMetadataRequest.OperationData.builder()
@@ -88,7 +108,7 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
                                 .metadataList(
                                         List.of(
                                                 UpdateDocumentMetadataRequest.MetadataItem.builder()
-                                                        .id(difyConfigProvider.metadataId(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID))
+                                                        .id(knowledgeBaseMetadataId)
                                                         .name(DatasetMetadata.NEURON_KNOWLEDGE_BASE_ID.getName())
                                                         .value(knowledgeBase.getId().value())
                                                         .build()
@@ -97,8 +117,9 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
                                 .build()
                         )
                 ).build();
-        difyDatasetsClient.updateDocumentMetadata(difyDatasetId, request);
-        boolean saved = difyDocumentRepository.save(knowledgeBase.getId(), document.getId(), difyDatasetId, difyDocumentId);
+        difyDatasetsClient.updateDocumentMetadata(sysTenantDifyRegister.datasetId(), request);
+        boolean saved = difyDocumentRepository.save(knowledgeBase.getId(), document.getId(),
+                sysTenantDifyRegister.datasetId(), difyDocumentId);
         if (!saved) {
             throw new ResourceAlreadyExistException();
         }

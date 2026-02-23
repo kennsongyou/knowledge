@@ -17,9 +17,4 @@ public class DifyConfigProviderImpl implements DifyConfigProvider {
         return DifyDatasetId.reconstitute(difyProperties.getDatasetId());
     }
 
-    @Override
-    public String metadataId(DatasetMetadata metadata) {
-        return difyProperties.getDatasetMetadata().get(metadata);
-    }
-
 }

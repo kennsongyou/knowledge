@@ -6,6 +6,4 @@ public interface DifyConfigProvider {
 
     DifyDatasetId difyDatasetId();
 
-    String metadataId(DatasetMetadata metadata);
-
 }

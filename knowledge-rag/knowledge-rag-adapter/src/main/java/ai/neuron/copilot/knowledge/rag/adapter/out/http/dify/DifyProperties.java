@@ -23,6 +23,4 @@ public class DifyProperties {
 
     String datasetApiKey;
 
-    Map<DatasetMetadata, String> datasetMetadata;
-
 }

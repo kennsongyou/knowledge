@@ -13,10 +13,5 @@ public class BootTest {
     @Autowired
     DifyProperties difyProperties;
 
-    @Test
-    void testMessageZhCN() {
-        System.out.println(difyProperties.getDatasetMetadata());
-    }
-
 
 }

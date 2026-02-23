@@ -17,7 +17,7 @@ import java.time.Instant;
 public abstract class CreatedAuditPO {
 
     @TableId(type = IdType.AUTO)
-    private Long id;
+    Long id;
 
     @TableField(fill = FieldFill.INSERT)
     Long createdBy;
