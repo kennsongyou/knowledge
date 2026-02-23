@@ -14,7 +14,6 @@ include(
     ":knowledge-foundation:knowledge-foundation-web",
     ":knowledge-foundation:knowledge-foundation-webflux",
     ":knowledge-foundation:knowledge-foundation-data",
-    ":knowledge-rag",
     ":knowledge-rag:knowledge-rag-adapter",
     ":knowledge-rag:knowledge-rag-app",
     ":knowledge-rag:knowledge-rag-bootstrap",
