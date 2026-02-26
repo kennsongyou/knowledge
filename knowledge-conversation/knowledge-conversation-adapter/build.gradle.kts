@@ -18,9 +18,11 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.mybatis.plus.spring.boot.starter)
+    implementation(libs.mybatis.plus.jsqlparser)
     implementation(libs.apache.commons.lang3)
     implementation(libs.apache.http.client5)
     implementation(libs.mysql.connector.j)
+    implementation(libs.qcloud.cos.api)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }
