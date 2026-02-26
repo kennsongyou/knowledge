@@ -1,0 +1,41 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+plugins {
+    `java-library`
+    `maven-publish`
+    alias(libs.plugins.spring.boot)
+}
+
+group = "ai.neuron.copilot"
+version = "0.0.1"
+description = "knowledge-conversation-bootstrap"
+
+dependencies {
+    implementation(project(":knowledge-common"))
+    implementation(project(":knowledge-foundation:knowledge-foundation-blob"))
+    implementation(project(":knowledge-foundation:knowledge-foundation-core"))
+    implementation(project(":knowledge-foundation:knowledge-foundation-web"))
+    implementation(project(":knowledge-foundation:knowledge-foundation-data"))
+    implementation(project(":knowledge-conversation:knowledge-conversation-adapter"))
+    implementation(project(":knowledge-conversation:knowledge-conversation-app"))
+    implementation(project(":knowledge-conversation:knowledge-conversation-domain"))
+    implementation(libs.spring.boot.starter)
+    implementation(libs.spring.boot.starter.web)
+    testImplementation(libs.jasypt.spring.boot.starter)
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.qcloud.cos.api)
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+    workingDir = rootProject.projectDir
+}
+
+tasks.named<Jar>("jar") {
+    archiveBaseName.set(project.name)
+    archiveVersion.set(project.version.toString())
+}
+
+tasks.named<BootJar>("bootJar") {
+    archiveFileName.set("${project.name}-${project.version}.jar")
+}

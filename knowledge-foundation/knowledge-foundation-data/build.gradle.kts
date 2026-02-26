@@ -8,9 +8,9 @@ description = "knowledge-foundation-data"
 
 dependencies {
 	implementation(project(":knowledge-foundation:knowledge-foundation-core"))
-	implementation(libs.spring.boot.starter.data.jpa)
-	implementation(libs.mybatis.plus.spring.boot.starter)
-	implementation(libs.mybatis.plus.jsqlparser)
+	compileOnly(libs.spring.boot.starter.data.jpa)
+	compileOnly(libs.mybatis.plus.spring.boot.starter)
+	compileOnly(libs.mybatis.plus.jsqlparser)
 	implementation(libs.apache.commons.lang3)
 	compileOnly(libs.mysql.connector.j)
 	compileOnly(libs.redisson.spring.boot.starter)

@@ -11,7 +11,7 @@ dependencies {
 	implementation(libs.spring.boot.starter.aop)
 	implementation(libs.spring.boot.starter.json)
 	implementation(libs.apache.commons.lang3)
-	implementation(libs.qcloud.cos.api)
+	compileOnly(libs.qcloud.cos.api)
 	compileOnly(libs.lombok)
 	annotationProcessor(libs.lombok)
 }

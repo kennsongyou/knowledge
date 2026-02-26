@@ -1,6 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation;
 
-import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.CreateKnowledgeBaseRequest;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.request.CreateConversationRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ public class ConversationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateKnowledgeBaseRequest request) {
+    public CreateKnowledgeBaseResponse create(@RequestBody @Valid CreateConversationRequest request) {
         return null;
     }
 

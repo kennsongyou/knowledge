@@ -1,2 +1,1 @@
-ai.neuron.copilot.knowledge.foundation.data.rdb.jpa.JpaAutoConfiguration
-ai.neuron.copilot.knowledge.foundation.data.rdb.mybatis.MybatisPlusAutoConfiguration
+ai.neuron.copilot.knowledge.foundation.data.rdb.RdbAutoConfiguration
