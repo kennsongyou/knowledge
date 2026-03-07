@@ -54,9 +54,9 @@ public class KnowledgeBaseRepositoryImpl implements KnowledgeBaseRepository {
         Page<KnowledgeBasePO> page = knowledgeBasePORepository.lambdaQuery()
                 .like(StringUtils.isNotBlank(keyword), KnowledgeBasePO::getName, keyword)
                 .orderByDesc(KnowledgeBasePO::getCreatedAt)
-                .page(new Page<>(pageQuery.getPageNo(), pageQuery.getPageSize()));
+                .page(new Page<>(pageQuery.pageNo(), pageQuery.pageSize()));
         List<KnowledgeBase> domainList = page.getRecords().stream().map(KnowledgeBaseConverter::toDomain).toList();
-        return new PageResult<>(domainList, page.getTotal(), pageQuery.getPageNo(), pageQuery.getPageSize());
+        return new PageResult<>(domainList, page.getTotal(), pageQuery.pageNo(), pageQuery.pageSize());
     }
 
     @Override

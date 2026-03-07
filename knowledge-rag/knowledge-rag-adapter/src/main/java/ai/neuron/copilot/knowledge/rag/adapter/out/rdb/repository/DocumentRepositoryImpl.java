@@ -43,9 +43,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         Page<DocumentPO> poPage = documentPORepository.lambdaQuery()
                 .like(StringUtils.isNotBlank(keyword), DocumentPO::getDisplayName, keyword)
                 .orderByDesc(DocumentPO::getCreatedAt)
-                .page(new Page<>(pageQuery.getPageNo(), pageQuery.getPageSize()));
+                .page(new Page<>(pageQuery.pageNo(), pageQuery.pageSize()));
         List<Document> domainList = poPage.getRecords().stream().map(DocumentConverter::toDomain).toList();
-        return new PageResult<>(domainList, poPage.getTotal(), pageQuery.getPageNo(), pageQuery.getPageSize());
+        return new PageResult<>(domainList, poPage.getTotal(), pageQuery.pageNo(), pageQuery.pageSize());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Override
     public PageResult<Document> pageByKnowledgeBaseIdAndKeyword(PageQuery pageQuery, KnowledgeBaseId knowledgeBaseId, String keyword) {
         Page<DocumentPO> poPage = documentMapper.pageByKnowledgeBaseIdKeyword(
-                new Page<>(pageQuery.getPageNo(), pageQuery.getPageSize()), knowledgeBaseId.value(),keyword);
+                new Page<>(pageQuery.pageNo(), pageQuery.pageSize()), knowledgeBaseId.value(),keyword);
         List<Document> records = poPage.getRecords().stream().map(DocumentConverter::toDomain).toList();
         return new PageResult<>(records, poPage.getTotal(), poPage.getCurrent(), poPage.getSize());
     }

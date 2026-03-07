@@ -1,7 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.app.usecase.conversation;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
-import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dto.AddMessageUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.AddMessageUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dto.command.AddMessageCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.ConversationMessageSender;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.dto.response.ConversationOutMessage;
