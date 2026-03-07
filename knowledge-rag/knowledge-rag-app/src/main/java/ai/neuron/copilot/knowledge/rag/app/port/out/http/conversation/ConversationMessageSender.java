@@ -5,10 +5,10 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.dto.respon
 
 public interface ConversationMessageSender {
 
-    void send(String connectionId, ConversationOutMessage message);
+    void send(String serverId, ConversationOutMessage message);
 
-    void complete(String connectionId);
+    void complete(String serverId);
 
-    void error(String connectionId, BaseException ex);
+    void error(String serverId, BaseException ex);
 
 }

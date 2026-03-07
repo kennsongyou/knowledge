@@ -20,16 +20,6 @@ public class CreateMessageUseCaseImpl implements CreateMessageUseCase {
     @SneakyThrows
     @Async
     public void execute(CreateMessageCommand command) {
-        try {
-            ConversationOutMessage asd = ConversationOutMessage.builder().data("asd").build();
-            for (int i = 0; i < 10; i++) {
-                conversationMessageSender.send(command.connectionId(), asd);
-                Thread.sleep(500);
-            }
-        } catch (Exception e) {
-            conversationMessageSender.error(command.connectionId(), new SystemException(e));
-        }
-        conversationMessageSender.complete(command.connectionId());
 
     }
 

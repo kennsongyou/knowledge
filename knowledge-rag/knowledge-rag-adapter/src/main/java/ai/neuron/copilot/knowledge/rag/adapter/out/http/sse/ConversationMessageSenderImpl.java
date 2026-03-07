@@ -17,24 +17,24 @@ public class ConversationMessageSenderImpl implements ConversationMessageSender 
     private final SseServerManager registry;
 
     @Override
-    public void send(String connectionId, ConversationOutMessage message) {
+    public void send(String serverId, ConversationOutMessage message) {
         SseServerMessage sseServerMessage = SseServerMessage.success("rag", message.getData());
-        registry.send(connectionId, sseServerMessage);
+        registry.send(serverId, sseServerMessage);
     }
 
     @Override
-    public void complete(String connectionId) {
+    public void complete(String serverId) {
         ConversationOutMessage message = ConversationOutMessage.builder().data("completed").build();
-        send(connectionId, message);
-        registry.connectionComplete(connectionId);
+        send(serverId, message);
+        registry.connectionComplete(serverId);
     }
 
 
     @Override
-    public void error(String connectionId, BaseException ex) {
+    public void error(String serverId, BaseException ex) {
         ConversationOutMessage message = ConversationOutMessage.builder().data("error").build();
-        send(connectionId, message);
-        registry.connectionError(connectionId, ex);
+        send(serverId, message);
+        registry.connectionError(serverId, ex);
     }
 
 }

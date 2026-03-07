@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
 public class SseClientContext {
 
-    String connectionId;
+    String clientId;
 
     URI uri;
 
@@ -21,8 +21,8 @@ public class SseClientContext {
 
     Map<String, Object> attributes = new ConcurrentHashMap<>();
 
-    public SseClientContext(String connectionId, URI uri, JsonCodec jsonCodec) {
-        this.connectionId = connectionId;
+    public SseClientContext(String clientId, URI uri, JsonCodec jsonCodec) {
+        this.clientId = clientId;
         this.uri = uri;
         this.jsonCodec = jsonCodec;
     }

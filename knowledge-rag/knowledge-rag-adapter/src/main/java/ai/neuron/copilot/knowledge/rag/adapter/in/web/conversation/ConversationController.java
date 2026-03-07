@@ -42,16 +42,10 @@ public class ConversationController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<SseEmitter> createMessage(@RequestBody @Valid CreateMessageRequest request) {
         String connectionId = IdUtils.trimmedUuidV4();
-        try {
-            SseEmitter emitter = registry.register(connectionId);
-            CreateMessageCommand command = new CreateMessageCommand("asd", connectionId, "qwe");
-            createMessageUseCase.execute(command);
-            return ResponseEntity.ok(emitter);
-        } catch (IllegalStateException ex) {
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        SseEmitter emitter = registry.register(connectionId);
+        CreateMessageCommand command = new CreateMessageCommand(request.getConversationId(), request.getQuery());
+        createMessageUseCase.execute(command);
+        return ResponseEntity.ok(emitter);
     }
 
     @GetMapping

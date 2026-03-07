@@ -17,8 +17,6 @@ public class CreateMessageRequest {
 
     String conversationId;
 
-    String connectionId;
-
     @NotBlank
     String query;
 
