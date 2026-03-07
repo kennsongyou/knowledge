@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -72,8 +71,8 @@ public class ConversationController {
         CursorQuery query = new CursorQuery(request.getCursor(), request.getLimit());
         CursorResult<Conversation> cursorResult = cursorConversationUseCase.execute(query);
         List<ConversationDTO> records = cursorResult.records().stream().map(conversation -> new ConversationDTO(
-                conversation.id().value(),
-                conversation.name().value()
+                conversation.getId().value(),
+                conversation.getName().value()
         )).toList();
         return new CursorResult<>(records, cursorResult.nextCursor());
     }
