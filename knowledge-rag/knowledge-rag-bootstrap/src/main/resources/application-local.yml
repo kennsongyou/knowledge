@@ -1,8 +1,15 @@
 server:
   port: 30001
+  shutdown: graceful
 
 app:
   foundation:
+    sse:
+      server:
+        enabled: true
+        heartbeat-interval: 1000
+      client:
+        enabled: true
     qcloud:
       credential:
         app-id: 1307245285
@@ -20,18 +27,19 @@ app:
       dataset-api-key: ENC(0zrQE7eQW12dBVD5wV/sBWHeXghX65heYlWOx0PHKjz7lTU8ougqu6bMEOIMx9HaUJg93c8gZ65wvy09lllPtVGaImN6dDptrYr0FwmeMpw=)
 
 spring:
-  config:
-    import: optional:file:.env[.properties]
-  threads:
-    virtual:
-      enabled: true
-#  jpa:
-#    open-in-view: false
   http:
     client:
       factory: http_components
       connect-timeout: 3s
       read-timeout: 30m
+  config:
+    import: optional:file:.env[.properties]
+  threads:
+    virtual:
+      enabled: true
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+
   datasource:
     url: jdbc:mysql://localhost:3306/knowledge_rag?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root

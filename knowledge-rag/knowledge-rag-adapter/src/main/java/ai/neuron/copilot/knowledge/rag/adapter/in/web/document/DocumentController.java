@@ -1,7 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.adapter.in.web.document;
 
 import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
-import ai.neuron.copilot.knowledge.foundation.blob.ObjectStorageClient;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.foundation.web.file.FileUploadAdapter;

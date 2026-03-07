@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
         name = "enabled",
         havingValue = "true"
 )
-public class QcloudCosConfig {
+public class QcloudCosAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean

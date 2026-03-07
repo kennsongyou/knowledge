@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 public enum BlobProvider {
 
+    LOCAL("local"),
+
     QCLOUD("qcloud");
 
     private final String type;

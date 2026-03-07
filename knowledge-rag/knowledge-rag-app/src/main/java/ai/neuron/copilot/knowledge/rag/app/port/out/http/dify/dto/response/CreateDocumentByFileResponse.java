@@ -1,58 +1,67 @@
 package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CreateDocumentByFileResponse {
 
-    private Document document;
+    Document document;
 
-    private String batch;
+    String batch;
 
     @Getter
     @Setter
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Document {
 
-        private String id;
+        String id;
 
-        private Integer position;
+        Integer position;
 
-        private String dataSourceType;
+        String dataSourceType;
 
-        private Object dataSourceInfo;
+        Object dataSourceInfo;
 
-        private String datasetProcessRuleId;
+        String datasetProcessRuleId;
 
-        private String name;
+        String name;
 
-        private String createdFrom;
+        String createdFrom;
 
-        private String createdBy;
+        String createdBy;
 
-        private Long createdAt;
+        Long createdAt;
 
-        private Integer tokens;
+        Integer tokens;
 
-        private String indexingStatus;
+        String indexingStatus;
 
-        private String error;
+        String error;
 
-        private Boolean enabled;
+        Boolean enabled;
 
-        private Long disabledAt;
+        Long disabledAt;
 
-        private String disabledBy;
+        String disabledBy;
 
-        private Boolean archived;
+        Boolean archived;
 
-        private String displayStatus;
+        String displayStatus;
 
-        private Integer wordCount;
+        Integer wordCount;
 
-        private Integer hitCount;
+        Integer hitCount;
 
-        private String docForm;
+        String docForm;
     }
+
 }

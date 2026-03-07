@@ -7,7 +7,7 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceAlreadyExis
 import ai.neuron.copilot.knowledge.foundation.core.exception.ResourceNotFoundException;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.foundation.core.io.FoundationIOUtils;
-import ai.neuron.copilot.knowledge.foundation.core.json.FoundationJsonCodec;
+import ai.neuron.copilot.knowledge.foundation.core.json.DefaultJsonCodec;
 import ai.neuron.copilot.knowledge.rag.app.port.out.config.DatasetMetadata;
 import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyDatasetsClient;
@@ -42,7 +42,7 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
 
     private final ObjectStorageClient objectStorageClient;
 
-    private final FoundationJsonCodec foundationJsonCodec;
+    private final DefaultJsonCodec defaultJsonCodec;
 
     private final DifyDatasetsClient difyDatasetsClient;
 
@@ -83,7 +83,7 @@ public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
 
         BlobObjectKey blobObjectKey = BlobObjectKey.reconstitute(document.getObjectKey());
         BlobInputStreamDTO blobInputStreamDTO = objectStorageClient.fetch(blobObjectKey);
-        String data = foundationJsonCodec.encode(CreateDocumentByFileRequestData.defaultRequest());
+        String data = defaultJsonCodec.encode(CreateDocumentByFileRequestData.defaultRequest());
         Resource resource = FoundationIOUtils.toResource(blobInputStreamDTO.getInputStream(),
                 document.getOriginalFileName(), blobInputStreamDTO.getSize());
 

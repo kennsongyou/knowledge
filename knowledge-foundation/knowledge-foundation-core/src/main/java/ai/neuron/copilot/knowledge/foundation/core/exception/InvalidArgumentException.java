@@ -7,11 +7,11 @@ public class InvalidArgumentException extends BaseException {
     }
 
     public InvalidArgumentException(Throwable cause) {
-        super(FoundationCoreErrorCode.INTERNAL_ERROR, cause);
+        super(FoundationCoreErrorCode.INVALID_ARGUMENT, cause);
     }
 
     public InvalidArgumentException(Throwable cause, Object... args) {
-        super(FoundationCoreErrorCode.INTERNAL_ERROR, cause, args);
+        super(FoundationCoreErrorCode.INVALID_ARGUMENT, cause, args);
     }
 
 }

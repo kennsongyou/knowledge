@@ -51,7 +51,7 @@ public class RdbAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(name = "metaObjectHandler")
-        public Object metaObjectHandler() {
+        public com.baomidou.mybatisplus.core.handlers.MetaObjectHandler metaObjectHandler() {
             return new KnowledgeMetaObjectHandler();
         }
 

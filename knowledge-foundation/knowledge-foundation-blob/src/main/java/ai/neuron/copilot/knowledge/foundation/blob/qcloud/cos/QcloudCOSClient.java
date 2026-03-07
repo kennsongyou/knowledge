@@ -4,12 +4,11 @@ import ai.neuron.copilot.knowledge.common.io.FileUploadDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.*;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.http.HttpMethodName;
-import com.qcloud.cos.model.COSObject;
-import com.qcloud.cos.model.COSObjectInputStream;
-import com.qcloud.cos.model.GeneratePresignedUrlRequest;
-import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -31,6 +30,7 @@ public class QcloudCOSClient implements ObjectStorageClient {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(fileUploadDTO.getSize());
         metadata.setContentType(fileUploadDTO.getContentType());
+        metadata.setContentDisposition("inline");
         Optional.ofNullable(blobObject.expiration())
                 .map(e -> e.atZone(timeZone.toZoneId()))
                 .map(e -> Date.from(e.toInstant())).ifPresent(metadata::setExpirationTime);
@@ -53,12 +53,24 @@ public class QcloudCOSClient implements ObjectStorageClient {
 
     @Override
     public URL url(BlobObjectKey blobObjectKey, Duration timeout) {
+
         GeneratePresignedUrlRequest request =
                 new GeneratePresignedUrlRequest(qcloudCosProperties.getBucket(), blobObjectKey.value());
         request.setMethod(HttpMethodName.GET);
         Date expiration = new Date(System.currentTimeMillis() + timeout.toMillis());
         request.setExpiration(expiration);
+
+        String contentType = MediaTypeFactory
+                .getMediaType(blobObjectKey.fileName())
+                .map(MediaType::toString)
+                .orElse("application/octet-stream");
+
+        ResponseHeaderOverrides responseHeaders = new ResponseHeaderOverrides();
+        responseHeaders.setContentDisposition("inline");
+        responseHeaders.setContentType(contentType);
+        request.setResponseHeaders(responseHeaders);
         return cosClient.generatePresignedUrl(request);
+
     }
 
     @Override

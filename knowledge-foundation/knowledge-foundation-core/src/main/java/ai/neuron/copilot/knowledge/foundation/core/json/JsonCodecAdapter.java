@@ -7,12 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class FoundationJsonCodec {
+public class JsonCodecAdapter implements JsonCodec {
 
     private final ObjectMapper objectMapper;
 
-    private final ObjectMapper snakeObjectMapper;
-
+    @Override
     public String encode(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
@@ -21,14 +20,7 @@ public class FoundationJsonCodec {
         }
     }
 
-    public String encodeSnake(Object obj) {
-        try {
-            return snakeObjectMapper.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            throw new SystemException(e);
-        }
-    }
-
+    @Override
     public <T> T decode(String json, Class<T> clazz) {
         try {
             return objectMapper.readValue(json, clazz);
@@ -37,14 +29,7 @@ public class FoundationJsonCodec {
         }
     }
 
-    public <T> T decodeSnake(String json, Class<T> clazz) {
-        try {
-            return snakeObjectMapper.readValue(json, clazz);
-        } catch (JsonProcessingException e) {
-            throw new SystemException(e);
-        }
-    }
-
+    @Override
     public <T> T decode(String json, TypeReference<T> typeReference) {
         try {
             return objectMapper.readValue(json, typeReference);
@@ -53,12 +38,9 @@ public class FoundationJsonCodec {
         }
     }
 
-    public <T> T decodeSnake(String json, TypeReference<T> typeReference) {
-        try {
-            return snakeObjectMapper.readValue(json, typeReference);
-        } catch (JsonProcessingException e) {
-            throw new SystemException(e);
-        }
+    @Override
+    public <T> T convert(Object value, TypeReference<T> typeReference) {
+        return objectMapper.convertValue(value, typeReference);
     }
 
 }

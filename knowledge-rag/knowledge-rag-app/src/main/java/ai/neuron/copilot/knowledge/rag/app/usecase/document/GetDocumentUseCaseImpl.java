@@ -31,7 +31,7 @@ public class GetDocumentUseCaseImpl implements GetDocumentUseCase {
     public String accessUrl(FetchDocumentUrlQuery query) {
         Document document = documentRepository.fetch(query.id()).orElseThrow(ResourceNotFoundException::new);
         BlobObjectKey objectKey = BlobObjectKey.reconstitute(document.getObjectKey());
-        URL url = objectStorageClient.url(objectKey, Duration.ofMinutes(1));
+        URL url = objectStorageClient.url(objectKey, Duration.ofDays(7));
         return url.toString();
     }
 

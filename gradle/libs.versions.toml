@@ -9,6 +9,7 @@ lombok = "1.18.42"
 junit-jupiter = "5.11.3"
 qcloud-cos-api = "5.6.261"
 jasypt-spring-boot-starter = "3.0.5"
+okhttp3 = "4.12.0"
 
 [bundles]
 testing = ["junit-jupiter-api", "junit-jupiter-engine", "junit-platform-launcher"]
@@ -17,6 +18,7 @@ testing = ["junit-jupiter-api", "junit-jupiter-engine", "junit-platform-launcher
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-websocket = { module = "org.springframework.boot:spring-boot-starter-websocket" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-json = { module = "org.springframework.boot:spring-boot-starter-json" }
@@ -39,7 +41,9 @@ mysql-connector-j = { module = "com.mysql:mysql-connector-j" }
 mybatis-plus-spring-boot-starter = { module = "com.baomidou:mybatis-plus-spring-boot3-starter" }
 mybatis-plus-jsqlparser = { module = "com.baomidou:mybatis-plus-jsqlparser" }
 postgresql = { module = "org.postgresql:postgresql" }
-
+squareup-okhttp3-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp3" }
+squareup-okhttp3 = { module = "com.squareup.okhttp3:okhttp" }
+squareup-okhttp3-sse = { module = "com.squareup.okhttp3:okhttp-sse" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

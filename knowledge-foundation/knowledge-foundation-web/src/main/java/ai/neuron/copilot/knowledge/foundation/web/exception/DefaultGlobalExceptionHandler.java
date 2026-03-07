@@ -1,6 +1,7 @@
 package ai.neuron.copilot.knowledge.foundation.web.exception;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.*;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -20,7 +21,7 @@ import java.util.Locale;
 @Order
 @RequiredArgsConstructor
 @RestControllerAdvice
-public class FoundationGlobalExceptionHandler {
+public class DefaultGlobalExceptionHandler {
 
     private final MessageSource messageSource;
 
@@ -45,10 +46,23 @@ public class FoundationGlobalExceptionHandler {
         return buildProblemDetail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR, detail);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
-    public ProblemDetail handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        FieldError fieldError = ex.getBindingResult().getFieldErrors().getFirst();
-        String detail = fieldError.getDefaultMessage();
+    @ExceptionHandler({
+            MethodArgumentNotValidException.class,
+            ConstraintViolationException.class,
+            InvalidArgumentException.class
+    })
+    public ProblemDetail handleMethodArgumentNotValid(Exception ex) {
+        String detail = null;
+
+        if (ex instanceof MethodArgumentNotValidException e) {
+            FieldError fieldError = e.getBindingResult().getFieldErrors().getFirst();
+            detail = fieldError.getDefaultMessage();
+        } else if (ex instanceof ConstraintViolationException e) {
+            ConstraintViolation<?> constraintViolation = e.getConstraintViolations().iterator().next();
+            detail = constraintViolation.getMessage();
+        } else {
+            detail = ex.getMessage();
+        }
         return buildProblemDetail(FoundationCoreErrorCode.INVALID_ARGUMENT, HttpStatus.BAD_REQUEST, detail);
     }
 

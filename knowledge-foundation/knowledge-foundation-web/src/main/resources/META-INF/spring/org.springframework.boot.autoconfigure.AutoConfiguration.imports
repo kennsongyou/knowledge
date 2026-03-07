@@ -1,2 +1,4 @@
 ai.neuron.copilot.knowledge.foundation.web.config.WebAutoConfiguration
 ai.neuron.copilot.knowledge.foundation.web.message.MessageSourceAutoConfiguration
+ai.neuron.copilot.knowledge.foundation.web.sse.server.SseServerAutoConfiguration
+ai.neuron.copilot.knowledge.foundation.web.sse.client.SseClientAutoConfiguration

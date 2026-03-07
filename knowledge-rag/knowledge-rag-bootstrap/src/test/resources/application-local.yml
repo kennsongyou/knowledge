@@ -14,6 +14,11 @@ app:
         bucket: copilot-knowledge-1307245285
         key-prefix: /copilot/knowledge/rag
         domain: ${app.foundation.qcloud.cos.bucket}-${app.foundation.qcloud.credential.app-id}.cos.${app.foundation.qcloud.credential.region}.myqcloud.com
+    sse:
+      client:
+        enabled: true
+      server:
+        enabled: true
   external:
     dify:
       domain: http://localhost:31000/v1

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
@@ -34,8 +35,13 @@ public class JsonAutoConfig {
     }
 
     @Bean
-    public FoundationJsonCodec jsonCodec() {
-        return new FoundationJsonCodec(snakeObjectMapper(), objectMapper());
+    public DefaultJsonCodec objectJsonCodec(ObjectMapper objectMapper) {
+        return new DefaultJsonCodecImpl(objectMapper);
+    }
+
+    @Bean
+    public SnakeCaseJsonCodec snakeJsonCodec(@Qualifier("snakeObjectMapper") ObjectMapper objectMapper) {
+        return new SnakeCaseJsonCodecImpl(objectMapper);
     }
 
 }

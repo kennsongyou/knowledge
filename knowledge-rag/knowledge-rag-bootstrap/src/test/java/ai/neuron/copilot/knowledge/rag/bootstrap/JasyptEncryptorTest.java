@@ -13,10 +13,8 @@ public class JasyptEncryptorTest {
 
     @Test
     void generateEncryptedValue() {
-        // 明文密码
         String plainText = "password123";
         String encrypted = encryptor.encrypt(plainText);
-        // 加密后
         System.out.println("ENC(" + encrypted + ")");
     }
 }

@@ -1,18 +1,15 @@
 package ai.neuron.copilot.knowledge.foundation.web.config;
 
+import ai.neuron.copilot.knowledge.foundation.web.exception.DefaultGlobalExceptionHandler;
 import ai.neuron.copilot.knowledge.foundation.web.interceptor.ContextFilter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
@@ -27,12 +24,11 @@ public class WebAutoConfiguration {
         return registration;
     }
 
+
     @Bean
-    @Primary
-    public MappingJackson2HttpMessageConverter snakeCaseConverter(@Qualifier("snakeObjectMapper") ObjectMapper mapper) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(mapper);
-        converter.setSupportedMediaTypes(List.of(MediaType.APPLICATION_JSON));
-        return converter;
+    @ConditionalOnMissingBean(RestControllerAdvice.class)
+    public DefaultGlobalExceptionHandler defaultRestControllerAdvice(MessageSource messageSource) {
+        return new DefaultGlobalExceptionHandler(messageSource);
     }
 
 }
