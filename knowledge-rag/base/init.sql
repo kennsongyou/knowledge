@@ -95,4 +95,36 @@ CREATE TABLE `sys_tenant_dify_register` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+CREATE TABLE `conversation` (
+                                `id` bigint NOT NULL AUTO_INCREMENT,
+                                `conversation_id` varchar(255) NOT NULL,
+                                `name` varchar(255) DEFAULT NULL,
+                                `metadata` text,
+                                `tenant_id` bigint NOT NULL,
+                                `deleted` tinyint NOT NULL DEFAULT '0',
+                                `created_by` bigint NOT NULL,
+                                `created_at` datetime(6) NOT NULL,
+                                `updated_by` bigint NOT NULL,
+                                `updated_at` datetime(6) NOT NULL,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `conversation_id_UNIQUE` (`conversation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `conversation_message` (
+                                        `id` bigint NOT NULL AUTO_INCREMENT,
+                                        `conversation_message_id` varchar(255) NOT NULL,
+                                        `conversation_id` varchar(255) NOT NULL,
+                                        `role` varchar(255) NOT NULL,
+                                        `content` text NOT NULL,
+                                        `deleted` tinyint NOT NULL DEFAULT '0',
+                                        `created_by` bigint NOT NULL,
+                                        `created_at` datetime(6) NOT NULL,
+                                        `updated_by` bigint NOT NULL,
+                                        `updated_at` datetime(6) NOT NULL,
+                                        PRIMARY KEY (`id`),
+                                        UNIQUE KEY `chat_message_id_UNIQUE` (`conversation_message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
 INSERT INTO `sys_tenant_dify_register` (`id`,`sys_tenant_dify_register_id`,`tenant_id`,`dataset_id`,`dataset_metadata`,`app_id`,`app_api_key`,`deleted`,`created_at`,`updated_at`) VALUES (1,'1',1,'02f16206-4b46-4071-abfc-cbef350c3a07','{\"neuron_knowledge_base_id\": \"815406af-552b-4702-803a-e2eaa4464376\"}','3a681cf4-af46-4171-be07-1d808bb7b305','app-qRYFJBjZO8tg1rQqZo4jkj7X',0,'2026-02-23 15:48:53.000000','2026-02-23 15:48:53.000000');

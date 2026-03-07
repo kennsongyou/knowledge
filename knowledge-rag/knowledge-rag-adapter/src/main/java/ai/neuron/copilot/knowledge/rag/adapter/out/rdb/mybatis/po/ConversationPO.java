@@ -17,4 +17,6 @@ public final class ConversationPO extends AuditPO {
 
 	String name;
 
+	String metadata;
+
 }

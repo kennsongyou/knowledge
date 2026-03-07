@@ -4,6 +4,7 @@ import ai.neuron.copilot.knowledge.foundation.data.page.CursorQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.CursorResult;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.converter.ConversationConverter;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.ConversationPO;
+import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.po.KnowledgeBasePO;
 import ai.neuron.copilot.knowledge.rag.adapter.out.rdb.mybatis.repository.ConversationPORepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.ConversationRepository;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.Conversation;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -38,8 +40,23 @@ public class ConversationRepositoryImpl implements ConversationRepository {
     }
 
     @Override
+    public Optional<Conversation> fetch(ConversationId id) {
+        return conversationPORepository.lambdaQuery().eq(ConversationPO::getConversationId, id).oneOpt()
+                .map(ConversationConverter::toDomain);
+    }
+
+    @Override
     public boolean save(Conversation conversation) {
         return conversationPORepository.save(ConversationConverter.toPO(conversation));
+    }
+
+    @Override
+    public boolean update(Conversation conversation) {
+        return conversationPORepository.lambdaUpdate()
+                .eq(ConversationPO::getConversationId, conversation.getId().value())
+                .set(ConversationPO::getName, conversation.getName().value())
+                .set(ConversationPO::getMetadata, conversation.getMetadata())
+                .update();
     }
 
     @Override

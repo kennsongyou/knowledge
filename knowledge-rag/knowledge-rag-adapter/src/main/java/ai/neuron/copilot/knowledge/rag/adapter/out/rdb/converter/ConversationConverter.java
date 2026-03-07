@@ -10,14 +10,16 @@ public final class ConversationConverter {
     public static Conversation toDomain(ConversationPO po) {
         return Conversation.reconstitute(
                 ConversationId.reconstitute(po.getConversationId()),
-                ConversationName.reconstitute(po.getName())
+                ConversationName.reconstitute(po.getName()),
+                po.getMetadata()
         );
     }
 
     public static ConversationPO toPO(Conversation conversation) {
         ConversationPO po = new ConversationPO();
-        po.setConversationId(conversation.id().value());
-        po.setName(conversation.name().value());
+        po.setConversationId(conversation.getId().value());
+        po.setName(conversation.getName().value());
+        po.setMetadata(conversation.getMetadata());
         return po;
     }
 

@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.impl;
+package ai.neuron.copilot.knowledge.rag.app.service.knowledge_base.dify;
 
 import ai.neuron.copilot.knowledge.foundation.blob.BlobInputStreamDTO;
 import ai.neuron.copilot.knowledge.foundation.blob.BlobObjectKey;
@@ -34,7 +34,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class DifyKnowledgeBaseImplementer implements KnowledgeBaseImplementer {
+public class DifyKnowledgeBaseImpl implements KnowledgeBaseImplementer {
 
     private final DifyKnowledgeBaseRepository difyKnowledgeBaseRepository;
 

@@ -1,13 +1,37 @@
 package ai.neuron.copilot.knowledge.rag.domain.conversation.model;
 
-public record Conversation (
-    ConversationId id,
-    ConversationName name
-) {
-    public static Conversation reconstitute(ConversationId id, ConversationName name) {
-        return new Conversation(id, name);
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
+public final class Conversation {
+
+    final ConversationId id;
+
+    ConversationName name;
+
+    String metadata;
+
+    public void rename(ConversationName conversationName) {
+        this.name = conversationName;
     }
-    public static Conversation create(ConversationName name) {
-        return new Conversation(ConversationId.create(), name);
+
+    public void updateMetadata(String metadata) {
+        this.metadata = metadata;
     }
+
+    public static Conversation reconstitute(ConversationId id, ConversationName name, String metadata) {
+        return new Conversation(id, name, metadata);
+    }
+    public static Conversation create() {
+        return create(null, null);
+    }
+    public static Conversation create(ConversationName name, String metadata) {
+        return new Conversation(ConversationId.create(), name, metadata);
+    }
+
 }

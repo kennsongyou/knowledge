@@ -46,7 +46,7 @@ public class SseServerManager {
         );
     }
 
-    public SseEmitter register(String connectionId) {
+    public SseEmitter register(String serverId) {
         if (emitters.size() >= properties.getMaxConnections()) {
             throw new IllegalStateException(
                     String.format("Max connections exceeded: %d", properties.getMaxConnections())
@@ -54,23 +54,23 @@ public class SseServerManager {
         }
 
         SseEmitter emitter = new SseEmitter(properties.getTimeout().toMillis());
-        emitters.put(connectionId, emitter);
+        emitters.put(serverId, emitter);
 
-        emitter.onCompletion(() -> cleanup(connectionId, "completion"));
-        emitter.onTimeout(() -> cleanup(connectionId, "timeout"));
-        emitter.onError(e -> cleanup(connectionId, "error"));
+        emitter.onCompletion(() -> cleanup(serverId, "completion"));
+        emitter.onTimeout(() -> cleanup(serverId, "timeout"));
+        emitter.onError(e -> cleanup(serverId, "error"));
 
-        log.info("SSE connection registered - connectionId: {}, total: {}",
-                connectionId, emitters.size());
+        log.info("SSE connection registered - serverId: {}, total: {}",
+                serverId, emitters.size());
 
         return emitter;
     }
 
-    public boolean send(String connectionId, SseServerMessage message) {
-        SseEmitter emitter = emitters.get(connectionId);
+    public boolean send(String serverId, SseServerMessage message) {
+        SseEmitter emitter = emitters.get(serverId);
 
         if (emitter == null) {
-            log.debug("SSE connection not found - connectionId: {}", connectionId);
+            log.debug("SSE connection not found - serverId: {}", serverId);
             return false;
         }
 
@@ -79,12 +79,12 @@ public class SseServerManager {
             return true;
         } catch (IOException e) {
             emitter.completeWithError(e);
-            cleanup(connectionId, "send_error");
-            log.warn("SSE send error - connectionId: {}", connectionId);
+            cleanup(serverId, "send_error");
+            log.warn("SSE send error - serverId: {}", serverId);
             return false;
         } catch (Exception e) {
-            cleanup(connectionId, "unexpected_error");
-            log.warn("SSE unexpected error - connectionId: {}", connectionId, e);
+            cleanup(serverId, "unexpected_error");
+            log.warn("SSE unexpected error - serverId: {}", serverId, e);
             return false;
         }
     }
@@ -98,16 +98,16 @@ public class SseServerManager {
         int successCount = 0;
         List<String> failedConnections = new ArrayList<>();
 
-        for (String connectionId : new ArrayList<>(emitters.keySet())) {
-            if (send(connectionId, message)) {
+        for (String serverId : new ArrayList<>(emitters.keySet())) {
+            if (send(serverId, message)) {
                 successCount++;
             } else {
-                failedConnections.add(connectionId);
+                failedConnections.add(serverId);
             }
         }
 
         if (!failedConnections.isEmpty()) {
-            failedConnections.forEach(connectionId -> cleanup(connectionId, "broadcast_error"));
+            failedConnections.forEach(serverId -> cleanup(serverId, "broadcast_error"));
         }
 
         log.debug("Broadcast sent - total: {}, success: {}, failed: {}",
@@ -121,22 +121,22 @@ public class SseServerManager {
         }
 
         SseServerMessage heartbeatMsg = SseServerMessage.heartbeat();
-        List<String> allConnectionIds = new ArrayList<>(emitters.keySet());
+        List<String> allserverIds = new ArrayList<>(emitters.keySet());
         int batchSize = properties.getHeartbeatBatchSize();
 
-        for (int i = 0; i < allConnectionIds.size(); i += batchSize) {
-            int end = Math.min(i + batchSize, allConnectionIds.size());
-            List<String> batch = allConnectionIds.subList(i, end);
+        for (int i = 0; i < allserverIds.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, allserverIds.size());
+            List<String> batch = allserverIds.subList(i, end);
 
             heartbeatExecutor.execute(() -> {
-                for (String connectionId : batch) {
+                for (String serverId : batch) {
                     try {
-                        SseEmitter emitter = emitters.get(connectionId);
+                        SseEmitter emitter = emitters.get(serverId);
                         if (emitter != null) {
                             emitter.send(heartbeatMsg);
                         }
                     } catch (Exception e) {
-                        cleanup(connectionId, "heartbeat_failed");
+                        cleanup(serverId, "heartbeat_failed");
                     }
                 }
             });
@@ -155,28 +155,28 @@ public class SseServerManager {
         );
     }
 
-    private void cleanup(String connectionId, String reason) {
-        SseEmitter emitter = emitters.remove(connectionId);
+    private void cleanup(String serverId, String reason) {
+        SseEmitter emitter = emitters.remove(serverId);
         if (emitter != null) {
-            log.info("SSE connection cleaned - connectionId: {}, reason: {}", connectionId, reason);
+            log.info("SSE connection cleaned - serverId: {}, reason: {}", serverId, reason);
         }
     }
 
-    public boolean connectionComplete(String connectionId) {
-        SseEmitter emitter = emitters.get(connectionId);
+    public boolean connectionComplete(String serverId) {
+        SseEmitter emitter = emitters.get(serverId);
         if (emitter == null) {
-            log.debug("Connection not found - connectionId: {}", connectionId);
+            log.debug("Connection not found - serverId: {}", serverId);
             return false;
         }
         emitter.complete();
-        log.info("Connection closed - connectionId: {}", connectionId);
+        log.info("Connection closed - serverId: {}", serverId);
         return true;
     }
 
-    public boolean connectionError(String connectionId, BaseException ex) {
-        SseEmitter emitter = emitters.get(connectionId);
+    public boolean connectionError(String serverId, BaseException ex) {
+        SseEmitter emitter = emitters.get(serverId);
         if (emitter == null) {
-            log.debug("Connection not found - connectionId: {}", connectionId);
+            log.debug("Connection not found - serverId: {}", serverId);
             return false;
         }
         Locale locale = LocaleContextHolder.getLocale();
@@ -190,11 +190,11 @@ public class SseServerManager {
             );
             emitter.send(errorMsg);
         } catch (IOException e) {
-            log.debug("Failed to send error message - connectionId: {}", connectionId);
+            log.debug("Failed to send error message - serverId: {}", serverId);
         }
 
         emitter.completeWithError(ex);
-        log.error("Connection closed with error - connectionId: {}", connectionId, ex);
+        log.error("Connection closed with error - serverId: {}", serverId, ex);
         return true;
     }
 

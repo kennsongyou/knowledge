@@ -1,4 +1,4 @@
-package ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.shared;
+package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.chat;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -11,8 +11,16 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ConversationKBQAPayload extends ConversationPayload {
+public class ChatEventErrorDTO extends AbstractChatEventDTO {
 
-    String knowledgeBaseId;
+    String taskId;
+
+    String messageId;
+
+    int status;
+
+    String code;
+
+    String message;
 
 }
