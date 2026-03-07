@@ -1,8 +1,8 @@
 package ai.neuron.copilot.knowledge.rag.app.usecase.conversation;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
-import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.AddMessageUseCase;
-import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dto.command.AddMessageCommand;
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.CreateMessageUseCase;
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dto.command.CreateMessageCommand;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.ConversationMessageSender;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.dto.response.ConversationOutMessage;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class AddMessageUseCaseImpl implements AddMessageUseCase {
+public class CreateMessageUseCaseImpl implements CreateMessageUseCase {
 
     private final ConversationMessageSender conversationMessageSender;
 
     @Override
     @SneakyThrows
     @Async
-    public void execute(AddMessageCommand command) {
+    public void execute(CreateMessageCommand command) {
         try {
             ConversationOutMessage asd = ConversationOutMessage.builder().data("asd").build();
             for (int i = 0; i < 10; i++) {

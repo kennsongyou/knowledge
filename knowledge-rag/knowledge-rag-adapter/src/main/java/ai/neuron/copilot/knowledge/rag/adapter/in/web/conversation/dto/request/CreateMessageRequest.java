@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class AddMessageRequest {
+public class CreateMessageRequest {
 
     String conversationId;
 
