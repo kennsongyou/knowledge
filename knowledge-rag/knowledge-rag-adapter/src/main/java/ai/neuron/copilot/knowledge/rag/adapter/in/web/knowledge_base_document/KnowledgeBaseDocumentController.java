@@ -3,7 +3,6 @@ package ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base_document;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.document.dto.shared.DocumentDTO;
-import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base_document.dto.request.PageKnowledgeBaseDocumentRequest;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.CreateKnowledgeBaseDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.DeleteKnowledgeBaseDocumentUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.ExistsKnowledgeBaseDocumentUseCase;
@@ -15,8 +14,10 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base_document.dto.q
 import ai.neuron.copilot.knowledge.rag.domain.document.model.Document;
 import ai.neuron.copilot.knowledge.rag.domain.document.model.DocumentId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseId;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +35,15 @@ public class KnowledgeBaseDocumentController {
 
     private final PageKnowledgeBaseDocumentUseCase pageKnowledgeBaseDocumentUseCase;
 
+    @Validated
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageResult<DocumentDTO> page(@PathVariable("knowledge_base_id") String knowledgeBaseId,
-                     @ModelAttribute PageKnowledgeBaseDocumentRequest request) {
-        PageKnowledgeBaseDocumentQuery query = new PageKnowledgeBaseDocumentQuery(new PageQuery(request.getPageNo(),
-                request.getPageSize()), KnowledgeBaseId.reconstitute(knowledgeBaseId), request.getKeyword());
+                                        @RequestParam(name = "keyword", required = false) String keyword,
+                                        @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+                                        @RequestParam(name = "page_size", defaultValue = "10") int pageSize) {
+        PageKnowledgeBaseDocumentQuery query = new PageKnowledgeBaseDocumentQuery(new PageQuery(pageNo, pageSize),
+                KnowledgeBaseId.reconstitute(knowledgeBaseId), keyword);
         PageResult<Document> pageResult = pageKnowledgeBaseDocumentUseCase.execute(query);
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),

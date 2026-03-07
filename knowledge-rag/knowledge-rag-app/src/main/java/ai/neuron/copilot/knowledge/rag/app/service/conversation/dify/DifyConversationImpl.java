@@ -2,10 +2,15 @@ package ai.neuron.copilot.knowledge.rag.app.service.conversation.dify;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.foundation.core.json.SnakeCaseJsonCodec;
+import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
+import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.SysTenantDifyRegisterRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.ConversationImplementer;
+import ai.neuron.copilot.knowledge.rag.app.service.conversation.dto.ChatStartDTO;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.Conversation;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.DifyConversationMetadata;
+import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
+import ai.neuron.copilot.knowledge.rag.domain.sys.model.SysTenantDifyRegister;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +25,15 @@ public class DifyConversationImpl implements ConversationImplementer {
 
     private final SnakeCaseJsonCodec jsonCodec;
 
+    private final CurrentOperatorProvider currentOperatorProvider;
+
+    private final SysTenantDifyRegisterRepository sysTenantDifyRegisterRepository;
+
     @Override
-    public void start(boolean firstMessage, Conversation conversation, String sseServerId,
-                      Function<Conversation, Boolean> updateConversationFunc) {
+    public void start(boolean firstMessage,
+                      Conversation conversation,
+                      KnowledgeBase knowledgeBase,
+                      String serverId) {
         DifyConversationMetadata metadata = null;
         String difyConversationId = null;
         if (!firstMessage) {
@@ -33,7 +44,9 @@ public class DifyConversationImpl implements ConversationImplementer {
                         return new SystemException();
                     });
         }
-
+        SysTenantDifyRegister sysTenantDifyRegister = sysTenantDifyRegisterRepository
+                .fetchByTenantId(currentOperatorProvider.tenantId()).orElseThrow(SystemException::new);
+//        sysTenantDifyRegister
     }
 
     @Override

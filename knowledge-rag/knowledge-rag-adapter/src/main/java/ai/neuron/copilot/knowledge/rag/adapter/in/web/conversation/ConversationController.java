@@ -8,7 +8,7 @@ import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.request.C
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.request.CursorConversationRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.shared.ConversationDTO;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.shared.ConversationPayloadDTO;
-import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.shared.ConversationRagPayloadDTO;
+import ai.neuron.copilot.knowledge.rag.adapter.in.web.conversation.dto.shared.ConversationKbqaPayloadDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.CreateMessageUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.CursorConversationUseCase;
 import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.DeleteConversationUseCase;
@@ -50,17 +50,17 @@ public class ConversationController {
         Optional.ofNullable(payload).map(ConversationPayloadDTO::getAbility)
                 .filter(e -> StringUtils.equals(e, ConversationAbility.KBQA.getAbility()))
                 .orElseThrow(() -> new UnsupportedOperationException("unsupported conversation ability"));
-        ConversationRagPayloadDTO ragPayload = (ConversationRagPayloadDTO) request.getPayload();
+        ConversationKbqaPayloadDTO kbqaPayload = (ConversationKbqaPayloadDTO) request.getPayload();
 
-        String sseServerId = IdUtils.trimmedUuidV4();
-        SseEmitter emitter = sseServerManager.register(sseServerId);
-        KnowledgeBaseId knowledgeBaseId = KnowledgeBaseId.reconstitute(ragPayload.getKnowledgeBaseId());
+        String serverId = IdUtils.uuidV4Str();
+        SseEmitter emitter = sseServerManager.register(serverId);
+        KnowledgeBaseId knowledgeBaseId = KnowledgeBaseId.reconstitute(kbqaPayload.getKnowledgeBaseId());
         ConversationId conversationId = Optional.ofNullable(request.getConversationId())
                 .filter(StringUtils::isNotBlank)
                 .map(ConversationId::reconstitute)
                 .orElse(null);
-        CreateMessageCommand command = new CreateMessageCommand(sseServerId, conversationId,
-                knowledgeBaseId,request.getQuery());
+        CreateMessageCommand command = new CreateMessageCommand(serverId, conversationId, knowledgeBaseId,
+                request.getQuery());
         createMessageUseCase.execute(command);
         return emitter;
     }

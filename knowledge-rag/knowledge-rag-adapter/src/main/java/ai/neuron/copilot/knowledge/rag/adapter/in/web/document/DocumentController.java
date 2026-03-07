@@ -86,8 +86,10 @@ public class DocumentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PageResult<DocumentDTO> page(@ModelAttribute PageDocumentRequest request) {
-        PageDocumentQuery query = new PageDocumentQuery(new PageQuery(request.getPageNo(), request.getPageSize()), request.getKeyword());
+    public PageResult<DocumentDTO> page(@RequestParam(name = "keyword", required = false) String keyword,
+                                        @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+                                        @RequestParam(name = "page_size", defaultValue = "10") int pageSize) {
+        PageDocumentQuery query = new PageDocumentQuery(new PageQuery(pageNo, pageSize), keyword);
         PageResult<Document> pageResult = pageDocumentUseCase.execute(query);
         List<DocumentDTO> records = pageResult.records().stream().map(document -> new DocumentDTO(
                 document.getId().value(),

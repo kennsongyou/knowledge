@@ -12,11 +12,8 @@ import ai.neuron.copilot.knowledge.rag.domain.conversation.model.ConversationId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -30,19 +27,23 @@ public class CreateMessageUseCaseImpl implements CreateMessageUseCase {
 
     private final ConversationRepository conversationRepository;
 
-    @Override
     @Async
+    @Override
     public void execute(CreateMessageCommand command) {
         KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.knowledgeBaseId())
                 .orElseThrow(ResourceNotFoundException::new);
-        KnowledgeBaseImpl impl = knowledgeBase.getImpl();
         ConversationId conversationId = command.conversationId();
-        Conversation conversation = Optional.ofNullable(conversationId)
-                .map(e -> conversationRepository.fetch(e).orElseThrow(ResourceNotFoundException::new))
-                .orElse(Conversation.create());
-        conversationRepository.save(conversation);
+        Conversation conversation;
+        if (conversationId == null) {
+            conversation = Conversation.create();
+            conversationRepository.save(conversation);
+        } else {
+            conversation = conversationRepository.fetch(conversationId)
+                    .orElseThrow(ResourceNotFoundException::new);
+        }
+        KnowledgeBaseImpl impl = knowledgeBase.getImpl();
         conversationImplementerDispatcher.get(impl).start(conversationId == null, conversation,
-                command.sseServerId(), conversationRepository::update);
+                knowledgeBase, command.sseServerId());
     }
 
 }

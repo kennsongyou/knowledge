@@ -13,7 +13,7 @@ public class ConversationPayloadTypeIdResolver extends TypeIdResolverBase {
 
         ConversationAbility conversationAbility = ConversationAbility.fromType(ability);
         Class<? extends ConversationPayloadDTO> clazz = switch (conversationAbility) {
-            case KBQA -> ConversationRagPayloadDTO.class;
+            case KBQA -> ConversationKbqaPayloadDTO.class;
             case BI -> throw new UnsupportedOperationException("Unsupported conversation ability: " + ability);
         };
         return context.constructType(clazz);

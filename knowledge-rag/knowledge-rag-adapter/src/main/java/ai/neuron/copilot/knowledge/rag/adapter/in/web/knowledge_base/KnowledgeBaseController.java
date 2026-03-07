@@ -3,7 +3,6 @@ package ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageQuery;
 import ai.neuron.copilot.knowledge.foundation.data.page.PageResult;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.CreateKnowledgeBaseRequest;
-import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.PageKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.request.UpdateKnowledgeBaseRequest;
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.shared.KnowledgeBaseDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.*;
@@ -15,8 +14,10 @@ import ai.neuron.copilot.knowledge.rag.app.port.in.knowledge_base.dto.query.Page
 import ai.neuron.copilot.knowledge.rag.adapter.in.web.knowledge_base.dto.response.CreateKnowledgeBaseResponse;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,11 +61,13 @@ public class KnowledgeBaseController {
         );
     }
 
+    @Validated
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PageResult<KnowledgeBaseDTO> page(@ModelAttribute PageKnowledgeBaseRequest request) {
-        PageKnowledgeBaseQuery query = new PageKnowledgeBaseQuery(request.getKeyword(),
-                new PageQuery(request.getPageNo(), request.getPageSize()));
+    public PageResult<KnowledgeBaseDTO> page(@RequestParam(name = "keyword", required = false) @Size(max = 64) String keyword,
+                                             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+                                             @RequestParam(name = "page_size", defaultValue = "10") int pageSize) {
+        PageKnowledgeBaseQuery query = new PageKnowledgeBaseQuery(keyword, new PageQuery(pageNo, pageSize));
         PageResult<KnowledgeBase> pageResult = pageKnowledgeBaseUseCase.execute(query);
         List<KnowledgeBaseDTO> records = pageResult.records().stream().map(kb -> new KnowledgeBaseDTO(
                 kb.getId().value(),

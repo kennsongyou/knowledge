@@ -1,12 +1,16 @@
 package ai.neuron.copilot.knowledge.rag.adapter.out.http.dify;
 
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyChatClient;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.ChatRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class DifyChatClientImpl implements DifyChatClient {
+
     @Override
-    public void chat(String conversationId, String query) {
+    public void chat(ChatRequest chatRequest) {
 
     }
 //    private final OkHttpClient okHttpClient;

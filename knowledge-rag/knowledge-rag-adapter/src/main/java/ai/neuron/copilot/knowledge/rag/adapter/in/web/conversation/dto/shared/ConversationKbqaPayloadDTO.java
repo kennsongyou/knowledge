@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ConversationRagPayloadDTO extends ConversationPayloadDTO {
+public class ConversationKbqaPayloadDTO extends ConversationPayloadDTO {
 
     String knowledgeBaseId;
 

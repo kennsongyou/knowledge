@@ -9,11 +9,11 @@ import java.net.URI;
 
 @Getter
 @Setter
-public class DifyRagSseClientContext extends SseClientContext {
+public class DifyChatSseClientContext extends SseClientContext {
 
     private final String serverId;
 
-    public DifyRagSseClientContext(String clientId, URI uri, JsonCodec jsonCodec, String serverId) {
+    public DifyChatSseClientContext(String clientId, URI uri, JsonCodec jsonCodec, String serverId) {
         super(clientId, uri, jsonCodec);
         this.serverId = serverId;
     }
