@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ConversationOutMessage {
 
-    String data;
+    ConversationSseAction action;
+
+    Object data;
 
 }

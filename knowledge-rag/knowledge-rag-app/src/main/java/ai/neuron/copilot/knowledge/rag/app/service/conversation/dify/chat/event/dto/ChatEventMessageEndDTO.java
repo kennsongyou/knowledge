@@ -1,5 +1,6 @@
-package ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.response.chat;
+package ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
@@ -11,35 +12,26 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ChatEventNodeStartedDTO extends AbstractChatEventDTO {
+@JsonTypeName("message_end")
+public class ChatEventMessageEndDTO extends AbstractChatEventDTO {
 
     String taskId;
 
-    String workflowRunId;
+    String messageId;
 
-    Data data;
+    String conversationId;
+
+    Metadata metadata;
 
     @Getter
     @Setter
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public static class Data {
+    public static class Metadata {
 
-        String id;
+        Object usage;
 
-        String nodeId;
-
-        String nodeType;
-
-        String title;
-
-        int index;
-
-        String predecessorNodeId;
-
-        Object inputs;
-
-        long createdAt;
+        Object retrieverResources;
 
     }
 

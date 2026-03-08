@@ -4,14 +4,14 @@ import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import ai.neuron.copilot.knowledge.foundation.core.json.SnakeCaseJsonCodec;
 import ai.neuron.copilot.knowledge.rag.app.port.out.context.CurrentOperatorProvider;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.DifyChatClient;
-import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.DifyAppAuthDTO;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.DifyAppMetadataDTO;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.DifyChatContextDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.DifyChatRequest;
+import ai.neuron.copilot.knowledge.rag.app.port.out.http.dify.dto.request.DifyChatStartBundleDTO;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.SysTenantDifyRegisterRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.ConversationImplementer;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.dto.ChatStartDTO;
-import ai.neuron.copilot.knowledge.rag.domain.conversation.model.Conversation;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.DifyConversationMetadata;
-import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBaseImpl;
 import ai.neuron.copilot.knowledge.rag.domain.sys.model.SysTenantDifyRegister;
 import lombok.AllArgsConstructor;
@@ -56,11 +56,21 @@ public class DifyConversationImpl implements ConversationImplementer {
                 .conversationId(difyConversationId)
                 .traceId(currentOperatorProvider.traceId())
                 .build();
-        DifyAppAuthDTO difyAppAuthDTO = DifyAppAuthDTO.builder()
+        DifyAppMetadataDTO difyAppMetadataDTO = DifyAppMetadataDTO.builder()
                 .appId(sysTenantDifyRegister.appId())
                 .appApiKey(sysTenantDifyRegister.appApiKey())
                 .build();
-        difyChatClient.chat(difyChatRequest, difyAppAuthDTO, chatStartDTO.serverId());
+
+        DifyChatContextDTO difyChatContextDTO = DifyChatContextDTO.builder()
+                .serverId(chatStartDTO.serverId())
+                .conversationId(chatStartDTO.conversation().getId().value())
+                .knowledgeBaseId(chatStartDTO.knowledgeBase().getId().value())
+                .build();
+        DifyChatStartBundleDTO bundleDTO = DifyChatStartBundleDTO.builder()
+                .difyChatRequest(difyChatRequest)
+                .difyAppMetadataDTO(difyAppMetadataDTO)
+                .difyChatContextDTO(difyChatContextDTO).build();
+        difyChatClient.chat(bundleDTO);
     }
 
     @Override

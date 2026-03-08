@@ -14,27 +14,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConversationMessageSenderImpl implements ConversationMessageSender {
 
-    private final SseServerManager registry;
+    private final SseServerManager manager;
+
+    @Override
+    public void connected(String serverId, String conversationId) {
+        SseServerMessage sseServerMessage = SseServerMessage.create("kbqa", "task_started");
+        manager.send(serverId, sseServerMessage);
+    }
 
     @Override
     public void send(String serverId, ConversationOutMessage message) {
-        SseServerMessage sseServerMessage = SseServerMessage.success("rag", message.getData());
-        registry.send(serverId, sseServerMessage);
+        SseServerMessage sseServerMessage = SseServerMessage.create("kbqa", message.getAction().getName(), message.getData());
+        manager.send(serverId, sseServerMessage);
     }
 
     @Override
     public void complete(String serverId) {
-        ConversationOutMessage message = ConversationOutMessage.builder().data("completed").build();
-        send(serverId, message);
-        registry.connectionComplete(serverId);
+        SseServerMessage sseServerMessage = SseServerMessage.create("kbqa", "completed");
+        manager.send(serverId, sseServerMessage);
+        manager.connectionComplete(serverId);
     }
 
 
     @Override
     public void error(String serverId, BaseException ex) {
-        ConversationOutMessage message = ConversationOutMessage.builder().data("error").build();
-        send(serverId, message);
-        registry.connectionError(serverId, ex);
+        SseServerMessage sseServerMessage = SseServerMessage.create("kbqa", "error");
+        manager.send(serverId, sseServerMessage);
+        manager.connectionError(serverId, ex);
     }
 
 }

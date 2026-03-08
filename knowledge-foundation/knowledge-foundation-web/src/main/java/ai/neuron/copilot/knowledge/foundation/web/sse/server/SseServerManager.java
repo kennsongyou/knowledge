@@ -121,12 +121,12 @@ public class SseServerManager {
         }
 
         SseServerMessage heartbeatMsg = SseServerMessage.heartbeat();
-        List<String> allserverIds = new ArrayList<>(emitters.keySet());
+        List<String> allServerIds = new ArrayList<>(emitters.keySet());
         int batchSize = properties.getHeartbeatBatchSize();
 
-        for (int i = 0; i < allserverIds.size(); i += batchSize) {
-            int end = Math.min(i + batchSize, allserverIds.size());
-            List<String> batch = allserverIds.subList(i, end);
+        for (int i = 0; i < allServerIds.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, allServerIds.size());
+            List<String> batch = allServerIds.subList(i, end);
 
             heartbeatExecutor.execute(() -> {
                 for (String serverId : batch) {
@@ -183,11 +183,7 @@ public class SseServerManager {
         String detail = messageSource.getMessage(ex.getErrorCode().messageKey(), ex.getMessageArgs(), locale);
 
         try {
-            SseServerMessage errorMsg = SseServerMessage.error(
-                    "system.error",
-                    ex.getErrorCode().code(),
-                    detail
-            );
+            SseServerMessage errorMsg = SseServerMessage.create("system", "error", detail);
             emitter.send(errorMsg);
         } catch (IOException e) {
             log.debug("Failed to send error message - serverId: {}", serverId);

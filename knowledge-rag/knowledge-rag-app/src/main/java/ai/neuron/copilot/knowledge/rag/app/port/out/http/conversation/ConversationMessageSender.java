@@ -5,6 +5,8 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.dto.respon
 
 public interface ConversationMessageSender {
 
+    void connected(String serverId, String conversationId);
+
     void send(String serverId, ConversationOutMessage message);
 
     void complete(String serverId);

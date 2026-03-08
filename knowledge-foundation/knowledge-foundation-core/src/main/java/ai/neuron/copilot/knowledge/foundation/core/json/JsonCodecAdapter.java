@@ -3,6 +3,7 @@ package ai.neuron.copilot.knowledge.foundation.core.json;
 import ai.neuron.copilot.knowledge.foundation.core.exception.SystemException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +34,14 @@ public class JsonCodecAdapter implements JsonCodec {
     public <T> T decode(String json, TypeReference<T> typeReference) {
         try {
             return objectMapper.readValue(json, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new SystemException(e);
+        }
+    }
+
+    public <T> T decode(String json, JavaType javaType) {
+        try {
+            return objectMapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             throw new SystemException(e);
         }
