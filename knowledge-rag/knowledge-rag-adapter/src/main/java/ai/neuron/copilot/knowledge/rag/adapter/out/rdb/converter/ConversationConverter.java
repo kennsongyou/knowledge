@@ -5,6 +5,8 @@ import ai.neuron.copilot.knowledge.rag.domain.conversation.model.Conversation;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.ConversationId;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.ConversationName;
 
+import java.util.Optional;
+
 public final class ConversationConverter {
 
     public static Conversation toDomain(ConversationPO po) {

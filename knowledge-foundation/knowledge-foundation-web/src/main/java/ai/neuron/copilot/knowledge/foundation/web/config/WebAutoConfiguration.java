@@ -26,7 +26,6 @@ public class WebAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnMissingBean(RestControllerAdvice.class)
     public DefaultGlobalExceptionHandler defaultRestControllerAdvice(MessageSource messageSource) {
         return new DefaultGlobalExceptionHandler(messageSource);
     }

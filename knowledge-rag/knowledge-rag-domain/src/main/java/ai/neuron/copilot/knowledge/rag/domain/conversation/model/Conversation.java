@@ -28,7 +28,7 @@ public final class Conversation {
         return new Conversation(id, name, metadata);
     }
     public static Conversation create() {
-        return create(null, null);
+        return create(ConversationName.create(null), null);
     }
     public static Conversation create(ConversationName name, String metadata) {
         return new Conversation(ConversationId.create(), name, metadata);

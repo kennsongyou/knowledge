@@ -7,6 +7,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.sse.EventSource;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.Collection;
 import java.util.Map;
@@ -24,7 +25,8 @@ public class OkSseClientManager implements SseClientManager {
 
     private final Map<String, SseClient<? extends SseClientContext>> sseClients = new ConcurrentHashMap<>();
 
-    public <C extends SseClientContext> String register(SseRequest sseRequest, C context,
+    @Async
+    public <C extends SseClientContext> void register(SseRequest sseRequest, C context,
                                                               SseClientListener<C> listener) {
         Request request = toRequest(sseRequest);
         OkEventSourceListener<C> okEventSourceListener = new OkEventSourceListener<>(listener, context);
@@ -32,7 +34,6 @@ public class OkSseClientManager implements SseClientManager {
         OkSseClientConnection clientConnection = new OkSseClientConnection(eventSource);
         String clientId = IdUtils.uuidV4Str();
         sseClients.put(clientId, new SseClient<>(clientConnection, context, listener));
-        return clientId;
     }
 
     public <C extends SseClientContext> void cleanup(String clientId, String reason) {
@@ -48,10 +49,6 @@ public class OkSseClientManager implements SseClientManager {
     private static Request toRequest(SseRequest sseRequest) {
         Request.Builder builder = new Request.Builder()
                 .url(sseRequest.getUrl());
-        if (sseRequest.getHeaders() != null) {
-            sseRequest.getHeaders().forEach((k, v) ->
-                    builder.addHeader(k, String.valueOf(v)));
-        }
         Map<String, Object> defaultHeaders = Map.of(
                 "Accept", "text/event-stream",
                 "Cache-Control", "no-cache"

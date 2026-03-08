@@ -7,5 +7,6 @@ public record ChatStartDTO(
         boolean firstMessage,
         Conversation conversation,
         KnowledgeBase knowledgeBase,
-        String serverId) {
+        String serverId,
+        String query) {
 }

@@ -13,8 +13,8 @@ public class DifyChatSseClientContext extends SseClientContext {
 
     private final String serverId;
 
-    public DifyChatSseClientContext(String clientId, URI uri, JsonCodec jsonCodec, String serverId) {
-        super(clientId, uri, jsonCodec);
+    public DifyChatSseClientContext(JsonCodec jsonCodec, String serverId) {
+        super(jsonCodec);
         this.serverId = serverId;
     }
 

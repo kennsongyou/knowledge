@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,17 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
 public class SseClientContext {
 
-    String clientId;
-
-    URI uri;
-
     JsonCodec jsonCodec;
 
     Map<String, Object> attributes = new ConcurrentHashMap<>();
 
-    public SseClientContext(String clientId, URI uri, JsonCodec jsonCodec) {
-        this.clientId = clientId;
-        this.uri = uri;
+    public SseClientContext(JsonCodec jsonCodec) {
         this.jsonCodec = jsonCodec;
     }
 

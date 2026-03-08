@@ -7,6 +7,7 @@ import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.Conversati
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.ConversationRepository;
 import ai.neuron.copilot.knowledge.rag.app.port.out.persistence.KnowledgeBaseRepository;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.ConversationImplementerDispatcher;
+import ai.neuron.copilot.knowledge.rag.app.service.conversation.dto.ChatStartDTO;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.Conversation;
 import ai.neuron.copilot.knowledge.rag.domain.conversation.model.ConversationId;
 import ai.neuron.copilot.knowledge.rag.domain.knowledge_base.model.KnowledgeBase;
@@ -27,7 +28,6 @@ public class CreateMessageUseCaseImpl implements CreateMessageUseCase {
 
     private final ConversationRepository conversationRepository;
 
-    @Async
     @Override
     public void execute(CreateMessageCommand command) {
         KnowledgeBase knowledgeBase = knowledgeBaseRepository.fetch(command.knowledgeBaseId())
@@ -42,8 +42,9 @@ public class CreateMessageUseCaseImpl implements CreateMessageUseCase {
                     .orElseThrow(ResourceNotFoundException::new);
         }
         KnowledgeBaseImpl impl = knowledgeBase.getImpl();
-        conversationImplementerDispatcher.get(impl).start(conversationId == null, conversation,
-                knowledgeBase, command.sseServerId());
+        ChatStartDTO chatStartDTO = new ChatStartDTO(conversationId == null, conversation,
+                knowledgeBase, command.sseServerId(), command.query());
+        conversationImplementerDispatcher.get(impl).start(chatStartDTO);
     }
 
 }

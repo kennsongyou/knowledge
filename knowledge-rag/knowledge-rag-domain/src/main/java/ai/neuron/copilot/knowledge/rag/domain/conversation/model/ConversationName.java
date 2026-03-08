@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 public record ConversationName(String value) {
 
     public ConversationName {
-        if (StringUtils.length(value) > 255) {
+        if (value != null && StringUtils.length(value) > 255) {
             throw new IllegalArgumentException("Conversation name is too long (max 255 characters)");
         }
     }
