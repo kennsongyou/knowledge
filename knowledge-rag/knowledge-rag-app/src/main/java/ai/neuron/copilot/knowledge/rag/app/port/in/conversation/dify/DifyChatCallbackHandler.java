@@ -1,13 +1,15 @@
 package ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dify;
 
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dify.dto.DifyChatCallbackContext;
+
 public interface DifyChatCallbackHandler {
 
-    void handleOnOpen(String serverId);
+    void handleOnOpen(DifyChatCallbackContext context);
 
-    void handleOnMessage(String serverId, String event, String data);
+    void handleOnMessage(DifyChatCallbackContext context, String event, String data);
 
-    void handleOnClose(String serverId);
+    void handleOnClose(DifyChatCallbackContext context);
 
-    void handleOnError(String serverId, Throwable throwable);
+    void handleOnError(DifyChatCallbackContext context, Throwable throwable);
 
 }

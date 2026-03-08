@@ -13,22 +13,22 @@ public class DifyChatSseClientListener implements SseClientListener<DifyChatSseC
 
     @Override
     public void onOpen(DifyChatSseClientContext context) {
-        difyChatCallbackHandler.handleOnOpen(context.getServerId());
+        difyChatCallbackHandler.handleOnOpen(context.toCallBackContext());
     }
 
     @Override
     public void onMessage(DifyChatSseClientContext context, SseEvent sseEvent) {
-        difyChatCallbackHandler.handleOnMessage(context.getServerId(), sseEvent.event(), sseEvent.data());
+        difyChatCallbackHandler.handleOnMessage(context.toCallBackContext(), sseEvent.event(), sseEvent.data());
     }
 
     @Override
     public void onError(DifyChatSseClientContext context, Throwable t) {
-        difyChatCallbackHandler.handleOnError(context.getServerId(), t);
+        difyChatCallbackHandler.handleOnError(context.toCallBackContext(), t);
     }
 
     @Override
     public void onClosed(DifyChatSseClientContext context) {
-        difyChatCallbackHandler.handleOnClose(context.getServerId());
+        difyChatCallbackHandler.handleOnClose(context.toCallBackContext());
     }
 
 }

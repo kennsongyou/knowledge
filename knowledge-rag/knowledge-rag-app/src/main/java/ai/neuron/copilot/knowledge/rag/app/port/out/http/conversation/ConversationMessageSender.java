@@ -1,16 +1,17 @@
 package ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation;
 
 import ai.neuron.copilot.knowledge.foundation.core.exception.BaseException;
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dify.dto.DifyChatCallbackContext;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.dto.response.ConversationOutMessage;
 
 public interface ConversationMessageSender {
 
-    void connected(String serverId, String conversationId);
+    void connected(DifyChatCallbackContext context);
 
-    void send(String serverId, ConversationOutMessage message);
+    void send(DifyChatCallbackContext context, ConversationOutMessage message);
 
-    void complete(String serverId);
+    void complete(DifyChatCallbackContext context);
 
-    void error(String serverId, BaseException ex);
+    void error(DifyChatCallbackContext context, BaseException ex);
 
 }

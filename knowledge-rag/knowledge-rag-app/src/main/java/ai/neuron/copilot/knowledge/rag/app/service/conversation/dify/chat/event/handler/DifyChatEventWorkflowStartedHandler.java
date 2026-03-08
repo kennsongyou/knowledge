@@ -1,5 +1,6 @@
 package ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.handler;
 
+import ai.neuron.copilot.knowledge.rag.app.port.in.conversation.dify.dto.DifyChatCallbackContext;
 import ai.neuron.copilot.knowledge.rag.app.port.out.http.conversation.ConversationMessageSender;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.DifyChatEvent;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.dto.ChatEventWorkflowStartedDTO;
@@ -13,7 +14,7 @@ public class DifyChatEventWorkflowStartedHandler implements DifyChatMessageHandl
     private final ConversationMessageSender conversationMessageSender;
 
     @Override
-    public void handle(String serverId, ChatEventWorkflowStartedDTO event) {
+    public void handle(DifyChatCallbackContext context, ChatEventWorkflowStartedDTO event) {
 
     }
 

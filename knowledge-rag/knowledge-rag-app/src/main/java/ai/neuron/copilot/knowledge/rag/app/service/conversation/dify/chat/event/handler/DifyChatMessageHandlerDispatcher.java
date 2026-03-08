@@ -1,9 +1,7 @@
 package ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.handler;
 
-import ai.neuron.copilot.knowledge.foundation.core.json.SnakeCaseJsonCodec;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.DifyChatEvent;
 import ai.neuron.copilot.knowledge.rag.app.service.conversation.dify.chat.event.dto.AbstractChatEventDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
